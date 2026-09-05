@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Overlays — tanghoong design system</title>
+<meta name="description" content="Modals, drawers, dropdown menus, the mobile nav sheet, tooltips, toasts and accordions, built on native dialog and details.">
+<link rel="canonical" href="https://design.tanghoong.com/pages/overlays.html">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<!-- Runs before the stylesheet so the page never paints the wrong theme.
+     try/catch because a browser with storage blocked must still render Auto. -->
+<script>try{var t=localStorage.getItem('th');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/forms.css">
+<link rel="stylesheet" href="/assets/css/overlays.css">
+<link rel="stylesheet" href="/assets/css/content.css">
+<link rel="stylesheet" href="/assets/css/utilities.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="container container--wide head-in">
+    <a class="brand" href="/">
+      <svg class="brand__mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="currentColor" opacity=".1"/><path d="M8 19V9h4.2a3.4 3.4 0 0 1 0 6.8H10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="17.5" r="2" fill="currentColor"/></svg>
+      <span>tanghoong <span class="t3">design</span></span>
+    </a>
+
+    <nav class="head-nav" aria-label="Primary">
+      <a href="/pages/foundations.html">Foundations</a>
+      <a href="/pages/components.html">Components</a>
+      <a href="/pages/forms.html">Forms</a>
+      <a href="/pages/patterns.html">Patterns</a>
+      <details class="menu">
+        <summary>
+          More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="menu__list">
+          <a href="/pages/layout.html">Layout</a>
+          <a href="/pages/overlays.html">Overlays</a>
+          <a href="/pages/content.html">Content &amp; prose</a>
+          <div class="menu__sep"></div>
+          <a href="/pages/prompt.html">Agent prompt</a>
+        </div>
+      </details>
+    </nav>
+
+    <div class="head-end">
+      <div class="head-tools">
+        <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+      <a class="btn btn--filled btn--sm head-cta" href="/pages/prompt.html">Agent prompt</a>
+    </div>
+  </div>
+
+  <details class="navsheet" data-navsheet>
+    <summary class="navsheet__btn" aria-label="Menu">
+      <svg class="i-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="i-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </summary>
+    <div class="navsheet__scrim" data-navsheet-scrim></div>
+    <div class="navsheet__panel">
+      <a class="sheet-row" href="/pages/foundations.html">Foundations</a>
+      <a class="sheet-row" href="/pages/layout.html">Layout</a>
+      <a class="sheet-row" href="/pages/components.html">Components</a>
+      <a class="sheet-row" href="/pages/forms.html">Forms</a>
+      <a class="sheet-row" href="/pages/overlays.html">Overlays</a>
+      <a class="sheet-row" href="/pages/content.html">Content &amp; prose</a>
+      <a class="sheet-row" href="/pages/patterns.html">Patterns</a>
+      <a class="sheet-row" href="/pages/prompt.html">Agent prompt</a>
+      <div class="sheet-tools">
+        <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+    </div>
+  </details>
+</header>
+
+<main id="main">
+<section class="section section--tight s-page">
+  <div class="container container--wide">
+    <ol class="crumb"><li><a href="/">Design system</a></li><li aria-current="page">Overlays</li></ol>
+    <p class="eyebrow mt-6">05 — Overlays</p>
+    <h1 class="mt-3">Overlays</h1>
+    <p class="lede mt-5">Modals, drawers, menus, tooltips, toasts and accordions. All of them are built on <code>&lt;dialog&gt;</code> or <code>&lt;details&gt;</code>, so focus trapping, Esc-to-close and the top layer come from the platform.</p>
+  </div>
+</section>
+
+<section class="section section--tight s-sunken">
+<div class="container container--wide">
+<div class="with-aside">
+<div>
+
+  <div class="note note--info">
+    <strong class="note__title">Why native elements</strong>
+    A hand-rolled modal has to reimplement the focus trap, Esc, inert background content, the top layer and the scroll lock — and it usually gets two of those wrong. <code>dialog.showModal()</code> gives you all five, in every current browser.
+  </div>
+
+  <h2 id="modal">Modal</h2>
+  <p class="t2 mt-4 measure">A native <code>&lt;dialog&gt;</code>. Open it with <code>.showModal()</code>, never by toggling a class — the method is what puts it in the top layer and traps focus. A modal interrupts, so use one only when the task genuinely cannot continue behind it.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Modal</div>
+    <div class="spec__demo">
+      <div class="cluster">
+        <button class="btn btn--filled" type="button" data-open="demo-modal">Open modal</button>
+        <button class="btn btn--quiet" type="button" data-open="demo-confirm">Destructive confirm</button>
+      </div>
+    </div>
+    <div class="spec__code">
+<pre>&lt;button class="btn btn--filled" data-open="signin"&gt;Sign in&lt;/button&gt;
+
+&lt;dialog class="modal" id="signin" aria-labelledby="signin-t"&gt;
+  &lt;div class="modal__head"&gt;
+    &lt;div&gt;
+      &lt;h2 class="modal__title" id="signin-t"&gt;Sign in&lt;/h2&gt;
+      &lt;p class="modal__desc"&gt;Use the address the invite was sent to.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;button class="iconbtn" data-close aria-label="Close"&gt;…&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="modal__body"&gt;…&lt;/div&gt;
+  &lt;div class="modal__foot"&gt;
+    &lt;button class="btn btn--quiet"  data-close&gt;Cancel&lt;/button&gt;
+    &lt;button class="btn btn--filled"&gt;Sign in&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;script&gt;document.getElementById('signin').showModal();&lt;/script&gt;</pre>
+    </div>
+    <p class="spec__note">Point <code>aria-labelledby</code> at the title. Give the close button an <code>aria-label</code> — an icon alone has no accessible name.</p>
+  </div>
+
+  <h2 id="drawer">Drawer</h2>
+  <p class="t2 mt-4 measure">The same <code>&lt;dialog&gt;</code>, pinned to an edge and full height. Use a drawer when the content is a list or a filter set the user will scan against what is behind it; use a modal when they must answer before continuing.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Drawer</div>
+    <div class="spec__demo">
+      <button class="btn btn--filled" type="button" data-open="demo-drawer">Open drawer</button>
+    </div>
+  </div>
+
+  <h2 id="menu">Dropdown menu</h2>
+  <p class="t2 mt-4 measure">A <code>&lt;details&gt;</code> with a positioned list. It opens, closes, toggles on Enter and Space and works with JavaScript off — none of which you get from a div.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Menu</div>
+    <div class="spec__demo" class="demo-tall">
+      <div class="cluster">
+        <details class="menu">
+          <summary class="btn btn--quiet">Actions
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="menu__list">
+            <a href="#menu">Open in new tab</a>
+            <a href="#menu">Duplicate</a>
+            <a href="#menu">Export as CSV</a>
+            <div class="menu__sep"></div>
+            <button type="button">Delete</button>
+          </div>
+        </details>
+
+        <details class="menu">
+          <summary class="iconbtn" aria-label="Language">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg>
+          </summary>
+          <div class="menu__list menu__list--end">
+            <a href="#menu" aria-current="true">English <span class="xs t3">EN</span></a>
+            <a href="#menu">简体中文 <span class="xs t3">ZH</span></a>
+            <a href="#menu">Bahasa Melayu <span class="xs t3">MS</span></a>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="spec__code">
+<pre>&lt;details class="menu"&gt;
+  &lt;summary class="btn btn--quiet"&gt;Actions&lt;/summary&gt;
+  &lt;div class="menu__list"&gt;
+    &lt;a href="/open"&gt;Open in new tab&lt;/a&gt;
+    &lt;div class="menu__sep"&gt;&lt;/div&gt;
+    &lt;button type="button"&gt;Delete&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/details&gt;</pre>
+    </div>
+    <p class="spec__note">Use <code>.menu__list--end</code> to align the panel to the right edge — necessary for anything near the end of a header, or the menu opens off-screen.</p>
+  </div>
+
+  <h2 id="navsheet">Nav sheet</h2>
+  <p class="t2 mt-4 measure">The mobile menu — the one behind the button in the top right of this page below 900&nbsp;px. Also a <code>&lt;details&gt;</code>; <code>nav.js</code> only adds Esc, click-outside and the body scroll lock.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Structure</div>
+    <div class="spec__code">
+<pre>&lt;details class="navsheet" data-navsheet&gt;
+  &lt;summary class="navsheet__btn" aria-label="Menu"&gt;
+    &lt;svg class="i-menu"…&gt;&lt;/svg&gt;&lt;svg class="i-close"…&gt;&lt;/svg&gt;
+  &lt;/summary&gt;
+  &lt;div class="navsheet__scrim" data-navsheet-scrim&gt;&lt;/div&gt;
+  &lt;div class="navsheet__panel"&gt;
+    &lt;a class="sheet-row" href="/work"&gt;Work&lt;/a&gt;
+    &lt;a class="sheet-row" href="/about"&gt;About&lt;/a&gt;
+    &lt;div class="sheet-tools"&gt;…&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/details&gt;</pre>
+    </div>
+    <p class="spec__note">The menu and close icons swap on <code>[open]</code> in pure CSS. The panel's top padding accounts for both the header height and <code>env(safe-area-inset-top)</code>, so it clears a notch.</p>
+  </div>
+
+  <h2 id="tooltip">Tooltip</h2>
+  <p class="t2 mt-4 measure">Decorative only. A tooltip is unreachable on touch and unreliable across screen readers — anything the user actually needs belongs in visible copy or a <code>.hint</code>.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Tooltip</div>
+    <div class="spec__demo" class="demo-pad-y">
+      <span class="tip">
+        <button class="iconbtn" type="button" aria-label="What is p95 latency?">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3 2.4V14m0 2.5v.5"/></svg>
+        </button>
+        <span class="tip__bubble" role="presentation">95% of requests finish faster than this</span>
+      </span>
+    </div>
+    <p class="spec__note">The button carries the real name via <code>aria-label</code>; the bubble is <code>role="presentation"</code> so it is not announced twice.</p>
+  </div>
+
+  <h2 id="toast">Toast</h2>
+  <p class="t2 mt-4 measure">A transient confirmation. Use one for something that succeeded and needs no response. Never put an action inside a toast that only exists there — it disappears on a timer.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Toast</div>
+    <div class="spec__demo">
+      <div class="cluster">
+        <button class="btn btn--quiet" type="button" data-toast="Settings saved">Show toast</button>
+        <button class="btn btn--quiet" type="button" data-toast="Rotate the key before 14 Mar" data-toast-variant="warn">Warning</button>
+        <button class="btn btn--quiet" type="button" data-toast="Could not reach the API" data-toast-variant="danger">Error</button>
+      </div>
+    </div>
+    <div class="spec__code">
+<pre>&lt;div class="toasts" data-toasts aria-live="polite"&gt;&lt;/div&gt;
+
+&lt;!-- one toast, appended by script --&gt;
+&lt;div class="toast" role="status"&gt;
+  &lt;span class="toast__icon" aria-hidden="true"&gt;●&lt;/span&gt;
+  &lt;span&gt;Settings saved&lt;/span&gt;
+&lt;/div&gt;</pre>
+    </div>
+    <p class="spec__note">The host is <code>aria-live="polite"</code> and each toast is <code>role="status"</code>, so it is announced without interrupting. Errors that need a decision belong in a <code>.note</code> on the page, not a toast.</p>
+  </div>
+
+  <h2 id="accordion">Accordion</h2>
+  <p class="t2 mt-4 measure">Grouped <code>&lt;details&gt;</code>. Good for an FAQ. Not good for content someone needs to compare across — collapsing that just makes them click more.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Accordion</div>
+    <div class="spec__demo">
+      <div class="accordion">
+        <details class="accordion__item" open>
+          <summary>What does a typical engagement look like?
+            <svg class="accordion__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="accordion__body">Two weeks of discovery ending in a written architecture and one working thin slice in production, then a fixed-scope build phase against what discovery found.</div>
+        </details>
+        <details class="accordion__item">
+          <summary>Do you work with existing teams?
+            <svg class="accordion__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="accordion__body">Usually. The handover matters more than the build — code nobody on the team can maintain is a liability with a delivery date attached.</div>
+        </details>
+        <details class="accordion__item">
+          <summary>Which regions?
+            <svg class="accordion__chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="accordion__body">Malaysia, Singapore and the wider APAC region, remote-first with on-site for discovery where it helps.</div>
+        </details>
+      </div>
+    </div>
+    <p class="spec__note">Add <code>name="faq"</code> to each <code>&lt;details&gt;</code> to make the group exclusive — opening one closes the others, with no JavaScript.</p>
+  </div>
+
+  <div class="rules mt-6">
+    <div class="rule rule--do">
+      <span class="rule__h">Do</span>
+      Return focus to the element that opened the overlay when it closes. <code>&lt;dialog&gt;</code> does this for you; a hand-rolled one will not.
+    </div>
+    <div class="rule rule--dont">
+      <span class="rule__h">Don't</span>
+      Stack overlays. A modal opening another modal means the flow needs a page, not a dialog.
+    </div>
+  </div>
+
+</div>
+
+<aside class="rail">
+  <p class="rail__h">Overlays</p>
+  <ul class="rail__list">
+    <li><a href="#modal">Modal</a></li>
+    <li><a href="#drawer">Drawer</a></li>
+    <li><a href="#menu">Dropdown menu</a></li>
+    <li><a href="#navsheet">Nav sheet</a></li>
+    <li><a href="#tooltip">Tooltip</a></li>
+    <li><a href="#toast">Toast</a></li>
+    <li><a href="#accordion">Accordion</a></li>
+  </ul>
+</aside>
+</div>
+</div>
+</section>
+
+<!-- ===== Live overlay instances for the specimens above ===== -->
+
+<dialog class="modal" id="demo-modal" aria-labelledby="demo-modal-t">
+  <div class="modal__head">
+    <div>
+      <h2 class="modal__title" id="demo-modal-t">Start a project</h2>
+      <p class="modal__desc">A sentence or two on what you are trying to build is plenty to start.</p>
+    </div>
+    <button class="iconbtn" type="button" data-close aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="modal__body">
+    <div class="field">
+      <label class="label" for="m-mail">Work email</label>
+      <input class="input" id="m-mail" type="email" autocomplete="email">
+    </div>
+    <div class="field">
+      <label class="label" for="m-what">What are you building?</label>
+      <textarea class="textarea" id="m-what" rows="3"></textarea>
+    </div>
+  </div>
+  <div class="modal__foot">
+    <button class="btn btn--quiet" type="button" data-close>Cancel</button>
+    <button class="btn btn--filled" type="button" data-close>Send</button>
+  </div>
+</dialog>
+
+<dialog class="modal" id="demo-confirm" aria-labelledby="demo-confirm-t">
+  <div class="modal__head">
+    <div>
+      <h2 class="modal__title" id="demo-confirm-t">Delete this pipeline?</h2>
+      <p class="modal__desc">The pipeline and its 30 days of run history are removed. This cannot be undone.</p>
+    </div>
+  </div>
+  <div class="modal__foot">
+    <button class="btn btn--quiet" type="button" data-close>Keep it</button>
+    <button class="btn btn--danger" type="button" data-close>Delete pipeline</button>
+  </div>
+</dialog>
+
+<dialog class="drawer" id="demo-drawer" aria-labelledby="demo-drawer-t">
+  <div class="drawer__body">
+    <div class="cluster demo-between">
+      <h2 class="modal__title" id="demo-drawer-t">Filters</h2>
+      <button class="iconbtn" type="button" data-close aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <fieldset class="fieldset mt-6">
+      <legend class="fieldset__legend">Status</legend>
+      <label class="check"><input type="checkbox" checked><span class="check__body"><span class="check__label">Live</span></span></label>
+      <label class="check"><input type="checkbox"><span class="check__body"><span class="check__label">Degraded</span></span></label>
+      <label class="check"><input type="checkbox"><span class="check__body"><span class="check__label">Standby</span></span></label>
+    </fieldset>
+    <fieldset class="fieldset">
+      <legend class="fieldset__legend">Region</legend>
+      <label class="check"><input type="radio" name="dr" checked><span class="check__body"><span class="check__label">All regions</span></span></label>
+      <label class="check"><input type="radio" name="dr"><span class="check__body"><span class="check__label">APAC only</span></span></label>
+    </fieldset>
+    <div class="form-actions">
+      <button class="btn btn--filled" type="button" data-close>Apply</button>
+      <button class="btn btn--quiet" type="button" data-close>Reset</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toasts" data-toasts aria-live="polite"></div>
+</main>
+
+<footer class="site-foot">
+  <div class="container container--wide">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-name">tanghoong design system</p>
+        <p class="foot-role">The shared visual language for tanghoong.com and its sub-domains.</p>
+      </div>
+      <div>
+        <p class="foot-h">Reference</p>
+        <ul class="foot-list">
+          <li><a href="/pages/foundations.html">Foundations</a></li>
+          <li><a href="/pages/layout.html">Layout</a></li>
+          <li><a href="/pages/components.html">Components</a></li>
+          <li><a href="/pages/forms.html">Forms</a></li>
+          <li><a href="/pages/overlays.html">Overlays</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">Elsewhere</p>
+        <ul class="foot-list">
+          <li><a href="https://cv.tanghoong.com/">cv.tanghoong.com</a></li>
+          <li><a href="https://blog.tanghoong.com/">blog.tanghoong.com</a></li>
+          <li><a href="https://links.tanghoong.com/">links.tanghoong.com</a></li>
+          <li><a href="https://github.com/tanghoong">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-legal">Charlie Tang Hoong. Design system reference.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/nav.js" defer></script>
+<script src="/assets/js/docs.js" defer></script>
+</body>
+</html>

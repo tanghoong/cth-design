@@ -1,0 +1,342 @@
+/* ==========================================================================
+   components.css — buttons, cards, badges, panels, tables, lists, nav bits
+   Forms live in forms.css; modals and toasts in overlays.css.
+   ========================================================================== */
+
+/* --- Button --------------------------------------------------------------
+   44px minimum on every variant — that is the touch target, not a style
+   choice. Pill radius. Four intents: filled, tinted, quiet, outline. */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding-inline: var(--s-6);
+  border: 0;
+  border-radius: var(--r-chip);
+  font-size: var(--fs-sm); font-weight: 550; letter-spacing: -0.008em;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease),
+              opacity var(--dur-fast) var(--ease);
+}
+.btn:hover  { text-decoration: none; }
+.btn:active { transform: scale(0.97); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
+
+.btn--filled  { background: var(--accent); color: var(--accent-ink); }
+.btn--filled:hover { opacity: 0.88; }
+
+.btn--tinted  { background: var(--accent-wash); color: var(--accent); }
+.btn--tinted:hover { background: color-mix(in oklab, var(--accent) 18%, transparent); }
+
+.btn--quiet   { background: color-mix(in oklab, var(--text) 6%, transparent); color: var(--text); }
+.btn--quiet:hover { background: color-mix(in oklab, var(--text) 10%, transparent); }
+
+.btn--outline { background: transparent; color: var(--text); box-shadow: inset 0 0 0 1px var(--hairline); }
+.btn--outline:hover { background: color-mix(in oklab, var(--text) 5%, transparent); }
+
+.btn--danger  { background: var(--danger); color: #fff; }
+.btn--danger:hover { opacity: 0.88; }
+
+/* Sizes. sm still clears 36px; the icon variant is square. */
+.btn--sm { min-height: 36px; padding-inline: var(--s-4); font-size: var(--fs-xs); }
+.btn--lg { min-height: 52px; padding-inline: var(--s-8); font-size: var(--fs-body); }
+.btn--icon { inline-size: 44px; padding-inline: 0; }
+.btn--icon.btn--sm { inline-size: 36px; }
+.btn--block { display: flex; width: 100%; }
+
+/* Icon button in the header/toolbar idiom — bordered, elevated, square. */
+.iconbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  inline-size: 44px; block-size: 44px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-chip);
+  background: var(--bg-elevated);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease),
+              scale var(--dur-fast) var(--ease);
+}
+.iconbtn:hover  { background: var(--bg-sunken); }
+.iconbtn:active { scale: 0.97; }
+
+/* Inline "more" link with a nudging arrow. */
+.link-more {
+  display: inline-flex; align-items: center; gap: var(--s-2);
+  min-height: 44px;
+  font-size: var(--fs-sm); font-weight: 550; color: var(--accent);
+}
+.link-more:hover { text-decoration: none; }
+.link-more svg { transition: transform var(--dur) var(--ease); }
+.link-more:hover svg { transform: translateX(3px); }
+
+/* --- Chip / tag ----------------------------------------------------------
+   A chip is a passive label (a topic, a stack item). It is not clickable
+   unless you make it an <a>, and then it gets the hover state below. */
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.chip {
+  display: inline-block;
+  padding: 5px var(--s-3);
+  border-radius: var(--r-chip);
+  background: var(--bg-sunken);
+  color: var(--text-3);
+  font-size: var(--fs-xs); line-height: 1.4; letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+/* On a sunken section the chip would vanish — lift it instead. */
+.s-sunken .chip, .card .chip, .panel .chip { background: var(--bg-elevated); }
+a.chip:hover { color: var(--text); text-decoration: none; }
+.chip--outline { background: transparent; box-shadow: inset 0 0 0 1px var(--hairline); }
+.chip--accent  { background: var(--accent-wash); color: var(--accent); }
+
+/* --- Badge ---------------------------------------------------------------
+   A badge carries state (status, count, severity). Colour is meaningful,
+   so it always pairs with a word — never colour alone. */
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px var(--s-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-chip);
+  background: var(--bg-elevated);
+  color: var(--text-2);
+  font-size: var(--fs-xs); font-weight: 500; line-height: 1.4;
+}
+.badge--ok     { background: var(--ok-wash);     color: var(--ok);     border-color: transparent; }
+.badge--warn   { background: var(--warn-wash);   color: var(--warn);   border-color: transparent; }
+.badge--danger { background: var(--danger-wash); color: var(--danger); border-color: transparent; }
+.badge--info   { background: var(--info-wash);   color: var(--info);   border-color: transparent; }
+.badge--solid  { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+/* The dot is decorative; the label beside it does the work. */
+.badge__dot { inline-size: 6px; block-size: 6px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* --- Card ----------------------------------------------------------------
+   Elevated surface, soft hairline, and it lifts 2px on hover when it is a
+   link. A card that is not a link should not move. */
+.cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
+@media (width >= 720px) { .cards--2, .cards--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (width >= 960px) { .cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.card {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding: var(--s-6);
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--r-lg);
+  background: var(--bg-elevated);
+  color: var(--text);
+  box-shadow: var(--sh-sm);
+}
+a.card, .card--link {
+  transition: transform var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease);
+}
+a.card:hover, .card--link:hover {
+  transform: translateY(-2px);
+  border-color: var(--hairline);
+  box-shadow: var(--sh-md);
+  text-decoration: none;
+}
+a.card:active, .card--link:active { transform: translateY(0) scale(0.995); }
+
+.card__title  { font-size: var(--fs-h3); font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; }
+.card__desc   { font-size: var(--fs-sm); color: var(--text-2); line-height: 1.55; }
+.card__status { margin-block-start: 2px; font-size: var(--fs-xs); color: var(--text-3); line-height: 1.4; }
+/* margin-block-start:auto pins the foot to the bottom so a row of cards
+   with uneven copy still lines its actions up. */
+.card__foot {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: var(--s-4);
+  margin-block-start: auto;
+  padding-block-start: var(--s-4);
+}
+.card__arrow { flex: none; color: var(--accent); transition: transform var(--dur) var(--ease); }
+a.card:hover .card__arrow, .card--link:hover .card__arrow { transform: translateX(3px); }
+
+/* --- Panel ---------------------------------------------------------------
+   A quieter sibling of the card: a well for grouped content. No hover,
+   no lift. Use it for settings groups, sidebars and summaries. */
+.panel {
+  padding: var(--s-6);
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--r-xl);
+  background: var(--bg-sunken);
+  color: var(--text);
+}
+.panel--elevated { background: var(--bg-elevated); box-shadow: var(--sh-sm); }
+.panel--flat     { background: transparent; border-color: var(--hairline); }
+.panel__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--s-4);
+  margin-block-end: var(--s-4);
+  padding-block-end: var(--s-4);
+  border-block-end: 1px solid var(--hairline-soft);
+}
+.panel__title { font-size: var(--fs-body); font-weight: 600; letter-spacing: -0.012em; }
+.panel__foot {
+  margin-block-start: var(--s-5); padding-block-start: var(--s-4);
+  border-block-start: 1px solid var(--hairline-soft);
+}
+
+/* Full-bleed centred callout — the closing "get in touch" band. */
+.band {
+  padding: clamp(var(--s-10), 7vw, var(--s-24)) var(--gutter);
+  border-radius: var(--r-xl);
+  background: var(--bg-sunken);
+  text-align: center;
+}
+
+/* --- Note / alert --------------------------------------------------------
+   Inline message. The leading rule carries the intent colour. */
+.note {
+  padding: var(--s-4) var(--s-5);
+  border-inline-start: 2px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+  font-size: var(--fs-sm); color: var(--text-2);
+}
+.note__title { display: block; margin-block-end: 4px; font-weight: 600; color: var(--text); }
+.note--ok     { border-color: var(--ok);     background: var(--ok-wash); }
+.note--warn   { border-color: var(--warn);   background: var(--warn-wash); }
+.note--danger { border-color: var(--danger); background: var(--danger-wash); }
+.note--info   { border-color: var(--info);   background: var(--info-wash); }
+
+/* --- Stat ----------------------------------------------------------------  */
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-6) var(--s-4); }
+@media (width >= 720px) { .stats--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.stat__fig {
+  font-size: var(--fs-stat); font-weight: 620;
+  line-height: 1.1; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.stat__label {
+  margin-block-start: var(--s-2);
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3);
+}
+.stat__note { margin-block-start: var(--s-1); font-size: var(--fs-xs); color: var(--text-3); }
+
+/* --- Row list ------------------------------------------------------------
+   Records separated by hairlines. Denser than cards, and the right pattern
+   once you have more than about six items. */
+.rows { list-style: none; padding: 0; margin: 0; }
+.rows li { margin: 0; }
+.row {
+  display: grid; gap: var(--s-3);
+  padding-block: var(--s-6);
+  border-block-start: 1px solid var(--hairline);
+  color: var(--text);
+}
+@media (width >= 720px) {
+  .row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+}
+a.row:hover { text-decoration: none; }
+a.row:hover .row__title { color: var(--accent); }
+.row__title { font-weight: 600; letter-spacing: -0.014em; }
+.row__desc  { margin-block-start: var(--s-1); font-size: var(--fs-sm); color: var(--text-2); }
+.row__meta  { font-size: var(--fs-xs); color: var(--text-3); font-variant-numeric: tabular-nums; }
+
+/* --- Definition list -----------------------------------------------------  */
+.facts {
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-3) var(--s-6);
+  padding: var(--s-6);
+  border-radius: var(--r-lg);
+  background: var(--bg-sunken);
+}
+@media (width >= 640px) { .facts { grid-template-columns: max-content minmax(0, 1fr); } }
+.facts dt {
+  padding-block-start: 2px;
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3);
+}
+.facts dd { font-size: var(--fs-sm); margin: 0; }
+
+/* --- Table ---------------------------------------------------------------
+   Wrap every table in .table-wrap. On a phone the wrapper scrolls; the
+   page body must never scroll sideways. */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+}
+.table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.table th, .table td {
+  padding: var(--s-3) var(--s-4);
+  text-align: start;
+  border-block-end: 1px solid var(--hairline-soft);
+}
+.table thead th {
+  background: var(--bg-sunken);
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-3);
+  white-space: nowrap;
+}
+.table tbody tr:last-child td { border-block-end: 0; }
+.table tbody tr:hover { background: color-mix(in oklab, var(--text) 3%, transparent); }
+.table td.num, .table th.num { text-align: end; font-variant-numeric: tabular-nums; }
+.table--compact th, .table--compact td { padding: var(--s-2) var(--s-3); }
+.table caption {
+  padding: var(--s-3) var(--s-4);
+  text-align: start; font-size: var(--fs-xs); color: var(--text-3);
+  border-block-end: 1px solid var(--hairline-soft);
+}
+
+/* --- Tabs ----------------------------------------------------------------  */
+.tabs {
+  display: flex; gap: var(--s-1);
+  border-block-end: 1px solid var(--hairline);
+  overflow-x: auto;
+}
+.tabs button {
+  padding: var(--s-3) var(--s-4);
+  margin-block-end: -1px;
+  border: 0; border-block-end: 2px solid transparent;
+  background: none; cursor: pointer;
+  font-size: var(--fs-sm); font-weight: 500; color: var(--text-3);
+  white-space: nowrap;
+}
+.tabs button:hover { color: var(--text); }
+.tabs button[aria-selected="true"] { color: var(--text); font-weight: 600; border-block-end-color: var(--accent); }
+
+/* --- Breadcrumb ----------------------------------------------------------  */
+.crumb {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2);
+  list-style: none; padding: 0; font-size: var(--fs-xs);
+}
+.crumb li { margin: 0; color: var(--text-3); }
+.crumb li + li::before { content: "/"; margin-inline-end: var(--s-2); color: var(--text-3); opacity: 0.5; }
+.crumb a { color: var(--text-3); }
+.crumb a:hover { color: var(--text); }
+.crumb [aria-current] { color: var(--text-2); }
+
+/* --- Avatar --------------------------------------------------------------  */
+.avatar {
+  display: inline-grid; place-items: center;
+  inline-size: 40px; block-size: 40px;
+  border-radius: 50%;
+  background: var(--bg-sunken);
+  color: var(--text-2);
+  font-size: var(--fs-sm); font-weight: 600;
+  overflow: hidden; flex: none;
+}
+.avatar--sm { inline-size: 28px; block-size: 28px; font-size: var(--fs-xs); }
+.avatar--lg { inline-size: 56px; block-size: 56px; font-size: var(--fs-body); }
+
+/* --- Meter ---------------------------------------------------------------  */
+.meter { block-size: 6px; border-radius: var(--r-chip); background: var(--bg-sunken); overflow: hidden; }
+.meter__fill { block-size: 100%; background: var(--accent); border-radius: inherit; transition: inline-size var(--dur) var(--ease); }
+
+/* --- Divider with label --------------------------------------------------  */
+.divider { display: flex; align-items: center; gap: var(--s-4); color: var(--text-3); font-size: var(--fs-xs); }
+.divider::before, .divider::after { content: ""; flex: 1; block-size: 1px; background: var(--hairline); }
+
+/* --- Empty state ---------------------------------------------------------  */
+.empty {
+  padding: var(--s-16) var(--s-6);
+  border: 1px dashed var(--hairline);
+  border-radius: var(--r-lg);
+  text-align: center; color: var(--text-3);
+}
+.empty__title { margin-block-end: var(--s-2); font-weight: 600; color: var(--text); }

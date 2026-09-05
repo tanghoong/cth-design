@@ -1,0 +1,170 @@
+/* ==========================================================================
+   content.css — long-form typography
+   Scope: article bodies, docs, blog posts. Set .prose on the wrapper and
+   author plain HTML inside it — no classes on the children.
+   ========================================================================== */
+
+.prose {
+  max-width: 68ch;
+  color: var(--text);
+  line-height: 1.65;
+}
+/* The owl: every sibling gets top space, the first child gets none. This is
+   what keeps rhythm without margin-collapse surprises. */
+.prose > * + * { margin-block-start: var(--s-5); }
+
+/* Headings need more air above than below — they belong to what follows. */
+.prose > h2 { margin-block-start: var(--s-12); }
+.prose > h3 { margin-block-start: var(--s-10); }
+.prose > h2 + *, .prose > h3 + * { margin-block-start: var(--s-4); }
+.prose > h4 { margin-block-start: var(--s-8); }
+
+/* Links in running text underline always — hover-only is not discoverable
+   inside a paragraph. */
+.prose a { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.prose a:hover { text-decoration-thickness: 2px; }
+
+.prose ul, .prose ol { padding-inline-start: var(--s-6); }
+.prose li + li { margin-block-start: var(--s-2); }
+.prose li > ul, .prose li > ol { margin-block-start: var(--s-2); }
+
+.prose strong { font-weight: 620; }
+.prose small  { font-size: var(--fs-sm); color: var(--text-2); }
+
+.prose img, .prose figure > img {
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline-soft);
+}
+.prose figure { margin: 0; }
+.prose figcaption {
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-xs); color: var(--text-3); line-height: 1.5;
+}
+
+/* --- Lead ----------------------------------------------------------------  */
+.lede {
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--text-2);
+  max-width: 56ch;
+}
+
+/* --- Eyebrow -------------------------------------------------------------
+   The small uppercase label above a heading. Never used on its own. */
+.eyebrow {
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-3); line-height: 1.2;
+}
+
+/* --- Quote ---------------------------------------------------------------  */
+.quote, .prose blockquote {
+  max-width: 60ch;
+  padding-inline-start: var(--s-6);
+  border-inline-start: 2px solid var(--accent);
+  font-size: var(--fs-lead); line-height: 1.45; letter-spacing: -0.012em;
+}
+.quote-note, .prose blockquote cite {
+  display: block;
+  margin-block-start: var(--s-3);
+  font-size: var(--fs-xs); font-style: normal; color: var(--text-3);
+}
+
+/* --- Code ----------------------------------------------------------------  */
+.prose code, .code-inline {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--bg-sunken);
+  font-family: var(--font-mono); font-size: 0.875em;
+  color: var(--text);
+  word-break: break-word;
+}
+.prose pre, .codeblock {
+  overflow-x: auto;
+  padding: var(--s-5);
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--r-md);
+  background: var(--bg-sunken);
+  font-family: var(--font-mono); font-size: var(--fs-sm); line-height: 1.6;
+  tab-size: 2;
+}
+.prose pre code { padding: 0; background: none; font-size: inherit; }
+
+.kbd {
+  display: inline-block;
+  padding: 2px 7px;
+  border: 1px solid var(--hairline);
+  border-block-end-width: 2px;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  font-family: var(--font-mono); font-size: 0.8em;
+  color: var(--text-2);
+}
+
+/* --- Tables in prose -----------------------------------------------------  */
+.prose table {
+  display: block; overflow-x: auto;
+  font-size: var(--fs-sm);
+}
+.prose th, .prose td {
+  padding: var(--s-3) var(--s-4);
+  text-align: start;
+  border-block-end: 1px solid var(--hairline-soft);
+}
+.prose thead th {
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* --- Article header ------------------------------------------------------  */
+.article-head { max-width: var(--container-prose); }
+.article-head h1 { margin-block-start: var(--s-3); max-width: 20ch; }
+.article-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-4);
+  margin-block-start: var(--s-5);
+  font-size: var(--fs-xs); color: var(--text-3);
+}
+.article-meta > * + *::before {
+  content: ""; display: inline-block;
+  inline-size: 3px; block-size: 3px; margin-inline-end: var(--s-4);
+  border-radius: 50%; background: currentColor; vertical-align: middle;
+}
+
+/* --- Numbered steps ------------------------------------------------------  */
+.steps { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+.steps > li {
+  position: relative;
+  padding-inline-start: var(--s-10);
+  padding-block: var(--s-4);
+  counter-increment: step;
+  margin: 0;
+  border-block-start: 1px solid var(--hairline-soft);
+}
+.steps > li:first-child { border-block-start: 0; }
+.steps > li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute; inset-inline-start: 0; inset-block-start: var(--s-4);
+  font-family: var(--font-mono); font-size: var(--fs-xs);
+  color: var(--accent); font-variant-numeric: tabular-nums;
+}
+.steps__title { font-weight: 600; letter-spacing: -0.012em; }
+.steps__desc  { margin-block-start: var(--s-1); font-size: var(--fs-sm); color: var(--text-2); }
+
+/* --- Headline measure ----------------------------------------------------
+   Big type needs a much tighter cap than body copy: an h1 running the full
+   container width wraps into a paragraph shape and stops reading as a
+   headline. 16–20ch is the range that keeps it to two or three lines. */
+.measure-headline { max-width: 20ch; }
+.measure-headline--tight { max-width: 16ch; }
+
+/* --- Print ---------------------------------------------------------------  */
+@media print {
+  body { background: #fff; color: #000; }
+  .site-head, .site-foot, .navsheet, .toasts, .rail { display: none !important; }
+  a { color: #000; text-decoration: underline; }
+  h1, h2, h3 { break-after: avoid; }
+  .card, .panel, .table-wrap { break-inside: avoid; border-color: #ccc; box-shadow: none; }
+}
+

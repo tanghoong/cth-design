@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://design.tanghoong.com/sitemap.xml

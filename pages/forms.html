@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forms — tanghoong design system</title>
+<meta name="description" content="Inputs, textareas, selects, input groups, checkboxes, radios, switches, file drops, validation states and form layout.">
+<link rel="canonical" href="https://design.tanghoong.com/pages/forms.html">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<!-- Runs before the stylesheet so the page never paints the wrong theme.
+     try/catch because a browser with storage blocked must still render Auto. -->
+<script>try{var t=localStorage.getItem('th');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/forms.css">
+<link rel="stylesheet" href="/assets/css/overlays.css">
+<link rel="stylesheet" href="/assets/css/content.css">
+<link rel="stylesheet" href="/assets/css/utilities.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="container container--wide head-in">
+    <a class="brand" href="/">
+      <svg class="brand__mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="currentColor" opacity=".1"/><path d="M8 19V9h4.2a3.4 3.4 0 0 1 0 6.8H10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="17.5" r="2" fill="currentColor"/></svg>
+      <span>tanghoong <span class="t3">design</span></span>
+    </a>
+
+    <nav class="head-nav" aria-label="Primary">
+      <a href="/pages/foundations.html">Foundations</a>
+      <a href="/pages/components.html">Components</a>
+      <a href="/pages/forms.html">Forms</a>
+      <a href="/pages/patterns.html">Patterns</a>
+      <details class="menu">
+        <summary>
+          More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="menu__list">
+          <a href="/pages/layout.html">Layout</a>
+          <a href="/pages/overlays.html">Overlays</a>
+          <a href="/pages/content.html">Content &amp; prose</a>
+          <div class="menu__sep"></div>
+          <a href="/pages/prompt.html">Agent prompt</a>
+        </div>
+      </details>
+    </nav>
+
+    <div class="head-end">
+      <div class="head-tools">
+        <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+      <a class="btn btn--filled btn--sm head-cta" href="/pages/prompt.html">Agent prompt</a>
+    </div>
+  </div>
+
+  <details class="navsheet" data-navsheet>
+    <summary class="navsheet__btn" aria-label="Menu">
+      <svg class="i-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="i-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </summary>
+    <div class="navsheet__scrim" data-navsheet-scrim></div>
+    <div class="navsheet__panel">
+      <a class="sheet-row" href="/pages/foundations.html">Foundations</a>
+      <a class="sheet-row" href="/pages/layout.html">Layout</a>
+      <a class="sheet-row" href="/pages/components.html">Components</a>
+      <a class="sheet-row" href="/pages/forms.html">Forms</a>
+      <a class="sheet-row" href="/pages/overlays.html">Overlays</a>
+      <a class="sheet-row" href="/pages/content.html">Content &amp; prose</a>
+      <a class="sheet-row" href="/pages/patterns.html">Patterns</a>
+      <a class="sheet-row" href="/pages/prompt.html">Agent prompt</a>
+      <div class="sheet-tools">
+        <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+    </div>
+  </details>
+</header>
+
+<main id="main">
+<section class="section section--tight s-page">
+  <div class="container container--wide">
+    <ol class="crumb"><li><a href="/">Design system</a></li><li aria-current="page">Forms</li></ol>
+    <p class="eyebrow mt-6">04 — Forms</p>
+    <h1 class="mt-3">Forms</h1>
+    <p class="lede mt-5">Inputs, selects, choices and validation. Every field has a real label, every control clears 44&nbsp;px, and every error is announced — not just coloured.</p>
+  </div>
+</section>
+
+<section class="section section--tight s-sunken">
+<div class="container container--wide">
+<div class="with-aside">
+<div>
+
+  <div class="note note--warn">
+    <strong class="note__title">A placeholder is not a label</strong>
+    It vanishes the moment someone types, it is invisible to most screen readers as a name, and it fails at low contrast by design. Every field on this page has a real <code>&lt;label for&gt;</code>. Use <code>.vh</code> to hide one visually if the layout truly implies it — never delete it.
+  </div>
+
+  <h2 id="fields">Text fields</h2>
+  <p class="t2 mt-4 measure">One shared shape for input, textarea and select. Wrap each in <code>.field</code>, which stacks label, control and hint with the right gaps.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Anatomy</div>
+    <div class="spec__demo">
+      <div class="demo-narrow">
+        <div class="field">
+          <label class="label" for="f-name">Full name <span class="label__req" aria-hidden="true">*</span></label>
+          <input class="input" id="f-name" type="text" required placeholder="Charlie Tang Hoong">
+        </div>
+        <div class="field">
+          <label class="label" for="f-co">Company <span class="label__opt">optional</span></label>
+          <input class="input" id="f-co" type="text">
+          <p class="hint" id="f-co-h">We only use this to address the proposal.</p>
+        </div>
+        <div class="field">
+          <label class="label" for="f-mail">Work email</label>
+          <input class="input" id="f-mail" type="email" inputmode="email" autocomplete="email" aria-describedby="f-mail-h">
+          <p class="hint" id="f-mail-h">A reply lands within one business day.</p>
+        </div>
+      </div>
+    </div>
+    <div class="spec__code">
+<pre>&lt;div class="field"&gt;
+  &lt;label class="label" for="email"&gt;Work email&lt;/label&gt;
+  &lt;input class="input" id="email" type="email"
+         inputmode="email" autocomplete="email"
+         aria-describedby="email-hint"&gt;
+  &lt;p class="hint" id="email-hint"&gt;A reply lands within one business day.&lt;/p&gt;
+&lt;/div&gt;</pre>
+    </div>
+    <p class="spec__note">Wire the hint with <code>aria-describedby</code> or a screen reader never reads it. Set <code>inputmode</code> and <code>autocomplete</code> — they are what give a phone the right keyboard and a one-tap fill.</p>
+  </div>
+
+  <div class="spec">
+    <div class="spec__label">Textarea and select</div>
+    <div class="spec__demo">
+      <div class="demo-narrow">
+        <div class="field">
+          <label class="label" for="f-msg">What are you trying to build?</label>
+          <textarea class="textarea" id="f-msg" rows="4" placeholder="A sentence or two is plenty."></textarea>
+        </div>
+        <div class="field">
+          <label class="label" for="f-stage">Stage</label>
+          <select class="select" id="f-stage">
+            <option>Exploring an idea</option>
+            <option>Scoping a build</option>
+            <option>Fixing something in production</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="f-code">Config</label>
+          <textarea class="textarea textarea--code" id="f-code" rows="3">{ "region": "ap-southeast-1" }</textarea>
+        </div>
+      </div>
+    </div>
+    <p class="spec__note">Textareas resize vertically only — horizontal resize breaks the layout. <code>.textarea--code</code> switches to the mono stack for anything the user will paste rather than write.</p>
+  </div>
+
+  <div class="spec">
+    <div class="spec__label">Input group — prefix and suffix</div>
+    <div class="spec__demo">
+      <div class="demo-narrow">
+        <div class="field">
+          <label class="label" for="f-domain">Sub-domain</label>
+          <div class="input-group">
+            <span class="input-group__addon">https://</span>
+            <input class="input" id="f-domain" type="text" value="design">
+            <span class="input-group__addon">.tanghoong.com</span>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="f-budget">Budget</label>
+          <div class="input-group">
+            <span class="input-group__addon">MYR</span>
+            <input class="input" id="f-budget" type="text" inputmode="decimal" value="45,000">
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="spec__note">The group holds the border and the focus state; the input inside is borderless. That is what keeps the ring around the whole control rather than half of it.</p>
+  </div>
+
+  <div class="spec">
+    <div class="spec__label">Sizes and states</div>
+    <div class="spec__demo">
+      <div class="demo-narrow" class="stack">
+        <input class="input input--sm" type="text" value="Small — 36px" aria-label="Small">
+        <input class="input" type="text" value="Default — 44px" aria-label="Default">
+        <input class="input input--lg" type="text" value="Large — 52px" aria-label="Large">
+        <input class="input" type="text" value="Disabled" aria-label="Disabled" disabled>
+        <input class="input" type="text" value="Read only" aria-label="Read only" readonly>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="validation">Validation</h2>
+  <p class="t2 mt-4 measure">The hook is <code>aria-invalid="true"</code>, not a class. The same attribute a screen reader uses to say "invalid entry" is the one that turns the field red, so the two can never drift apart.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Error state</div>
+    <div class="spec__demo">
+      <div class="demo-narrow">
+        <div class="field">
+          <label class="label" for="f-bad">Work email</label>
+          <input class="input" id="f-bad" type="email" value="charlie@" aria-invalid="true" aria-describedby="f-bad-e">
+          <p class="error" id="f-bad-e">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="demo-icon" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 3.5v.5"/></svg>
+            Enter a full email address, including the domain.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="spec__code">
+<pre>&lt;input class="input" id="email" type="email"
+       aria-invalid="true" aria-describedby="email-err"&gt;
+&lt;p class="error" id="email-err"&gt;Enter a full email address.&lt;/p&gt;</pre>
+    </div>
+    <p class="spec__note">Say what to do, not what went wrong. "Enter a full email address" beats "Invalid input". Move focus to the first invalid field on submit, and never clear what the user typed.</p>
+  </div>
+
+  <h2 id="choice">Checkboxes and radios</h2>
+  <p class="t2 mt-4 measure">The control keeps its native <code>accent-color</code>, so it inherits platform focus, forced-colors and high-contrast behaviour for free. What we style is the 44&nbsp;px row around it.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Standard</div>
+    <div class="spec__demo">
+      <fieldset class="fieldset">
+        <legend class="fieldset__legend">Notify me about</legend>
+        <label class="check">
+          <input type="checkbox" checked>
+          <span class="check__body">
+            <span class="check__label">Deploy failures</span>
+            <span class="check__hint">Any non-zero exit from the release pipeline.</span>
+          </span>
+        </label>
+        <label class="check">
+          <input type="checkbox">
+          <span class="check__body"><span class="check__label">Weekly digest</span></span>
+        </label>
+        <label class="check">
+          <input type="checkbox" disabled>
+          <span class="check__body"><span class="check__label">SMS alerts — not available on this plan</span></span>
+        </label>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <legend class="fieldset__legend">Environment</legend>
+        <label class="check"><input type="radio" name="env" checked><span class="check__body"><span class="check__label">Production</span></span></label>
+        <label class="check"><input type="radio" name="env"><span class="check__body"><span class="check__label">Staging</span></span></label>
+        <label class="check"><input type="radio" name="env"><span class="check__body"><span class="check__label">Local</span></span></label>
+      </fieldset>
+    </div>
+    <p class="spec__note">Group related choices in a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>. Without it a screen reader reads three options with no idea what question they answer.</p>
+  </div>
+
+  <div class="spec">
+    <div class="spec__label">Boxed — a selectable card</div>
+    <div class="spec__demo spec__demo--sunken">
+      <div class="grid grid--2">
+        <label class="check check--boxed">
+          <input type="radio" name="plan" checked>
+          <span class="check__body">
+            <span class="check__label w-semi">Discovery sprint</span>
+            <span class="check__hint">Two weeks. A written architecture and a working thin slice.</span>
+          </span>
+        </label>
+        <label class="check check--boxed">
+          <input type="radio" name="plan">
+          <span class="check__body">
+            <span class="check__label w-semi">Full engagement</span>
+            <span class="check__hint">Discovery through production, with handover.</span>
+          </span>
+        </label>
+      </div>
+    </div>
+    <p class="spec__note">The selected state uses <code>:has(input:checked)</code> — no JavaScript, and the styling can never fall out of sync with the actual checked state.</p>
+  </div>
+
+  <h2 id="switch">Switches</h2>
+  <p class="t2 mt-4 measure">A switch applies immediately. A checkbox applies on submit. Choosing the wrong one is the most common form mistake, and users notice: they will wait for a Save button that never comes.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Switch</div>
+    <div class="spec__demo">
+      <div class="stack">
+        <label class="switch">
+          <input type="checkbox" checked>
+          <span class="switch__track"></span>
+          <span class="sm">Auto-deploy on merge to main</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox">
+          <span class="switch__track"></span>
+          <span class="sm">Require review before release</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" disabled>
+          <span class="switch__track"></span>
+          <span class="sm t3">Canary rollout — enterprise only</span>
+        </label>
+      </div>
+    </div>
+    <div class="spec__code">
+<pre>&lt;label class="switch"&gt;
+  &lt;input type="checkbox" checked&gt;
+  &lt;span class="switch__track"&gt;&lt;/span&gt;
+  &lt;span class="sm"&gt;Auto-deploy on merge to main&lt;/span&gt;
+&lt;/label&gt;</pre>
+    </div>
+    <p class="spec__note">The input is visually hidden but still focusable and still in the tab order — that is what makes the switch keyboard-operable with Space.</p>
+  </div>
+
+  <h2 id="other">Range and file</h2>
+  <div class="spec mt-6">
+    <div class="spec__label">Range and file drop</div>
+    <div class="spec__demo">
+      <div class="demo-narrow" class="stack">
+        <div class="field">
+          <label class="label" for="f-conf">Confidence floor</label>
+          <input class="range" id="f-conf" type="range" min="0" max="100" value="82">
+          <p class="hint">Anything below this goes to the human review queue.</p>
+        </div>
+        <label class="file" for="f-up">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <span class="w-med">Drop a file, or choose one</span>
+          <span class="xs">CSV or JSON, up to 10 MB</span>
+          <input id="f-up" type="file" class="vh">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="layout">Form layout</h2>
+  <p class="t2 mt-4 measure">One column by default — it is faster to complete and never ambiguous about reading order. Split to two only for genuinely paired fields (first/last name, city/postcode).</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Two-column grid with a full-width span</div>
+    <div class="spec__demo">
+      <form>
+        <fieldset class="fieldset">
+          <legend class="fieldset__legend">Project enquiry</legend>
+          <p class="fieldset__intro">Tell me enough to reply usefully. Fifteen minutes on a call usually beats a long form.</p>
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label class="label" for="g-first">First name</label>
+              <input class="input" id="g-first" type="text" autocomplete="given-name">
+            </div>
+            <div class="field">
+              <label class="label" for="g-last">Last name</label>
+              <input class="input" id="g-last" type="text" autocomplete="family-name">
+            </div>
+            <div class="field span-2">
+              <label class="label" for="g-mail">Work email</label>
+              <input class="input" id="g-mail" type="email" autocomplete="email">
+            </div>
+            <div class="field span-2">
+              <label class="label" for="g-what">What are you trying to build?</label>
+              <textarea class="textarea" id="g-what" rows="4"></textarea>
+            </div>
+          </div>
+          <label class="check mt-4">
+            <input type="checkbox">
+            <span class="check__body"><span class="check__label">Send me a copy of this enquiry</span></span>
+          </label>
+          <div class="form-actions">
+            <button class="btn btn--filled" type="submit">Send enquiry</button>
+            <button class="btn btn--quiet" type="button">Cancel</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <p class="spec__note">Primary action first in the DOM, and it is the one the Enter key hits. <code>.form-actions</code> wraps on a narrow screen rather than squeezing the buttons.</p>
+  </div>
+
+  <div class="rules mt-6">
+    <div class="rule rule--do">
+      <span class="rule__h">Do</span>
+      Mark optional fields, not required ones — most fields are required, so the asterisks become noise and the reader stops seeing them.
+    </div>
+    <div class="rule rule--dont">
+      <span class="rule__h">Don't</span>
+      Validate on every keystroke. Validate on blur, and again on submit. Turning a field red while someone is still halfway through typing is hostile.
+    </div>
+  </div>
+
+</div>
+
+<aside class="rail">
+  <p class="rail__h">Forms</p>
+  <ul class="rail__list">
+    <li><a href="#fields">Text fields</a></li>
+    <li><a href="#validation">Validation</a></li>
+    <li><a href="#choice">Checkboxes and radios</a></li>
+    <li><a href="#switch">Switches</a></li>
+    <li><a href="#other">Range and file</a></li>
+    <li><a href="#layout">Form layout</a></li>
+  </ul>
+</aside>
+</div>
+</div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="container container--wide">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-name">tanghoong design system</p>
+        <p class="foot-role">The shared visual language for tanghoong.com and its sub-domains.</p>
+      </div>
+      <div>
+        <p class="foot-h">Reference</p>
+        <ul class="foot-list">
+          <li><a href="/pages/foundations.html">Foundations</a></li>
+          <li><a href="/pages/layout.html">Layout</a></li>
+          <li><a href="/pages/components.html">Components</a></li>
+          <li><a href="/pages/forms.html">Forms</a></li>
+          <li><a href="/pages/overlays.html">Overlays</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">Elsewhere</p>
+        <ul class="foot-list">
+          <li><a href="https://cv.tanghoong.com/">cv.tanghoong.com</a></li>
+          <li><a href="https://blog.tanghoong.com/">blog.tanghoong.com</a></li>
+          <li><a href="https://links.tanghoong.com/">links.tanghoong.com</a></li>
+          <li><a href="https://github.com/tanghoong">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-legal">Charlie Tang Hoong. Design system reference.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/nav.js" defer></script>
+<script src="/assets/js/docs.js" defer></script>
+</body>
+</html>

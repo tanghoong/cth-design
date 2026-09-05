@@ -1,0 +1,10 @@
+# Cloudflare Pages headers.
+# The CSS and JS are the product here, so they must be cacheable but never
+# stale for long — a design token change has to reach every consumer.
+/assets/*
+  Cache-Control: public, max-age=3600, must-revalidate
+  Access-Control-Allow-Origin: *
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

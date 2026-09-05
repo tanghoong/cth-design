@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Foundations — tanghoong design system</title>
+<meta name="description" content="Colour, surfaces, typography, the 4px space scale, radius, shadow, motion and focus. The token layer every tanghoong property resolves to.">
+<link rel="canonical" href="https://design.tanghoong.com/pages/foundations.html">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<!-- Runs before the stylesheet so the page never paints the wrong theme.
+     try/catch because a browser with storage blocked must still render Auto. -->
+<script>try{var t=localStorage.getItem('th');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/forms.css">
+<link rel="stylesheet" href="/assets/css/overlays.css">
+<link rel="stylesheet" href="/assets/css/content.css">
+<link rel="stylesheet" href="/assets/css/utilities.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="container container--wide head-in">
+    <a class="brand" href="/">
+      <svg class="brand__mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="currentColor" opacity=".1"/><path d="M8 19V9h4.2a3.4 3.4 0 0 1 0 6.8H10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="19" cy="17.5" r="2" fill="currentColor"/></svg>
+      <span>tanghoong <span class="t3">design</span></span>
+    </a>
+
+    <nav class="head-nav" aria-label="Primary">
+      <a href="/pages/foundations.html">Foundations</a>
+      <a href="/pages/components.html">Components</a>
+      <a href="/pages/forms.html">Forms</a>
+      <a href="/pages/patterns.html">Patterns</a>
+      <details class="menu">
+        <summary>
+          More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="menu__list">
+          <a href="/pages/layout.html">Layout</a>
+          <a href="/pages/overlays.html">Overlays</a>
+          <a href="/pages/content.html">Content &amp; prose</a>
+          <div class="menu__sep"></div>
+          <a href="/pages/prompt.html">Agent prompt</a>
+        </div>
+      </details>
+    </nav>
+
+    <div class="head-end">
+      <div class="head-tools">
+        <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+      <a class="btn btn--filled btn--sm head-cta" href="/pages/prompt.html">Agent prompt</a>
+    </div>
+  </div>
+
+  <details class="navsheet" data-navsheet>
+    <summary class="navsheet__btn" aria-label="Menu">
+      <svg class="i-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="i-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </summary>
+    <div class="navsheet__scrim" data-navsheet-scrim></div>
+    <div class="navsheet__panel">
+      <a class="sheet-row" href="/pages/foundations.html">Foundations</a>
+      <a class="sheet-row" href="/pages/layout.html">Layout</a>
+      <a class="sheet-row" href="/pages/components.html">Components</a>
+      <a class="sheet-row" href="/pages/forms.html">Forms</a>
+      <a class="sheet-row" href="/pages/overlays.html">Overlays</a>
+      <a class="sheet-row" href="/pages/content.html">Content &amp; prose</a>
+      <a class="sheet-row" href="/pages/patterns.html">Patterns</a>
+      <a class="sheet-row" href="/pages/prompt.html">Agent prompt</a>
+      <div class="sheet-tools">
+        <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+    </div>
+  </details>
+</header>
+
+<main id="main">
+<section class="section section--tight s-page">
+  <div class="container container--wide">
+    <ol class="crumb"><li><a href="/">Design system</a></li><li aria-current="page">Foundations</li></ol>
+    <p class="eyebrow mt-6">01 — Foundations</p>
+    <h1 class="mt-3">Foundations</h1>
+    <p class="lede mt-5">Colour, type, space, radius, shadow and motion. Everything downstream resolves to a token defined here, so this is the only file you edit to re-skin a whole property.</p>
+  </div>
+</section>
+
+<section class="section section--tight s-sunken">
+<div class="container container--wide">
+<div class="with-aside">
+<div>
+
+  <h2 id="surfaces">Surfaces</h2>
+  <p class="t2 mt-4 measure">Four depths, no more. <code>--bg</code> is the page. <code>--bg-sunken</code> recedes — use it to band alternating sections and for wells. <code>--bg-elevated</code> lifts — cards, menus, modals. <code>--bg-glass</code> is the sticky header only.</p>
+
+  <div class="swatches mt-6">
+    <div class="swatch"><div class="swatch__chip" style="background:var(--bg)"></div><div class="swatch__meta"><p class="swatch__name">--bg</p><p class="swatch__val">#fbfbfd / #000000<br>Page ground</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--bg-sunken)"></div><div class="swatch__meta"><p class="swatch__name">--bg-sunken</p><p class="swatch__val">#f5f5f7 / #0a0a0c<br>Section bands, wells</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--bg-elevated)"></div><div class="swatch__meta"><p class="swatch__name">--bg-elevated</p><p class="swatch__val">#ffffff / #1c1c1e<br>Cards, menus, modals</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--bg-glass)"></div><div class="swatch__meta"><p class="swatch__name">--bg-glass</p><p class="swatch__val">72% + blur<br>Sticky header only</p></div></div>
+  </div>
+
+  <div class="note note--info mt-6">
+    <strong class="note__title">Why elevated is lighter on light and lighter on dark</strong>
+    On light the page is off-white and cards are pure white; on dark the page is pure black and cards are a lifted grey. In both themes elevation means <em>more contrast against the page</em>, which is why a single <code>light-dark()</code> token works for both.
+  </div>
+
+  <h2 id="ink">Ink</h2>
+  <p class="t2 mt-4 measure">Three weights of text. There is no fourth — if something needs to be quieter than <code>--text-3</code>, it probably should not be on the page.</p>
+
+  <div class="swatches mt-6">
+    <div class="swatch"><div class="swatch__chip" style="background:var(--text)"></div><div class="swatch__meta"><p class="swatch__name">--text</p><p class="swatch__val">#1d1d1f / #f5f5f7<br>Body and headings</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--text-2)"></div><div class="swatch__meta"><p class="swatch__name">--text-2</p><p class="swatch__val">#515154 / #a1a1a6<br>Supporting copy</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--text-3)"></div><div class="swatch__meta"><p class="swatch__name">--text-3</p><p class="swatch__val">#6e6e73 / #86868b<br>Labels, metadata</p></div></div>
+  </div>
+
+  <h2 id="accent">Accent</h2>
+  <p class="t2 mt-4 measure">Deep green on light, mint on dark. Both clear WCAG AA against their own page ground. The accent marks <em>one</em> thing per view — a primary action, or the current item, not both.</p>
+
+  <div class="swatches mt-6">
+    <div class="swatch"><div class="swatch__chip" style="background:var(--accent)"></div><div class="swatch__meta"><p class="swatch__name">--accent</p><p class="swatch__val">#03744e / #4dff9b</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--accent-ink)"></div><div class="swatch__meta"><p class="swatch__name">--accent-ink</p><p class="swatch__val">#ffffff / #04140b<br>Text on a filled accent</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--accent-wash)"></div><div class="swatch__meta"><p class="swatch__name">--accent-wash</p><p class="swatch__val">accent at 12%<br>Tinted buttons, active rows</p></div></div>
+  </div>
+
+  <h2 id="status">Status</h2>
+  <p class="t2 mt-4 measure">Four intents for validation and alerts. Each has a matching <code>-wash</code>. Colour never carries meaning alone — always pair it with a word or an icon.</p>
+
+  <div class="swatches mt-6">
+    <div class="swatch"><div class="swatch__chip" style="background:var(--ok)"></div><div class="swatch__meta"><p class="swatch__name">--ok</p><p class="swatch__val">Success, live, delivered</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--warn)"></div><div class="swatch__meta"><p class="swatch__name">--warn</p><p class="swatch__val">Caution, pending</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--danger)"></div><div class="swatch__meta"><p class="swatch__name">--danger</p><p class="swatch__val">Errors, destructive</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--info)"></div><div class="swatch__meta"><p class="swatch__name">--info</p><p class="swatch__val">Neutral notices</p></div></div>
+  </div>
+
+  <h2 id="lines">Lines</h2>
+  <p class="t2 mt-4 measure">Both hairlines are alpha values, not solid greys — they have to sit correctly on any of the four surfaces. <code>--hairline</code> separates; <code>--hairline-soft</code> outlines a card without drawing attention.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Hairlines</div>
+    <div class="spec__demo">
+      <div style="padding:var(--s-5);border:1px solid var(--hairline);border-radius:var(--r-md)"><code>--hairline</code> — table rules, section dividers, input borders</div>
+      <div class="mt-4" style="padding:var(--s-5);border:1px solid var(--hairline-soft);border-radius:var(--r-md)"><code>--hairline-soft</code> — card outlines, panel edges, internal splits</div>
+    </div>
+  </div>
+
+  <h2 id="type">Typography</h2>
+  <p class="t2 mt-4 measure">The system stack. No webfont means no extra request, no FOUT and no layout shift — and on every platform the UI already looks native. Headings are fluid with <code>clamp()</code>; body sizes are fixed so the measure stays predictable.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Scale</div>
+    <div class="spec__demo">
+      <div class="type-row">
+        <p class="type-row__meta"><span>--fs-h1</span><span>clamp(2rem, 1.45rem + 2.6vw, 3.25rem)</span><span>660 / 1.08 / -0.026em</span></p>
+        <p class="as-h1">Forward deployed engineering</p>
+      </div>
+      <div class="type-row">
+        <p class="type-row__meta"><span>--fs-h2</span><span>clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem)</span><span>620 / 1.15 / -0.021em</span></p>
+        <h2>Selected work</h2>
+      </div>
+      <div class="type-row">
+        <p class="type-row__meta"><span>--fs-h3</span><span>clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem)</span><span>600 / 1.3 / -0.014em</span></p>
+        <h3>How I work</h3>
+      </div>
+      <div class="type-row">
+        <p class="type-row__meta"><span>--fs-lead</span><span>clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem)</span><span>.lede</span></p>
+        <p class="lede">The opening paragraph under a heading. Wider type, tighter leading, and capped at 56 characters so it stays one comfortable block.</p>
+      </div>
+      <div class="type-row">
+        <p class="type-row__meta"><span>--fs-body</span><span>17px</span><span>400 / 1.6 / -0.006em</span></p>
+        <p>Body copy. Seventeen pixels is the baseline across the whole system — large enough to read on a phone without zooming, and the line height of 1.6 is what keeps a long paragraph scannable.</p>
+      </div>
+      <div class="type-row">
+        <p class="type-row__meta"><span>--fs-sm</span><span>15px</span><span>.sm</span></p>
+        <p class="sm">Secondary copy: card descriptions, table cells, form hints and captions.</p>
+      </div>
+      <div class="type-row">
+        <p class="type-row__meta"><span>--fs-xs</span><span>13px</span><span>.xs</span></p>
+        <p class="xs">Metadata, chips, badges, eyebrows and footnotes. Never body copy.</p>
+      </div>
+      <div class="type-row">
+        <p class="type-row__meta"><span>--fs-stat</span><span>clamp(1.25rem, 0.95rem + 1.5vw, 1.9375rem)</span><span>tabular-nums</span></p>
+        <p class="stat__fig">12,400 req/s</p>
+      </div>
+    </div>
+    <p class="spec__note">Negative letter-spacing scales with size: the bigger the type, the tighter it is set. That is what stops large headings from looking loose.</p>
+  </div>
+
+  <div class="spec">
+    <div class="spec__label">Families</div>
+    <div class="spec__demo">
+      <p class="xs t3">--font-sans</p>
+      <p class="mt-2">The quick brown fox jumps over the lazy dog — 0123456789</p>
+      <p class="xs t3 mt-6">--font-mono</p>
+      <p class="mono mt-2">The quick brown fox jumps over the lazy dog — 0123456789</p>
+    </div>
+    <p class="spec__note">Mono is for code, identifiers, keys and anything the reader might retype. Not for decoration.</p>
+  </div>
+
+  <h2 id="space">Space</h2>
+  <p class="t2 mt-4 measure">A 4&nbsp;px scale, named by step rather than by pixel value so the whole ramp can be retuned in one place. Use the named steps; never type a raw pixel gap.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Scale</div>
+    <div class="spec__demo">
+      <div class="scale-row"><span class="scale-row__name">--s-1</span><span class="scale-row__val">4px</span><span class="scale-row__bar" style="inline-size:4px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-2</span><span class="scale-row__val">8px</span><span class="scale-row__bar" style="inline-size:8px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-3</span><span class="scale-row__val">12px</span><span class="scale-row__bar" style="inline-size:12px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-4</span><span class="scale-row__val">16px</span><span class="scale-row__bar" style="inline-size:16px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-5</span><span class="scale-row__val">20px</span><span class="scale-row__bar" style="inline-size:20px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-6</span><span class="scale-row__val">24px</span><span class="scale-row__bar" style="inline-size:24px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-8</span><span class="scale-row__val">32px</span><span class="scale-row__bar" style="inline-size:32px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-10</span><span class="scale-row__val">40px</span><span class="scale-row__bar" style="inline-size:40px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-12</span><span class="scale-row__val">48px</span><span class="scale-row__bar" style="inline-size:48px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-16</span><span class="scale-row__val">64px</span><span class="scale-row__bar" style="inline-size:64px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-20</span><span class="scale-row__val">80px</span><span class="scale-row__bar" style="inline-size:80px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-24</span><span class="scale-row__val">96px</span><span class="scale-row__bar" style="inline-size:96px"></span></div>
+      <div class="scale-row"><span class="scale-row__name">--s-32</span><span class="scale-row__val">128px</span><span class="scale-row__bar" style="inline-size:128px"></span></div>
+    </div>
+  </div>
+
+  <div class="rules mt-6">
+    <div class="rule rule--do">
+      <span class="rule__h">Do</span>
+      Let the section own vertical rhythm (<code>--section-y</code>) and the grid own gaps. Components stay margin-free so they compose anywhere.
+    </div>
+    <div class="rule rule--dont">
+      <span class="rule__h">Don't</span>
+      Put <code>margin-bottom</code> on a component. The next thing to use it will need a different gap, and you will end up overriding it.
+    </div>
+  </div>
+
+  <h2 id="radius">Radius</h2>
+  <p class="t2 mt-4 measure">Radius steps with the size of the box: a chip is a pill, a small control is 10&nbsp;px, a card is 20&nbsp;px, a panel or modal is 28&nbsp;px. A large radius on a small element reads as a bubble, not as software.</p>
+
+  <div class="tiles mt-6">
+    <div class="tile" style="border-radius:var(--r-sm)">--r-sm · 10px</div>
+    <div class="tile" style="border-radius:var(--r-md)">--r-md · 16px</div>
+    <div class="tile" style="border-radius:var(--r-lg)">--r-lg · 20px</div>
+    <div class="tile" style="border-radius:var(--r-xl)">--r-xl · 28px</div>
+    <div class="tile" style="border-radius:var(--r-chip)">--r-chip · pill</div>
+  </div>
+
+  <h2 id="shadow">Shadow</h2>
+  <p class="t2 mt-4 measure">Three depths, all extremely soft — this is a flat system with a hint of lift, not a material one. In dark theme all three resolve to <code>none</code>: on black a drop shadow reads as grime, so depth comes from <code>--bg-elevated</code> instead.</p>
+
+  <div class="tiles mt-6">
+    <div class="tile" style="border-radius:var(--r-md);box-shadow:var(--sh-sm)">--sh-sm</div>
+    <div class="tile" style="border-radius:var(--r-md);box-shadow:var(--sh-md)">--sh-md</div>
+    <div class="tile" style="border-radius:var(--r-md);box-shadow:var(--sh-lg)">--sh-lg</div>
+  </div>
+
+  <h2 id="motion">Motion</h2>
+  <p class="t2 mt-4 measure">One easing curve for almost everything: <code>cubic-bezier(.22, 1, .36, 1)</code> — fast out, long settle. Three durations. Anything slower than <code>--dur-slow</code> feels broken.</p>
+
+  <div class="table-wrap mt-6">
+    <table class="table">
+      <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><code>--dur-fast</code></td><td class="mono">0.15s</td><td>Hover, active, colour changes</td></tr>
+        <tr><td><code>--dur</code></td><td class="mono">0.26s</td><td>Transforms, popovers, modals</td></tr>
+        <tr><td><code>--dur-slow</code></td><td class="mono">0.42s</td><td>Sheets and drawers travelling a long distance</td></tr>
+        <tr><td><code>--ease</code></td><td class="mono">cubic-bezier(.22,1,.36,1)</td><td>Default for everything</td></tr>
+        <tr><td><code>--ease-in</code></td><td class="mono">cubic-bezier(.4,0,1,1)</td><td>Things leaving the screen</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--warn mt-6">
+    <strong class="note__title">Reduced motion is not optional</strong>
+    <code>base.css</code> reduces every animation and transition to 0.01&nbsp;ms under <code>prefers-reduced-motion: reduce</code>. If you add an animation outside the token system, it will not be covered — check it.
+  </div>
+
+  <h2 id="focus">Focus</h2>
+  <p class="t2 mt-4 measure">One ring for the entire system: a 2&nbsp;px accent outline with 2&nbsp;px offset, on <code>:focus-visible</code> only. A mouse click never shows it; a keyboard tab always does. Never set <code>outline: none</code> without replacing it.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Tab through these</div>
+    <div class="spec__demo">
+      <div class="cluster">
+        <button class="btn btn--filled" type="button">Filled</button>
+        <button class="btn btn--quiet" type="button">Quiet</button>
+        <a href="#focus">A link</a>
+        <input class="input" style="inline-size:180px" type="text" aria-label="Demo field" placeholder="A field">
+      </div>
+    </div>
+  </div>
+
+  <h2 id="themes">Themes</h2>
+  <p class="t2 mt-4 measure">Three states: Auto follows the OS, and an explicit choice stamps <code>data-theme</code> on <code>&lt;html&gt;</code>. Every colour is declared once with <code>light-dark()</code>, so there is no second palette to keep in sync.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Declaring a colour token</div>
+    <div class="spec__code">
+<pre>:root {
+  color-scheme: light dark;              /* required — light-dark() needs it */
+  --bg:   light-dark(#fbfbfd, #000000);
+  --text: light-dark(#1d1d1f, #f5f5f7);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }</pre>
+    </div>
+    <p class="spec__note">Because the toggle only changes <code>color-scheme</code>, every <code>light-dark()</code> value flips at once. Adding a colour means adding one line, not two.</p>
+  </div>
+
+</div>
+
+<aside class="rail">
+  <p class="rail__h">Foundations</p>
+  <ul class="rail__list">
+    <li><a href="#surfaces">Surfaces</a></li>
+    <li><a href="#ink">Ink</a></li>
+    <li><a href="#accent">Accent</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#lines">Lines</a></li>
+    <li><a href="#type">Typography</a></li>
+    <li><a href="#space">Space</a></li>
+    <li><a href="#radius">Radius</a></li>
+    <li><a href="#shadow">Shadow</a></li>
+    <li><a href="#motion">Motion</a></li>
+    <li><a href="#focus">Focus</a></li>
+    <li><a href="#themes">Themes</a></li>
+  </ul>
+</aside>
+</div>
+</div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="container container--wide">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-name">tanghoong design system</p>
+        <p class="foot-role">The shared visual language for tanghoong.com and its sub-domains.</p>
+      </div>
+      <div>
+        <p class="foot-h">Reference</p>
+        <ul class="foot-list">
+          <li><a href="/pages/foundations.html">Foundations</a></li>
+          <li><a href="/pages/layout.html">Layout</a></li>
+          <li><a href="/pages/components.html">Components</a></li>
+          <li><a href="/pages/forms.html">Forms</a></li>
+          <li><a href="/pages/overlays.html">Overlays</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">Elsewhere</p>
+        <ul class="foot-list">
+          <li><a href="https://cv.tanghoong.com/">cv.tanghoong.com</a></li>
+          <li><a href="https://blog.tanghoong.com/">blog.tanghoong.com</a></li>
+          <li><a href="https://links.tanghoong.com/">links.tanghoong.com</a></li>
+          <li><a href="https://github.com/tanghoong">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-legal">Charlie Tang Hoong. Design system reference.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/nav.js" defer></script>
+<script src="/assets/js/docs.js" defer></script>
+</body>
+</html>

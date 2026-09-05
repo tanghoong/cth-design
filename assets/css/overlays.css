@@ -1,0 +1,223 @@
+/* ==========================================================================
+   overlays.css — modal, drawer, popover, tooltip, toast, nav sheet
+   Everything here is built on native <dialog> or <details>. No JS is needed
+   to open or close them, and focus trapping comes free with showModal().
+   ========================================================================== */
+
+/* --- Modal ---------------------------------------------------------------
+   Native <dialog>. Open it with .showModal(), never with a class — that is
+   what gives you the top layer, the focus trap and Esc-to-close. */
+.modal {
+  inline-size: min(92vw, 520px);
+  max-block-size: min(86vh, 720px);
+  padding: 0;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xl);
+  background: var(--bg-elevated);
+  color: var(--text);
+  box-shadow: var(--sh-lg);
+  overflow: hidden;
+}
+.modal::backdrop { background: #0000008c; }
+@supports (backdrop-filter: blur(1px)) {
+  .modal::backdrop { backdrop-filter: blur(3px); }
+}
+.modal[open] { animation: modal-in var(--dur) var(--ease) both; }
+.modal[open]::backdrop { animation: fade-in var(--dur) var(--ease) both; }
+
+.modal__head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-6) var(--s-6) var(--s-4);
+}
+.modal__title { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -0.014em; }
+.modal__desc  { margin-block-start: var(--s-2); font-size: var(--fs-sm); color: var(--text-2); }
+.modal__body  { padding: 0 var(--s-6) var(--s-6); overflow-y: auto; }
+.modal__foot {
+  display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--s-3);
+  padding: var(--s-4) var(--s-6);
+  border-block-start: 1px solid var(--hairline-soft);
+  background: var(--bg-sunken);
+}
+.modal--wide { inline-size: min(92vw, 760px); }
+
+/* --- Drawer / sheet ------------------------------------------------------
+   A dialog pinned to one edge. Bottom on phones, side on desktop. */
+.drawer {
+  inline-size: min(92vw, 420px);
+  max-inline-size: none;
+  block-size: 100%; max-block-size: 100%;
+  margin: 0 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-inline-start: 1px solid var(--hairline);
+  border-radius: 0;
+  background: var(--bg-elevated);
+  color: var(--text);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.drawer::backdrop { background: #0000008c; }
+.drawer[open] { animation: sheet-in var(--dur-slow) var(--ease) both; }
+.drawer__body { padding: var(--s-6); }
+
+/* --- Nav sheet -----------------------------------------------------------
+   The mobile menu. Built on <details> so it works with JS off. */
+.navsheet {
+  position: fixed;
+  inset-block-start: calc(env(safe-area-inset-top) + (var(--nav-h) - 44px) / 2);
+  inset-inline-end: max(calc(var(--gutter) - 10px), 8px);
+  z-index: var(--z-sheet);
+}
+.navsheet summary { list-style: none; }
+.navsheet summary::-webkit-details-marker { display: none; }
+.navsheet__btn {
+  display: grid; place-items: center;
+  inline-size: 44px; block-size: 44px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-chip);
+  background: var(--bg-elevated);
+  color: var(--text);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease), scale var(--dur-fast) var(--ease);
+}
+.navsheet__btn:hover  { background: var(--bg-sunken); }
+.navsheet__btn:active { scale: 0.97; }
+.navsheet__btn .i-close { display: none; }
+.navsheet[open] .navsheet__btn .i-menu  { display: none; }
+.navsheet[open] .navsheet__btn .i-close { display: block; }
+
+.navsheet__scrim {
+  position: fixed; inset: 0; z-index: -1;
+  background: #0006;
+  animation: fade-in var(--dur) var(--ease) both;
+}
+@supports (backdrop-filter: blur(1px)) { .navsheet__scrim { backdrop-filter: blur(2px); } }
+
+.navsheet__panel {
+  position: fixed; inset-block: 0; inset-inline-end: 0; z-index: -1;
+  inline-size: min(86vw, 360px);
+  padding: calc(var(--nav-h) + env(safe-area-inset-top) + var(--s-4))
+           var(--s-6)
+           max(var(--s-8), env(safe-area-inset-bottom));
+  border-inline-start: 1px solid var(--hairline);
+  background: var(--bg-elevated);
+  overflow-y: auto; overscroll-behavior: contain;
+  animation: sheet-in var(--dur-slow) var(--ease) both;
+}
+.sheet-row {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 56px;
+  border-block-end: 1px solid var(--hairline-soft);
+  color: var(--text);
+  font-size: 1.0625rem; font-weight: 500;
+}
+.sheet-row:hover { color: var(--accent); text-decoration: none; }
+.sheet-tools {
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-4);
+  margin-block-start: var(--s-8);
+}
+
+/* --- Popover / dropdown menu ---------------------------------------------
+   <details> + <summary>. Anchor it with position:relative on the details. */
+.menu { position: relative; }
+.menu > summary { list-style: none; cursor: pointer; }
+.menu > summary::-webkit-details-marker { display: none; }
+.menu__list {
+  position: absolute;
+  inset-block-start: calc(100% + 6px);
+  inset-inline-start: 0;
+  z-index: 10;
+  min-inline-size: 190px;
+  padding: 6px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+  box-shadow: var(--sh-lg);
+  animation: pop-in var(--dur-fast) var(--ease) both;
+}
+.menu__list--end { inset-inline-start: auto; inset-inline-end: 0; }
+.menu__list a, .menu__list button {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  inline-size: 100%; min-height: 40px;
+  padding: var(--s-2) var(--s-3);
+  border: 0; border-radius: var(--r-sm);
+  background: none; cursor: pointer;
+  color: var(--text-2); font-size: var(--fs-sm); font-weight: 500;
+  white-space: nowrap; text-align: start;
+}
+.menu__list a:hover, .menu__list button:hover {
+  color: var(--text); text-decoration: none;
+  background: color-mix(in oklab, var(--text) 5%, transparent);
+}
+.menu__list a[aria-current] { color: var(--text); font-weight: 600; }
+.menu__sep { block-size: 1px; margin: 6px 0; background: var(--hairline-soft); }
+
+/* --- Tooltip -------------------------------------------------------------
+   Decorative only. Anything essential belongs in visible copy — a tooltip
+   is unreachable on touch and unreliable for screen readers. */
+.tip { position: relative; display: inline-flex; }
+.tip__bubble {
+  position: absolute;
+  inset-block-end: calc(100% + 8px);
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  z-index: 20;
+  padding: 6px var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--text);
+  color: var(--bg);
+  font-size: var(--fs-xs); line-height: 1.4; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.tip:hover .tip__bubble, .tip:focus-within .tip__bubble { opacity: 1; }
+
+/* --- Toast ---------------------------------------------------------------
+   Stack them bottom-up. Announce with role="status" so it is read aloud. */
+.toasts {
+  position: fixed;
+  inset-block-end: max(var(--s-6), env(safe-area-inset-bottom));
+  inset-inline: var(--s-4);
+  z-index: var(--z-toast);
+  display: flex; flex-direction: column-reverse; gap: var(--s-2);
+  align-items: center;
+  pointer-events: none;
+}
+.toast {
+  display: flex; align-items: center; gap: var(--s-3);
+  inline-size: min(100%, 420px);
+  padding: var(--s-3) var(--s-5);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-chip);
+  background: var(--bg-elevated);
+  box-shadow: var(--sh-lg);
+  font-size: var(--fs-sm);
+  pointer-events: auto;
+  animation: toast-in var(--dur) var(--ease) both;
+}
+.toast__icon { flex: none; color: var(--accent); }
+.toast--danger .toast__icon { color: var(--danger); }
+.toast--warn   .toast__icon { color: var(--warn); }
+
+/* --- Accordion -----------------------------------------------------------  */
+.accordion { border-block-start: 1px solid var(--hairline); }
+.accordion__item { border-block-end: 1px solid var(--hairline); }
+.accordion__item > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  min-height: 56px; padding-block: var(--s-3);
+  list-style: none; cursor: pointer;
+  font-weight: 550; letter-spacing: -0.01em;
+}
+.accordion__item > summary::-webkit-details-marker { display: none; }
+.accordion__item > summary:hover { color: var(--accent); }
+.accordion__chev { flex: none; color: var(--text-3); transition: rotate var(--dur) var(--ease); }
+.accordion__item[open] .accordion__chev { rotate: 180deg; }
+.accordion__body { padding-block-end: var(--s-5); color: var(--text-2); font-size: var(--fs-sm); }
+
+/* --- Animations ----------------------------------------------------------  */
+@keyframes fade-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes modal-in { from { opacity: 0; scale: 0.97; } to { opacity: 1; scale: 1; } }
+@keyframes sheet-in { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes pop-in   { from { opacity: 0; translate: 0 -4px; } to { opacity: 1; translate: 0 0; } }
+@keyframes toast-in { from { opacity: 0; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }

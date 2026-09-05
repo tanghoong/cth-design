@@ -1,0 +1,191 @@
+/* ==========================================================================
+   forms.css — fields, labels, validation, controls
+   Every control clears 44px. Every field has a real <label>. No exceptions:
+   a placeholder is not a label, and it disappears the moment you type.
+   ========================================================================== */
+
+/* --- Field wrapper -------------------------------------------------------
+   .field stacks label / control / hint. Use it for every input. */
+.field { display: flex; flex-direction: column; gap: var(--s-2); }
+.field + .field { margin-block-start: var(--s-5); }
+
+.label {
+  font-size: var(--fs-sm); font-weight: 550; color: var(--text);
+  letter-spacing: -0.006em;
+}
+.label__opt { margin-inline-start: var(--s-2); font-weight: 400; color: var(--text-3); font-size: var(--fs-xs); }
+/* The asterisk is decorative — aria-hidden it and mark the input required. */
+.label__req { color: var(--danger); }
+
+.hint  { font-size: var(--fs-xs); color: var(--text-3); line-height: 1.5; }
+.error { font-size: var(--fs-xs); color: var(--danger); line-height: 1.5; }
+
+/* --- Text inputs ---------------------------------------------------------
+   One shared shape for input, textarea and select. The 1px border is drawn
+   with a real border (not inset shadow) so the focus ring sits outside it. */
+.input, .textarea, .select {
+  inline-size: 100%;
+  min-height: 44px;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  transition: border-color var(--dur-fast) var(--ease),
+              background-color var(--dur-fast) var(--ease);
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-3); }
+.input:hover, .textarea:hover, .select:hover { border-color: color-mix(in oklab, var(--text) 24%, transparent); }
+.input:focus, .textarea:focus, .select:focus { outline: none; border-color: var(--accent); }
+/* Draw the ring ourselves so it hugs the field radius, not the default box. */
+.input:focus-visible, .textarea:focus-visible, .select:focus-visible {
+  outline: 2px solid var(--focus); outline-offset: 2px;
+}
+.input[disabled], .textarea[disabled], .select[disabled] {
+  background: var(--bg-sunken); color: var(--text-3); cursor: not-allowed;
+}
+.input[readonly], .textarea[readonly] { background: var(--bg-sunken); }
+
+/* aria-invalid is the hook, not a class — the same attribute a screen
+   reader uses is the one that turns the field red. */
+.input[aria-invalid="true"], .textarea[aria-invalid="true"], .select[aria-invalid="true"] {
+  border-color: var(--danger);
+  background: var(--danger-wash);
+}
+
+.textarea { min-height: 120px; resize: vertical; }
+.textarea--code { font-family: var(--font-mono); font-size: var(--fs-sm); }
+
+/* Native select needs its own chevron; appearance:none removes the platform one. */
+.select {
+  appearance: none;
+  padding-inline-end: var(--s-10);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236e6e73' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--s-4) center;
+  cursor: pointer;
+}
+[data-theme="dark"] .select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+.select[multiple] { background-image: none; padding-inline-end: var(--s-4); min-height: 120px; }
+
+/* Sizes */
+.input--sm, .select--sm { min-height: 36px; padding: var(--s-2) var(--s-3); font-size: var(--fs-sm); }
+.input--lg { min-height: 52px; font-size: var(--fs-lead); }
+
+/* --- Input group ---------------------------------------------------------
+   Prefix/suffix (currency, unit, a search icon) share the field border. */
+.input-group {
+  display: flex; align-items: stretch;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+.input-group:focus-within { border-color: var(--accent); }
+.input-group .input { border: 0; border-radius: 0; background: transparent; }
+.input-group .input:focus-visible { outline: none; }
+.input-group__addon {
+  display: inline-flex; align-items: center;
+  padding-inline: var(--s-4);
+  background: var(--bg-sunken);
+  color: var(--text-3);
+  font-size: var(--fs-sm); white-space: nowrap;
+}
+
+/* --- Checkbox and radio --------------------------------------------------
+   The control keeps its native accent-color (so it inherits platform focus
+   and high-contrast behaviour); the row around it is what we size to 44px. */
+.check {
+  display: flex; align-items: flex-start; gap: var(--s-3);
+  min-height: 44px; padding-block: var(--s-2);
+  cursor: pointer;
+}
+.check input[type="checkbox"], .check input[type="radio"] {
+  inline-size: 20px; block-size: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+  flex: none; cursor: pointer;
+}
+.check__body { display: flex; flex-direction: column; gap: 2px; }
+.check__label { font-size: var(--fs-sm); line-height: 1.5; }
+.check__hint  { font-size: var(--fs-xs); color: var(--text-3); }
+.check input[disabled] ~ .check__body { color: var(--text-3); }
+
+/* Boxed variant — a selectable card. Good for plan pickers. */
+.check--boxed {
+  padding: var(--s-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--bg-elevated);
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.check--boxed:hover { border-color: color-mix(in oklab, var(--text) 24%, transparent); }
+.check--boxed:has(input:checked) { border-color: var(--accent); background: var(--accent-wash); }
+
+/* --- Switch --------------------------------------------------------------
+   A styled checkbox. Use a switch for a setting that applies immediately,
+   a checkbox for one that applies on submit. */
+.switch { display: inline-flex; align-items: center; gap: var(--s-3); min-height: 44px; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; inline-size: 0; block-size: 0; }
+.switch__track {
+  position: relative;
+  inline-size: 46px; block-size: 28px;
+  border-radius: var(--r-chip);
+  background: color-mix(in oklab, var(--text) 18%, transparent);
+  transition: background var(--dur-fast) var(--ease);
+  flex: none;
+}
+.switch__track::after {
+  content: "";
+  position: absolute; inset-block-start: 3px; inset-inline-start: 3px;
+  inline-size: 22px; block-size: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px #0000002e;
+  transition: translate var(--dur-fast) var(--ease);
+}
+.switch input:checked + .switch__track { background: var(--accent); }
+.switch input:checked + .switch__track::after { translate: 18px 0; }
+.switch input:focus-visible + .switch__track { outline: 2px solid var(--focus); outline-offset: 2px; }
+.switch input[disabled] + .switch__track { opacity: 0.45; }
+
+/* --- Range ---------------------------------------------------------------  */
+.range { inline-size: 100%; block-size: 44px; accent-color: var(--accent); cursor: pointer; }
+
+/* --- File ----------------------------------------------------------------  */
+.file {
+  display: flex; flex-direction: column; align-items: center; gap: var(--s-2);
+  padding: var(--s-8);
+  border: 1px dashed var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--bg-sunken);
+  text-align: center; color: var(--text-3); font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.file:hover { border-color: var(--accent); background: var(--accent-wash); color: var(--text-2); }
+
+/* --- Fieldset ------------------------------------------------------------  */
+.fieldset { border: 0; padding: 0; margin: 0; }
+.fieldset + .fieldset { margin-block-start: var(--s-10); }
+.fieldset__legend {
+  padding: 0; margin-block-end: var(--s-2);
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3);
+}
+.fieldset__intro { margin-block-end: var(--s-5); font-size: var(--fs-sm); color: var(--text-2); }
+
+/* --- Form layout ---------------------------------------------------------  */
+.form-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
+@media (width >= 640px) {
+  .form-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .form-grid .span-2 { grid-column: 1 / -1; }
+}
+.form-actions {
+  display: flex; flex-wrap: wrap; gap: var(--s-3);
+  margin-block-start: var(--s-8);
+  padding-block-start: var(--s-6);
+  border-block-start: 1px solid var(--hairline-soft);
+}

@@ -1,0 +1,188 @@
+/* ==========================================================================
+   layout.css — page scaffolding
+   Container, sections, header, footer, grids, sidebar shells.
+   ========================================================================== */
+
+/* --- Container -----------------------------------------------------------
+   One class, four widths. The gutter is fluid so it never crowds on phones
+   or float unanchored on a wide desktop. */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.container--prose { max-width: var(--container-prose); }
+.container--mid   { max-width: var(--container-mid); }
+.container--wide  { max-width: var(--container-wide); }
+.container--flush { max-width: none; }
+
+/* --- Section -------------------------------------------------------------
+   Vertical rhythm belongs to the section, never to the components inside it. */
+.section { padding-block: var(--section-y); }
+.section--tight { padding-block: clamp(40px, 6vw, 72px); }
+.section--flush { padding-block: 0; }
+
+/* Section surfaces. Alternate page/sunken to band the scroll. */
+.s-page   { background: var(--bg); }
+.s-sunken { background: var(--bg-sunken); }
+
+/* Section header: title left, optional action right, baseline-aligned. */
+.sec-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4) var(--s-6);
+  margin-block-end: var(--s-8);
+}
+.sec-head__intro { max-width: 56ch; margin-block-start: var(--s-3); color: var(--text-2); }
+
+/* --- Header --------------------------------------------------------------
+   Sticky, translucent, and it blurs what scrolls beneath it. The @supports
+   guard keeps the opaque fallback for browsers without backdrop-filter. */
+.site-head {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-head);
+  background: var(--bg-glass);
+  padding-top: env(safe-area-inset-top);
+  border-block-end: 1px solid var(--hairline-soft);
+}
+@supports (backdrop-filter: blur(1px)) {
+  .site-head {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+}
+.head-in { display: flex; align-items: center; gap: var(--s-5); height: var(--nav-h); }
+
+.brand {
+  display: flex; align-items: center; gap: var(--s-3);
+  min-height: 44px; font-weight: 600; letter-spacing: -0.02em;
+  color: var(--text); white-space: nowrap;
+}
+.brand:hover { text-decoration: none; }
+.brand__mark { flex: none; inline-size: 28px; block-size: 28px; }
+
+/* Primary nav. Hidden below 900px — the sheet takes over. */
+.head-nav { display: none; align-items: center; gap: var(--s-1); margin-inline-start: var(--s-6); }
+.head-nav a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm); font-weight: 500;
+  color: var(--text-2);
+}
+.head-nav a:hover {
+  color: var(--text); text-decoration: none;
+  background: color-mix(in oklab, var(--text) 5%, transparent);
+}
+.head-nav a[aria-current] { color: var(--text); font-weight: 600; }
+
+.head-end   { display: flex; align-items: center; gap: var(--s-3); margin-inline-start: auto; }
+.head-tools { display: none; align-items: center; gap: var(--s-2); }
+.head-cta   { display: none; }
+
+@media (width >= 900px) {
+  .head-nav, .head-tools { display: flex; }
+  .head-cta { display: inline-flex; }
+  .navsheet { display: none; }
+}
+
+/* --- Footer --------------------------------------------------------------  */
+.site-foot { border-block-start: 1px solid var(--hairline); background: var(--bg); }
+.foot-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-10);
+  padding-block: var(--s-16);
+}
+@media (width >= 640px) {
+  .foot-grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-8); }
+}
+.foot-name { font-weight: 600; letter-spacing: -0.014em; }
+.foot-role { margin-block-start: var(--s-2); color: var(--text-2); font-size: var(--fs-sm); }
+.foot-h {
+  margin-block-end: var(--s-4);
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-3);
+}
+.foot-list { display: flex; flex-direction: column; list-style: none; padding: 0; }
+.foot-list li { margin: 0; }
+.foot-list a {
+  display: inline-flex; align-items: center; min-height: 40px;
+  color: var(--text-2); font-size: var(--fs-sm);
+}
+.foot-list a:hover { color: var(--text); }
+.foot-legal {
+  padding-block: var(--s-6);
+  border-block-start: 1px solid var(--hairline-soft);
+  color: var(--text-3); font-size: var(--fs-xs);
+}
+
+/* --- Grids ---------------------------------------------------------------
+   Mobile-first single column; the breakpoint adds tracks. minmax(0,1fr)
+   rather than 1fr — it stops long words from blowing the track out. */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
+.grid--gap-lg { gap: var(--s-8); }
+@media (width >= 720px) {
+  .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (width >= 960px) {
+  .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* --- Content + aside -----------------------------------------------------
+   The rail sticks below the header once the article scrolls past it. */
+.with-aside { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-10); }
+@media (width >= 960px) {
+  .with-aside { grid-template-columns: minmax(0, 1fr) 260px; gap: var(--s-16); }
+  .with-aside--start { grid-template-columns: 240px minmax(0, 1fr); }
+}
+.rail { align-self: start; }
+@media (width >= 960px) {
+  .rail { position: sticky; inset-block-start: calc(var(--nav-h) + var(--s-6)); }
+}
+.rail__h {
+  margin-block-end: var(--s-3);
+  font-size: var(--fs-xs); font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3);
+}
+.rail__list { display: flex; flex-direction: column; gap: 2px; list-style: none; padding: 0; }
+.rail__list li { margin: 0; }
+.rail__list a {
+  display: block; padding: var(--s-2) var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm); color: var(--text-2);
+}
+.rail__list a:hover {
+  color: var(--text); text-decoration: none;
+  background: color-mix(in oklab, var(--text) 5%, transparent);
+}
+.rail__list a[aria-current] { color: var(--text); font-weight: 600; background: var(--accent-wash); }
+
+/* --- Cluster / stack -----------------------------------------------------  */
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
+.stack > * + * { margin-block-start: var(--s-4); }
+.stack--lg > * + * { margin-block-start: var(--s-8); }
+
+/* The "More" overflow menu inside the primary nav. Matches .head-nav a so the
+   trigger is indistinguishable from a real nav link until it opens. */
+.head-nav .menu > summary {
+  display: inline-flex; align-items: center; gap: 4px;
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm); font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+}
+.head-nav .menu > summary:hover {
+  color: var(--text);
+  background: color-mix(in oklab, var(--text) 5%, transparent);
+}

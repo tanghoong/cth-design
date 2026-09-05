@@ -1,0 +1,64 @@
+/* ==========================================================================
+   utilities.css — small single-purpose classes
+   Deliberately short. If you reach for six of these on one element, the
+   thing you are building wants to be a component instead.
+   ========================================================================== */
+
+/* --- Ink and size --------------------------------------------------------  */
+.t2 { color: var(--text-2); }
+.t3 { color: var(--text-3); }
+.t-accent { color: var(--accent); }
+.t-danger { color: var(--danger); }
+.sm { font-size: var(--fs-sm); }
+.xs { font-size: var(--fs-xs); }
+.lead { font-size: var(--fs-lead); }
+.mono { font-family: var(--font-mono); }
+.nums { font-variant-numeric: tabular-nums; }
+.w-semi { font-weight: 600; }
+.w-med  { font-weight: 500; }
+
+/* --- Alignment -----------------------------------------------------------  */
+.center { text-align: center; }
+.end    { text-align: end; }
+.mx-auto { margin-inline: auto; }
+
+/* --- Measure -------------------------------------------------------------  */
+.measure       { max-width: 68ch; }
+.measure-tight { max-width: 56ch; }
+.measure-wide  { max-width: 80ch; }
+
+/* --- Spacing escape hatches ----------------------------------------------
+   Only top margin, only from the scale. Bottom margins fight the owl. */
+.mt-2 { margin-block-start: var(--s-2); }
+.mt-3 { margin-block-start: var(--s-3); }
+.mt-4 { margin-block-start: var(--s-4); }
+.mt-6 { margin-block-start: var(--s-6); }
+.mt-8 { margin-block-start: var(--s-8); }
+.mt-12 { margin-block-start: var(--s-12); }
+.mt-16 { margin-block-start: var(--s-16); }
+
+/* --- Accessibility -------------------------------------------------------
+   .vh hides visually but keeps the text for screen readers. Use it for
+   labels the layout implies but the DOM still owes an assistive tech. */
+.vh {
+  position: absolute;
+  inline-size: 1px; block-size: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap; overflow: hidden;
+}
+
+/* --- Display -------------------------------------------------------------  */
+.hidden { display: none !important; }
+.flex-1 { flex: 1; }
+.no-wrap { white-space: nowrap; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Two-line clamp for card descriptions in a fixed-height grid. */
+.clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* --- Scroll --------------------------------------------------------------
+   Anchors under a sticky header need the offset or the heading lands
+   behind the bar. */
+[id] { scroll-margin-block-start: calc(var(--nav-h) + var(--s-6)); }
+.scroll-x { overflow-x: auto; overscroll-behavior-x: contain; }
