@@ -99,12 +99,18 @@ instead of vendoring a copy that quietly drifts out of date.
 
 ```bash
 node scripts/conform.mjs index.html 404.html template/index.html pages --fail
-node scripts/contrast.mjs
+node scripts/contrast.mjs --fail
+node scripts/drift.mjs          # if you touched a token
 ```
 
-`contrast.mjs` currently reports 4 failures. Those are the known chart-ramp
-spacing finding in `CHANGELOG.md`, not a regression — run it without `--fail`
-until that decision is made.
+All three take `--fail`. `contrast.mjs` passes clean — the chart-ramp spacing
+finding that used to make it report failures was closed in 1.3.0 and the ramp
+regenerated in OKLab, so a failure now is a real one. Do not drop `--fail` to
+get a green run.
+
+`drift.mjs` reports findings in other repos, not this one, so it will not block
+a deploy of this site — but run it before and after a token change, because
+nothing else can see the repos holding a copy.
 
 ## Every deploy after the first
 

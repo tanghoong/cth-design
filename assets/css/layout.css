@@ -87,9 +87,10 @@
 
 @media (width >= 900px) {
   .head-nav { display: flex; }
-  /* Hide the trigger, not the sheet: the sheet is a <dialog>, and its own
-     display is controlled by the UA's dialog:not([open]) rule. */
-  .navsheet__trigger { display: none; }
+  /* The other half of this swap — hiding .navsheet__trigger at this same
+     900px — is in overlays.css, deliberately. It cannot work from this file:
+     layout.css loads before components.css, so `display: none` here loses to
+     .iconbtn on source order. If you move this breakpoint, move that one. */
 }
 
 /* --- Footer --------------------------------------------------------------  */

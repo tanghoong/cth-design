@@ -118,8 +118,22 @@
    problem entirely; keeping it out of the header keeps it sidestepped. */
 /* The trigger is an .iconbtn in the header's normal flow, sitting beside the
    theme toggle. It was briefly position:fixed, which meant it floated over
-   whatever was in the top corner instead of lining up with its sibling. */
-.navsheet__trigger { display: grid; }
+   whatever was in the top corner instead of lining up with its sibling.
+
+   🔴 Its display comes from .iconbtn. Do not restate it here — this file only
+   takes it away above the nav breakpoint. And that hide rule must live HERE,
+   not in layout.css beside the rest of the header, because layout.css loads
+   third and components.css fourth: a `display: none` written there is beaten
+   by .iconbtn's `inline-flex` on source order alone. Same 0,1,0 specificity,
+   later file wins, and wrapping it in a media query adds nothing. That is
+   what kept the hamburger on screen beside the full nav at every width until
+   2026-09-06.
+
+   Hide the trigger, not the sheet: the sheet is a <dialog>, and its own
+   display is controlled by the UA's dialog:not([open]) rule. */
+@media (width >= 900px) {
+  .navsheet__trigger { display: none; }
+}
 
 .navsheet { inline-size: min(86vw, 360px); }
 .navsheet__panel {

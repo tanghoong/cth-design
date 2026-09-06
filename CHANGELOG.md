@@ -8,6 +8,37 @@ Versions match the `Version:` line at the top of [`llms.txt`](llms.txt).
 Semver, read as: **major** removes or renames a token or class, **minor** adds
 one, **patch** changes a value without changing the shape.
 
+## [1.3.2] — 2026-09-06
+
+### Fixed
+
+- **The nav sheet trigger never went away on a wide screen.** The hamburger sat
+  next to the full header nav at every width, on every property using the
+  system, including this reference site. Two rules, both `0,1,0`, both losing
+  to source order: `layout.css` hid `.navsheet__trigger` at 900px, then
+  `components.css` set `.iconbtn { display: inline-flex }` and `overlays.css`
+  set `.navsheet__trigger { display: grid }` — and both of those files load
+  after `layout.css`. A media query contributes nothing to specificity, so the
+  hide rule could not win from where it was written.
+
+  The hide rule now lives in `overlays.css`, after `components.css`, and the
+  redundant `display: grid` is gone — the trigger takes its display from
+  `.iconbtn` like every other icon button. `layout.css` keeps a comment at the
+  900px block saying where its other half went and why.
+
+  **What consumers must do:** nothing, if you link the CSS from
+  `design.tanghoong.com` — the fix arrives when this deploys. **If you added a
+  local `@media (width >= 900px) { .navsheet__trigger { display: none } }` to
+  work around this, delete it.** It is now a duplicate of the system rule, and
+  a local copy of a rule is the thing that drifts. Known instances:
+  `cj-knob/index.html` and `cj-knob/lab/index.html`.
+
+  If you vendored `assets/css/`, re-copy `layout.css` and `overlays.css`.
+
+- `llms.txt` gains a third entry in the overlay traps list: anything that hides
+  or shows an element `.iconbtn` also styles has to sit after `components.css`.
+  The link order is load-bearing, and nothing said so.
+
 ## [1.3.1] — 2026-09-06
 
 ### Added
