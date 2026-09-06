@@ -293,50 +293,43 @@
         <rect x="200" y="0" width="100" height="26" fill="var(--c-3)"/><rect x="300" y="0" width="100" height="26" fill="var(--c-4)"/>
         <rect x="400" y="0" width="100" height="26" fill="var(--c-5)"/><rect x="500" y="0" width="100" height="26" fill="var(--c-6)"/>
       </svg>
-      <p class="xs t3 mono mt-5">10 — as generated for the frameworks card</p>
+      <p class="xs t3 mono mt-5">10 — <code>node scripts/ramp.mjs 10</code></p>
       <svg viewBox="0 0 600 26" width="100%" height="26" role="img" aria-label="The ramp sampled at ten steps." class="ramp">
-        <rect x="0" y="0" width="60" height="26" fill="#03724d"/><rect x="60" y="0" width="60" height="26" fill="#06895e"/>
-        <rect x="120" y="0" width="60" height="26" fill="#09a06e"/><rect x="180" y="0" width="60" height="26" fill="#0eb57d"/>
-        <rect x="240" y="0" width="60" height="26" fill="#13ca8d"/><rect x="300" y="0" width="60" height="26" fill="#19de9c"/>
-        <rect x="360" y="0" width="60" height="26" fill="#2de4a7"/><rect x="420" y="0" width="60" height="26" fill="#47e3af"/>
-        <rect x="480" y="0" width="60" height="26" fill="#60e4b8"/><rect x="540" y="0" width="60" height="26" fill="#79e5c1"/>
+        <rect x="0" y="0" width="60" height="26" fill="#03744e"/><rect x="60" y="0" width="60" height="26" fill="#19805a"/>
+        <rect x="120" y="0" width="60" height="26" fill="#288c67"/><rect x="180" y="0" width="60" height="26" fill="#369973"/>
+        <rect x="240" y="0" width="60" height="26" fill="#42a580"/><rect x="300" y="0" width="60" height="26" fill="#4eb28d"/>
+        <rect x="360" y="0" width="60" height="26" fill="#5abf9a"/><rect x="420" y="0" width="60" height="26" fill="#66cca8"/>
+        <rect x="480" y="0" width="60" height="26" fill="#72d9b5"/><rect x="540" y="0" width="60" height="26" fill="#7ee6c3"/>
       </svg>
-      <p class="xs t3 mono mt-5">16 — as generated for the languages card</p>
+      <p class="xs t3 mono mt-5">16 — <code>node scripts/ramp.mjs 16</code></p>
       <svg viewBox="0 0 600 26" width="100%" height="26" role="img" aria-label="The ramp sampled at sixteen steps." class="ramp">
-        <rect x="0" y="0" width="37.5" height="26" fill="#03724d"/><rect x="37.5" y="0" width="37.5" height="26" fill="#058157"/>
-        <rect x="75" y="0" width="37.5" height="26" fill="#068f61"/><rect x="112.5" y="0" width="37.5" height="26" fill="#099c6b"/>
-        <rect x="150" y="0" width="37.5" height="26" fill="#0baa75"/><rect x="187.5" y="0" width="37.5" height="26" fill="#0eb77e"/>
-        <rect x="225" y="0" width="37.5" height="26" fill="#11c388"/><rect x="262.5" y="0" width="37.5" height="26" fill="#15d092"/>
-        <rect x="300" y="0" width="37.5" height="26" fill="#18dc9b"/><rect x="337.5" y="0" width="37.5" height="26" fill="#20e4a3"/>
-        <rect x="375" y="0" width="37.5" height="26" fill="#31e3a8"/><rect x="412.5" y="0" width="37.5" height="26" fill="#41e3ad"/>
-        <rect x="450" y="0" width="37.5" height="26" fill="#51e3b2"/><rect x="487.5" y="0" width="37.5" height="26" fill="#60e4b8"/>
-        <rect x="525" y="0" width="37.5" height="26" fill="#6fe5bd"/><rect x="562.5" y="0" width="37.5" height="26" fill="#7ee6c3"/>
+        <rect x="0" y="0" width="37.5" height="26" fill="#03744e"/><rect x="37.5" y="0" width="37.5" height="26" fill="#127b55"/>
+        <rect x="75" y="0" width="37.5" height="26" fill="#1d825d"/><rect x="112.5" y="0" width="37.5" height="26" fill="#268a64"/>
+        <rect x="150" y="0" width="37.5" height="26" fill="#2e916c"/><rect x="187.5" y="0" width="37.5" height="26" fill="#369973"/>
+        <rect x="225" y="0" width="37.5" height="26" fill="#3da07b"/><rect x="262.5" y="0" width="37.5" height="26" fill="#45a883"/>
+        <rect x="300" y="0" width="37.5" height="26" fill="#4caf8a"/><rect x="337.5" y="0" width="37.5" height="26" fill="#53b792"/>
+        <rect x="375" y="0" width="37.5" height="26" fill="#5abf9a"/><rect x="412.5" y="0" width="37.5" height="26" fill="#61c6a2"/>
+        <rect x="450" y="0" width="37.5" height="26" fill="#69ceaa"/><rect x="487.5" y="0" width="37.5" height="26" fill="#72d9b5"/>
+        <rect x="525" y="0" width="37.5" height="26" fill="#77debb"/><rect x="562.5" y="0" width="37.5" height="26" fill="#7ee6c3"/>
       </svg>
     </div>
     <div class="spec__code">
-<pre>// Endpoints, and the sampler the cards use.
-const RAMP = {
-  light: ['#03724d', '#7ee6c3'],   // dark green  → pale mint
-  dark:  ['#4dff9a', '#107f40'],   // vivid mint  → deep green
-};
+<pre># The generator lives in the repo and reads the endpoints from tokens.css,
+# so it cannot drift from the system.
 
-// n samples, evenly spaced, interpolated in sRGB.
-const mix = (a, b, t) =>
-  '#' + [0, 2, 4].map(i => {
-    const v = Math.round(
-      parseInt(a.slice(i + 1, i + 3), 16) * (1 - t) +
-      parseInt(b.slice(i + 1, i + 3), 16) * t
-    );
-    return v.toString(16).padStart(2, '0');
-  }).join('');
+node scripts/ramp.mjs        # the 6 steps in tokens.css
+node scripts/ramp.mjs 10     # any sample count
+node scripts/ramp.mjs 16 --json   # for a card generator to consume
 
-const ramp = (n, theme) => {
-  const [from, to] = RAMP[theme];
-  return Array.from({ length: n }, (_, i) =>
-    mix(from, to, n === 1 ? 0 : i / (n - 1)));
-};</pre>
+# Endpoints, from tokens.css:
+#   --c-from  light-dark(#03744e, #4dff9b)   the accent itself
+#   --c-to    light-dark(#7ee6c3, #107f40)
+
+# 🔴 The interpolation happens in OKLab, not sRGB. See scripts/ramp.mjs —
+# the conversion is about 30 lines and it is the whole reason the steps
+# come out evenly spaced.</pre>
     </div>
-    <p class="spec__note">The direction inverts by theme: light runs dark&nbsp;→&nbsp;pale, dark runs bright&nbsp;→&nbsp;deep. In both, index&nbsp;0 is the largest series and carries the most weight against its own background.</p>
+    <p class="spec__note">The direction inverts by theme: light runs dark&nbsp;→&nbsp;pale, dark runs bright&nbsp;→&nbsp;deep. In both, index&nbsp;0 is the largest series and carries the most weight against its own background. <code>--c-1</code> is the accent itself, so a one-series chart and a primary button are the same green.</p>
   </div>
 
   <div class="note note--warn mt-6">
@@ -406,8 +399,8 @@ const ramp = (n, theme) => {
      Clipping the segments to the radius is unnecessary and costs a
      clipPath — the track's own corners show through at both ends. --&gt;
 &lt;rect x="0" y="0" width="600" height="10" rx="5" fill="#f5f5f7"/&gt;
-&lt;path d="M0 0h252v10H0z"     fill="#03724d"/&gt;
-&lt;path d="M252 0h144v10H252z" fill="#089a6a"/&gt;</pre>
+&lt;path d="M0 0h252v10H0z"     fill="#03744e"/&gt;
+&lt;path d="M252 0h144v10H252z" fill="#268a64"/&gt;</pre>
     </div>
     <p class="spec__note">Track height 8–10&nbsp;px, <code>rx</code> exactly half the height. The whole graphic is one <code>role="img"</code> with the figures spelled out — a screen reader should never have to infer a number from a bar width.</p>
   </div>
@@ -420,27 +413,27 @@ const ramp = (n, theme) => {
     <div class="spec__demo spec__demo--sunken">
       <svg viewBox="0 0 832 120" width="100%" role="img" aria-label="Frameworks by repositories using each: Astro 24, Cloudflare Workers 22, React 21, Node 14, Vite 11, others 8." class="card-demo">
         <g class="blocks">
-          <rect x="0"   y="0" width="192" height="120" rx="10" fill="#03724d"/>
+          <rect x="0"   y="0" width="192" height="120" rx="10" fill="#03744e"/>
           <text x="9" y="22" font-size="11" font-weight="600" fill="#ffffff" letter-spacing="-0.07">Astro</text>
           <text x="9" y="37" font-size="9" font-weight="400" fill="#ffffff" opacity="0.72">24 repos</text>
 
-          <rect x="196" y="0" width="176" height="120" rx="10" fill="#06895e"/>
+          <rect x="196" y="0" width="176" height="120" rx="10" fill="#19805a"/>
           <text x="205" y="22" font-size="11" font-weight="600" fill="#ffffff" letter-spacing="-0.07">Workers</text>
           <text x="205" y="37" font-size="9" font-weight="400" fill="#ffffff" opacity="0.72">22 repos</text>
 
-          <rect x="376" y="0" width="168" height="120" rx="10" fill="#09a06e"/>
+          <rect x="376" y="0" width="168" height="120" rx="10" fill="#288c67"/>
           <text x="385" y="22" font-size="11" font-weight="600" fill="#ffffff" letter-spacing="-0.07">React</text>
           <text x="385" y="37" font-size="9" font-weight="400" fill="#ffffff" opacity="0.72">21 repos</text>
 
-          <rect x="548" y="0" width="112" height="120" rx="10" fill="#0eb57d"/>
+          <rect x="548" y="0" width="112" height="120" rx="10" fill="#369973"/>
           <text x="557" y="22" font-size="11" font-weight="600" fill="#0a2c1e" letter-spacing="-0.07">Node</text>
           <text x="557" y="37" font-size="9" font-weight="400" fill="#0a2c1e" opacity="0.72">14 repos</text>
 
-          <rect x="664" y="0" width="88" height="120" rx="10" fill="#19de9c"/>
+          <rect x="664" y="0" width="88" height="120" rx="10" fill="#4eb28d"/>
           <text x="673" y="22" font-size="11" font-weight="600" fill="#0a2c1e" letter-spacing="-0.07">Vite</text>
           <text x="673" y="37" font-size="9" font-weight="400" fill="#0a2c1e" opacity="0.72">11 repos</text>
 
-          <rect x="756" y="0" width="76" height="120" rx="10" fill="#47e3af"/>
+          <rect x="756" y="0" width="76" height="120" rx="10" fill="#66cca8"/>
           <text x="765" y="22" font-size="11" font-weight="600" fill="#0a2c1e" letter-spacing="-0.07">Other</text>
           <text x="765" y="37" font-size="9" font-weight="400" fill="#0a2c1e" opacity="0.72">8 repos</text>
         </g>
@@ -656,12 +649,13 @@ days.forEach((count, i) =&gt; {
     <p class="spec__note">The <code>alt</code> has to carry the actual figures. A reader who cannot see the card gets nothing from "GitHub stats card", and the figures are most of the value.</p>
   </div>
 
-  <div class="note note--warn mt-6">
-    <strong class="note__title">One inconsistency worth deciding on</strong>
-    The generated cards use <code>#03724d</code>&nbsp;/&nbsp;<code>#4dff9a</code> as the accent;
-    <code>tokens.css</code> and cv.tanghoong.com use <code>#03744e</code>&nbsp;/&nbsp;<code>#4dff9b</code>.
-    One digit apart in each, invisible side by side but real. The ramp is recorded as-generated
-    so this page stays faithful to what ships today.
+  <div class="note note--ok mt-6">
+    <strong class="note__title">The ramp is generated, not chosen</strong>
+    <code>node scripts/ramp.mjs &lt;n&gt;</code> reads <code>--c-from</code> and
+    <code>--c-to</code> from <code>tokens.css</code> and interpolates in OKLab. Do not
+    interpolate in sRGB: it looks like the obvious choice and it produces perceptually
+    uneven steps that bunch at one end. The first version of this ramp did exactly that,
+    and three of its six steps were indistinguishable.
   </div>
 
   <h2 id="checklist">SVG checklist</h2>

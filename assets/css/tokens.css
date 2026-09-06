@@ -60,25 +60,28 @@
   --info-wash:   color-mix(in oklab, var(--info) 12%, transparent);
 
   /* --- Data / chart ramp -------------------------------------------------
-     The ramp is a FUNCTION, not a fixed palette: interpolate from --c-from to
-     --c-to and sample it at however many series you have. The generated cards
-     on github.com/tanghoong do exactly this — the overview card samples 6, the
-     frameworks card 10, the languages card 16.
+     The ramp is a FUNCTION, not a fixed palette: interpolate --c-from to
+     --c-to and sample it at however many series you have. Regenerate with
+     `node scripts/ramp.mjs <n>`, which reads these two endpoints.
 
-     --c-1..--c-6 below are the six-sample case, provided because it covers
-     most charts and because a CSS-only chart cannot interpolate. Order
-     matters: --c-1 is the largest series.
+     🔴 Interpolate in OKLab, NOT sRGB. sRGB is the obvious choice and it is
+     wrong — the steps come out perceptually uneven and bunch at one end. The
+     first version of this ramp was sRGB-interpolated and its last three steps
+     sat ΔE 0.027 apart where the first three were 0.11: three series nobody
+     could tell apart, in a chart whose only job is telling series apart.
+     scripts/contrast.mjs caught it; no one had noticed by eye.
 
-     Light runs dark→pale; dark runs bright→deep. Both keep every adjacent
-     pair distinguishable, which a naive lighten() ramp does not. */
-  --c-from: light-dark(#03724d, #4dff9a);
+     --c-1..--c-6 are the six-sample case, because it covers most charts and
+     because CSS cannot interpolate. --c-1 is the largest series.
+     Light runs dark→pale; dark runs bright→deep. */
+  --c-from: light-dark(#03744e, #4dff9b);
   --c-to:   light-dark(#7ee6c3, #107f40);
-  --c-1: light-dark(#03724d, #4dff9a);
-  --c-2: light-dark(#089a6a, #2dfa86);
-  --c-3: light-dark(#10c085, #10f473);
-  --c-4: light-dark(#1ae3a0, #0fd163);
-  --c-5: light-dark(#47e3af, #10ac54);
-  --c-6: light-dark(#73e5bf, #118844);
+  --c-1: light-dark(#03744e, #4dff9b);
+  --c-2: light-dark(#268a64, #41e488);
+  --c-3: light-dark(#3da07b, #35ca75);
+  --c-4: light-dark(#53b792, #29b063);
+  --c-5: light-dark(#69ceaa, #1d9751);
+  --c-6: light-dark(#7ee6c3, #107f40);
   /* Fill under a radar or area line. Slightly stronger than --accent-wash
      because it sits over gridlines rather than over a flat surface. */
   --chart-fill: 0.16;

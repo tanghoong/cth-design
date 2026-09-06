@@ -18,6 +18,7 @@ repos consume; the pages are live specimens of them.
 | Use the mark correctly | [`pages/brand.html`](pages/brand.html) |
 | Check a page follows the system | `node scripts/conform.mjs <file>` |
 | See what changed | [`CHANGELOG.md`](CHANGELOG.md) |
+| Regenerate the chart ramp | `node scripts/ramp.mjs <n>` |
 
 ## Layout of the repo
 
@@ -120,15 +121,14 @@ first pass, not a substitute for opening the page in both themes and tabbing thr
   chrome is itself a specimen, and a reference site should show its own markup in source. If
   you change the header, change it in all eleven files and in `template/index.html`.
 
-## Known drift
+## Regenerating the chart ramp
 
-Both recorded rather than silently reconciled, because each is a decision rather than a
-cleanup. See [`CHANGELOG.md`](CHANGELOG.md) for the detail.
+```bash
+node scripts/ramp.mjs         # the six steps in tokens.css
+node scripts/ramp.mjs 12 --json
+```
 
-1. **Accent.** The generated SVG cards on
-   [github.com/tanghoong](https://github.com/tanghoong/tanghoong) use `#03724d` /
-   `#4dff9a`; `tokens.css` and cv.tanghoong.com use `#03744e` / `#4dff9b`.
-2. **Chart ramp spacing.** `scripts/contrast.mjs` reports adjacent steps at the pale end
-   of the light ramp are perceptually close — ΔE 0.027 where evenly spaced would be
-   0.071. Interpolating in OKLab rather than sRGB would fix it, in both the tokens and
-   the card generator.
+It reads `--c-from` and `--c-to` from `tokens.css` and interpolates in OKLab.
+Not sRGB — that is the obvious choice and it produces perceptually uneven steps
+that bunch at one end. See the comment at the top of the script for what that
+cost the first time.

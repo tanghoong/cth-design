@@ -8,6 +8,32 @@ Versions match the `Version:` line at the top of [`llms.txt`](llms.txt).
 Semver, read as: **major** removes or renames a token or class, **minor** adds
 one, **patch** changes a value without changing the shape.
 
+## [1.3.0] — 2026-09-06
+
+### Changed — action required in consuming repos
+
+- **The chart ramp is regenerated.** `--c-1`…`--c-6` were sRGB-interpolated
+  and perceptually uneven: adjacent steps ran 0.122, 0.110, 0.098, **0.027,
+  0.039** ΔE. Three of six series were effectively indistinguishable. They are
+  now OKLab-interpolated and even at ~0.072 throughout.
+- **`--c-from` now equals `--accent`** (`#03744e` / `#4dff9b`). It was
+  `#03724d` / `#4dff9a`, one digit off in each. A one-series chart and a
+  primary button are now the same green, which they always should have been.
+- Anything that hard-codes the old ramp — notably the SVG card generator in
+  `tanghoong/tanghoong` — should regenerate from
+  `node scripts/ramp.mjs <n> --json`.
+
+### Added
+
+- `scripts/ramp.mjs` — generates the ramp at any sample count, reading the
+  endpoints from `tokens.css` so it cannot drift. `--json` for machines.
+
+### Resolved
+
+Both entries previously under "Known, unreconciled" are closed. The accent
+drift is closed by `tokens.css` being the source and the other repo following
+it; the ramp spacing is closed by the regeneration above.
+
 ## [1.2.0] — 2026-09-06
 
 Studied tanghoong.com, which runs this token set and then re-skins it. Adopted
@@ -81,13 +107,4 @@ its generated icon set.
 
 ## Known, unreconciled
 
-- **Accent drift.** The generated SVG cards on github.com/tanghoong use
-  `#03724d` / `#4dff9a`; `tokens.css` uses `#03744e` / `#4dff9b`. One digit
-  apart in each. Recorded rather than fixed, because which direction to align
-  is a decision.
-- **Chart ramp spacing.** `scripts/contrast.mjs` reports that adjacent steps at
-  the pale end of the light ramp (and the bright end of the dark one) are
-  perceptually close: ΔE 0.027 where evenly-spaced would be 0.071. The ramp is
-  recorded as it ships in the cards. Interpolating in OKLab instead of sRGB
-  would give `#03724d #258863 #3d9f7a #53b692 #68ceaa #7ee6c3` with a minimum
-  ΔE of 0.072 — a change to both the tokens and the card generator.
+Nothing outstanding in this repo.
