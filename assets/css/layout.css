@@ -87,7 +87,9 @@
 @media (width >= 900px) {
   .head-nav, .head-tools { display: flex; }
   .head-cta { display: inline-flex; }
-  .navsheet { display: none; }
+  /* Hide the trigger, not the sheet: the sheet is a <dialog>, and its own
+     display is controlled by the UA's dialog:not([open]) rule. */
+  .navsheet__trigger { display: none; }
 }
 
 /* --- Footer --------------------------------------------------------------  */

@@ -1,3 +1,6 @@
 User-agent: *
 Allow: /
 Sitemap: https://design.tanghoong.com/sitemap.xml
+
+# Full design system spec for agents:
+# https://design.tanghoong.com/llms.txt

@@ -8,8 +8,14 @@
    Native <dialog>. Open it with .showModal(), never with a class — that is
    what gives you the top layer, the focus trap and Esc-to-close. */
 .modal {
+  /* base.css resets `* { margin: 0 }`, which kills the UA stylesheet's
+     `dialog { margin: auto }` and pins the dialog to the corner. Restore it
+     here — this one line is what centres the modal. */
+  margin: auto;
   inline-size: min(92vw, 520px);
-  max-block-size: min(86vh, 720px);
+  /* dvh, not vh: on a phone vh ignores the browser chrome, so a tall modal
+     runs its footer underneath the address bar. */
+  max-block-size: min(86dvh, 720px);
   padding: 0;
   border: 1px solid var(--hairline);
   border-radius: var(--r-xl);
@@ -18,6 +24,9 @@
   box-shadow: var(--sh-lg);
   overflow: hidden;
 }
+/* Scoped to [open] on purpose: an unqualified `display:flex` would override
+   the UA's `dialog:not([open]) { display: none }` and leave it on screen. */
+.modal[open] { display: flex; flex-direction: column; }
 .modal::backdrop { background: #0000008c; }
 @supports (backdrop-filter: blur(1px)) {
   .modal::backdrop { backdrop-filter: blur(3px); }
@@ -32,7 +41,11 @@
 }
 .modal__title { font-size: var(--fs-h3); font-weight: 600; letter-spacing: -0.014em; }
 .modal__desc  { margin-block-start: var(--s-2); font-size: var(--fs-sm); color: var(--text-2); }
-.modal__body  { padding: 0 var(--s-6) var(--s-6); overflow-y: auto; }
+/* flex:1 + min-block-size:0 is what lets the body scroll while the head and
+   foot stay pinned. Without the min-block-size a flex child refuses to
+   shrink below its content and the modal grows past the viewport instead. */
+.modal__body  { flex: 1; min-block-size: 0; padding: 0 var(--s-6) var(--s-6); overflow-y: auto; }
+.modal__head, .modal__foot { flex: none; }
 .modal__foot {
   display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--s-3);
   padding: var(--s-4) var(--s-6);
@@ -41,12 +54,33 @@
 }
 .modal--wide { inline-size: min(92vw, 760px); }
 
+/* Below 480px a centred modal wastes the edges. Pin it to the bottom as a
+   sheet — the thumb is already there, and it gets the full width. */
+@media (width < 480px) {
+  .modal {
+    inline-size: 100%;
+    max-block-size: 92dvh;
+    margin: auto 0 0;
+    border-inline: 0;
+    border-block-end: 0;
+    border-start-start-radius: var(--r-xl);
+    border-start-end-radius: var(--r-xl);
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .modal[open] { animation: sheet-up var(--dur) var(--ease) both; }
+  .modal__foot { padding-block-end: max(var(--s-4), env(safe-area-inset-bottom)); }
+}
+
 /* --- Drawer / sheet ------------------------------------------------------
-   A dialog pinned to one edge. Bottom on phones, side on desktop. */
+   A dialog pinned to the inline-end edge, full height. Same element as the
+   modal — only the geometry differs. */
 .drawer {
   inline-size: min(92vw, 420px);
   max-inline-size: none;
-  block-size: 100%; max-block-size: 100%;
+  block-size: 100dvh; max-block-size: 100dvh;
+  /* Pin to the end edge. The explicit margin is required for the same reason
+     as the modal's: base.css has already zeroed the UA `margin: auto`. */
   margin: 0 0 0 auto;
   padding: 0;
   border: 0;
@@ -58,20 +92,35 @@
   overscroll-behavior: contain;
 }
 .drawer::backdrop { background: #0000008c; }
+@supports (backdrop-filter: blur(1px)) { .drawer::backdrop { backdrop-filter: blur(2px); } }
 .drawer[open] { animation: sheet-in var(--dur-slow) var(--ease) both; }
-.drawer__body { padding: var(--s-6); }
+.drawer[open]::backdrop { animation: fade-in var(--dur) var(--ease) both; }
+.drawer__body {
+  padding: var(--s-6);
+  padding-block-end: max(var(--s-6), env(safe-area-inset-bottom));
+}
+/* Anchor the drawer to the start edge instead. */
+.drawer--start {
+  margin: 0 auto 0 0;
+  border-inline: 0;
+  border-inline-end: 1px solid var(--hairline);
+}
+.drawer--start[open] { animation: sheet-in-start var(--dur-slow) var(--ease) both; }
 
 /* --- Nav sheet -----------------------------------------------------------
-   The mobile menu. Built on <details> so it works with JS off. */
-.navsheet {
+   The mobile menu, as a full-height <dialog class="drawer">.
+
+   🔴 It MUST live outside <header class="site-head">, as a sibling. The header
+   sets backdrop-filter, and any filter or backdrop-filter makes an element a
+   containing block for its position:fixed descendants — so a sheet nested
+   inside it gets trapped in the 56px header box in the top corner instead of
+   covering the viewport. Using a <dialog> in the top layer sidesteps the
+   problem entirely; keeping it out of the header keeps it sidestepped. */
+.navsheet__trigger {
   position: fixed;
   inset-block-start: calc(env(safe-area-inset-top) + (var(--nav-h) - 44px) / 2);
   inset-inline-end: max(calc(var(--gutter) - 10px), 8px);
   z-index: var(--z-sheet);
-}
-.navsheet summary { list-style: none; }
-.navsheet summary::-webkit-details-marker { display: none; }
-.navsheet__btn {
   display: grid; place-items: center;
   inline-size: 44px; block-size: 44px;
   border: 1px solid var(--hairline);
@@ -81,30 +130,23 @@
   cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease), scale var(--dur-fast) var(--ease);
 }
-.navsheet__btn:hover  { background: var(--bg-sunken); }
-.navsheet__btn:active { scale: 0.97; }
-.navsheet__btn .i-close { display: none; }
-.navsheet[open] .navsheet__btn .i-menu  { display: none; }
-.navsheet[open] .navsheet__btn .i-close { display: block; }
+.navsheet__trigger:hover  { background: var(--bg-sunken); }
+.navsheet__trigger:active { scale: 0.97; }
 
-.navsheet__scrim {
-  position: fixed; inset: 0; z-index: -1;
-  background: #0006;
-  animation: fade-in var(--dur) var(--ease) both;
-}
-@supports (backdrop-filter: blur(1px)) { .navsheet__scrim { backdrop-filter: blur(2px); } }
-
+.navsheet { inline-size: min(86vw, 360px); }
 .navsheet__panel {
-  position: fixed; inset-block: 0; inset-inline-end: 0; z-index: -1;
-  inline-size: min(86vw, 360px);
-  padding: calc(var(--nav-h) + env(safe-area-inset-top) + var(--s-4))
-           var(--s-6)
-           max(var(--s-8), env(safe-area-inset-bottom));
-  border-inline-start: 1px solid var(--hairline);
-  background: var(--bg-elevated);
-  overflow-y: auto; overscroll-behavior: contain;
-  animation: sheet-in var(--dur-slow) var(--ease) both;
+  display: flex; flex-direction: column;
+  min-block-size: 100%;
+  padding: var(--s-4) var(--s-6) max(var(--s-8), env(safe-area-inset-bottom));
 }
+.navsheet__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s-4);
+  min-block-size: var(--nav-h);
+  margin-block-end: var(--s-4);
+}
+.navsheet__title { font-size: var(--fs-sm); font-weight: 600; color: var(--text-3); }
+
 .sheet-row {
   display: flex; align-items: center; justify-content: space-between;
   min-height: 56px;
@@ -156,7 +198,7 @@
 /* --- Tooltip -------------------------------------------------------------
    Decorative only. Anything essential belongs in visible copy — a tooltip
    is unreachable on touch and unreliable for screen readers. */
-.tip { position: relative; display: inline-flex; }
+.tip { position: relative; display: inline-flex; anchor-name: --tip; }
 .tip__bubble {
   position: absolute;
   inset-block-end: calc(100% + 8px);
@@ -167,20 +209,47 @@
   border-radius: var(--r-sm);
   background: var(--text);
   color: var(--bg);
-  font-size: var(--fs-xs); line-height: 1.4; white-space: nowrap;
+  font-size: var(--fs-xs); line-height: 1.4;
+  /* Wrapping, not nowrap: a long single-line bubble is what pushes past the
+     viewport edge in the first place. Cap it and let it break. */
+  inline-size: max-content;
+  max-inline-size: min(260px, 70vw);
+  text-align: center; text-wrap: pretty;
   opacity: 0; pointer-events: none;
   transition: opacity var(--dur-fast) var(--ease);
 }
 .tip:hover .tip__bubble, .tip:focus-within .tip__bubble { opacity: 1; }
 
+/* Manual edge modifiers — the reliable fallback everywhere. Use --end on a
+   tip near the inline-end edge, --start near the start, --below under a tip
+   in the first row of the viewport. */
+.tip--end   .tip__bubble { inset-inline: auto 0; translate: 0 0; text-align: start; }
+.tip--start .tip__bubble { inset-inline: 0 auto; translate: 0 0; text-align: start; }
+.tip--below .tip__bubble { inset-block: calc(100% + 8px) auto; }
+
+/* Where CSS anchor positioning is supported the browser does the collision
+   detection itself and the modifiers above become unnecessary. */
+@supports (position-try-fallbacks: flip-block) {
+  .tip__bubble {
+    position: fixed;
+    position-anchor: --tip;
+    position-area: block-start center;
+    inset: auto; translate: none;
+    margin-block-end: 8px;
+    position-try-fallbacks: flip-block, block-start span-inline-start, block-start span-inline-end;
+  }
+}
+
 /* --- Toast ---------------------------------------------------------------
    Stack them bottom-up. Announce with role="status" so it is read aloud. */
+/* Top-centre. It clears the sticky header, and it is where the eye already
+   is after clicking something — a bottom toast is routinely missed. */
 .toasts {
   position: fixed;
-  inset-block-end: max(var(--s-6), env(safe-area-inset-bottom));
+  inset-block-start: calc(var(--nav-h) + env(safe-area-inset-top) + var(--s-3));
   inset-inline: var(--s-4);
   z-index: var(--z-toast);
-  display: flex; flex-direction: column-reverse; gap: var(--s-2);
+  display: flex; flex-direction: column; gap: var(--s-2);
   align-items: center;
   pointer-events: none;
 }
@@ -219,5 +288,8 @@
 @keyframes fade-in  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes modal-in { from { opacity: 0; scale: 0.97; } to { opacity: 1; scale: 1; } }
 @keyframes sheet-in { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes sheet-in-start { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes sheet-up  { from { transform: translateY(100%); } to { transform: none; } }
 @keyframes pop-in   { from { opacity: 0; translate: 0 -4px; } to { opacity: 1; translate: 0 0; } }
-@keyframes toast-in { from { opacity: 0; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
+/* Enters downward now that the stack lives at the top of the viewport. */
+@keyframes toast-in { from { opacity: 0; translate: 0 -8px; } to { opacity: 1; translate: 0 0; } }

@@ -151,3 +151,27 @@
 .demo-band   { background: var(--bg-elevated); border: 1px solid var(--hairline-soft); border-radius: var(--r-sm); padding: var(--s-3); text-align: center; margin-inline: auto; }
 .demo-icon   { display: inline; vertical-align: -2px; margin-inline-end: 4px; }
 .demo-320 { max-width: 320px; }
+
+/* --- Documentation section rhythm ----------------------------------------
+   Each h2 on a reference page opens a new topic, and without this they run
+   straight on from the previous section's last specimen with no room to
+   breathe. The hairline makes the boundary legible; the space makes it
+   comfortable. First section in the column gets neither. */
+.with-aside > div > h2 {
+  margin-block-start: var(--s-20);
+  padding-block-start: var(--s-10);
+  border-block-start: 1px solid var(--hairline-soft);
+}
+.with-aside > div > h2:first-child {
+  margin-block-start: 0;
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+/* A .note or .rules block sitting directly before an h2 already carries its
+   own weight — halve the gap so it does not read as a gap twice. */
+.with-aside > div > .note + h2,
+.with-aside > div > .rules + h2 { margin-block-start: var(--s-12); }
+
+/* The paragraph under an h2 should sit close to it — it belongs to that
+   heading, not to the space above. */
+.with-aside > div > h2 + p { margin-block-start: var(--s-4); }

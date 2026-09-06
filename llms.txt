@@ -1,0 +1,210 @@
+# tanghoong design system
+
+> The shared visual language for tanghoong.com and every sub-domain. This file
+> is the complete specification. An agent that reads it does not need to crawl
+> the HTML pages — those exist for humans to look at. Extracted from
+> cv.tanghoong.com. Source of truth: the files in /assets/css/.
+
+## Read this first
+
+- Copy `/assets/css/` into the project. Link in this order: tokens, base,
+  layout, components, forms, overlays, content, utilities. Never ship docs.css.
+- The stylesheets are the artefact. There is no build step, no framework, no
+  webfont, no CSS-in-JS. Plain HTML plus a class.
+- Full detail per topic: /pages/foundations.html, /pages/layout.html,
+  /pages/components.html, /pages/forms.html, /pages/overlays.html,
+  /pages/content.html, /pages/patterns.html, /pages/prompt.html
+
+## Non-negotiables
+
+1. Never write a literal colour, font size, radius, shadow or duration in a
+   component. Every value comes from a custom property in tokens.css. If the
+   value you need does not exist, add it to tokens.css — do not inline it.
+2. Never remove a focus outline without replacing it. Focus is `:focus-visible`,
+   2px `var(--focus)`, 2px offset.
+3. Every interactive control clears a 44px touch target.
+4. Every form field has a real `<label for>`. A placeholder is not a label.
+5. Colour never carries meaning alone. Pair every status colour with a word.
+6. Native element first: `<dialog>` for modals and drawers, `<details>` for
+   menus and accordions, real `<button>` and `<a>`.
+7. Exactly one `.btn--filled` per view.
+
+## Tokens
+
+Declared once with `light-dark(light, dark)`. An explicit theme sets
+`data-theme="light"|"dark"` on `<html>`; no attribute follows the OS. Never
+define a colour only inside a media query.
+
+Surfaces
+  --bg          #fbfbfd / #000000   page ground
+  --bg-sunken   #f5f5f7 / #0a0a0c   section bands, wells, chips
+  --bg-elevated #ffffff / #1c1c1e   cards, menus, modals
+  --bg-glass    72% + blur          sticky header only
+Ink
+  --text        #1d1d1f / #f5f5f7   body and headings
+  --text-2      #515154 / #a1a1a6   supporting copy
+  --text-3      #6e6e73 / #86868b   labels, metadata
+Lines (alpha, so they sit on any surface)
+  --hairline      #0000001a / #ffffff21   separators, input borders
+  --hairline-soft #0000000f / #ffffff14   card and panel outlines
+Accent
+  --accent      #03744e / #4dff9b
+  --accent-ink  #ffffff / #04140b   text on a filled accent
+  --accent-wash accent at 12%       tinted buttons, active rows
+Status (each has a matching -wash)
+  --ok #03744e/#4dff9b · --warn #8a5a00/#f5c451
+  --danger #b3261e/#ff6b62 · --info #0a5ec2/#6bb6ff
+Type
+  --font-sans  system stack, no webfont
+  --font-mono  ui-monospace / SF Mono / Cascadia / JetBrains Mono
+  --fs-h1 clamp(2rem, 1.45rem + 2.6vw, 3.25rem)    w660 lh1.08 ls-0.026em
+  --fs-h2 clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem)  w620 lh1.15 ls-0.021em
+  --fs-h3 clamp(1.25rem, 1.15rem + .5vw, 1.5rem)   w600 lh1.3  ls-0.014em
+  --fs-lead / --fs-stat (fluid) · --fs-body 17px · --fs-sm 15px · --fs-xs 13px
+  Body: lh 1.6, ls -0.006em. Tracking tightens as size grows.
+Space (4px scale)
+  --s-1 4 · --s-2 8 · --s-3 12 · --s-4 16 · --s-5 20 · --s-6 24 · --s-8 32
+  --s-10 40 · --s-12 48 · --s-16 64 · --s-20 80 · --s-24 96 · --s-32 128
+Measure
+  --container 1120 · --container-prose 720 · --container-mid 940
+  --container-wide 1320 · --gutter clamp(20px,5vw,40px)
+  --section-y clamp(72px,9vw,128px) · --nav-h 56px
+Radius
+  --r-sm 10 · --r-md 16 · --r-lg 20 · --r-xl 28 · --r-chip pill (980px)
+  Radius steps with box size. A big radius on a small element reads as a bubble.
+Shadow
+  --sh-sm --sh-md --sh-lg. All resolve to `none` in dark theme: on black a drop
+  shadow reads as grime, so depth comes from --bg-elevated instead.
+Motion
+  --dur-fast .15s (hover, colour) · --dur .26s (transforms, popovers)
+  --dur-slow .42s (sheets) · --ease cubic-bezier(.22,1,.36,1)
+  --ease-in cubic-bezier(.4,0,1,1) for things leaving
+Layers
+  --z-head 40 · --z-sheet 50 · --z-toast 70 · --z-skip 100
+  No --z-modal: a <dialog> opened with showModal() is in the top layer.
+
+## Layout
+
+A page is a stack of `<section class="section s-page|s-sunken">`, alternating
+surfaces to band the scroll. Inside each, one `.container`.
+
+  .container [--prose|--mid|--wide|--flush]
+  .section [--tight|--flush] · .s-page / .s-sunken
+  .sec-head > div > h2 + p.sec-head__intro   (title left, action right)
+  .grid [--2|--3|--4] [--gap-lg]             mobile-first, minmax(0,1fr) tracks
+  .with-aside [--start] + aside.rail         two-column reading layout
+  .cluster (wrapping row, gap --s-3) · .stack [--lg] (owl selector)
+  .site-head > .container.head-in > .brand + nav.head-nav + .head-end
+  .site-foot > .container > .foot-grid + .foot-legal
+
+Rhythm rule: the section owns vertical padding, the grid owns gaps.
+Components carry NO outer margin. Never put margin-bottom on a component.
+
+Breakpoints, range syntax only. They are content breakpoints, not devices:
+  640  footer to 3 col · .facts to 2 col · form grids split
+  720  cards and grids to 2 col · .row puts meta right
+  900  header nav/tools/CTA appear, mobile sheet trigger hides
+  960  grids to 3–4 col · aside rail becomes sticky
+
+## Components
+
+Buttons  .btn + --filled|--tinted|--quiet|--outline|--danger
+         sizes --sm|--lg|--icon|--block · .iconbtn (bordered icon button)
+         .link-more (inline link with a nudging arrow)
+Labels   .chip [--outline|--accent] passive: a topic or tag, no state
+         .badge [--ok|--warn|--danger|--info|--solid] + .badge__dot, carries state
+Surfaces .card (+__title __desc __status __foot __arrow) inside .cards [--2|--3]
+           lifts on hover only when it is an <a>. __foot uses margin-top:auto.
+         .panel [--elevated|--flat] (+__head __title __foot) sunken well, no hover
+         .band centred CTA · .note [--ok|--warn|--danger|--info] + __title
+Data     .stats [--4] > .stat__fig .stat__label .stat__note (tabular-nums)
+         .rows > li > .row (+__title __desc __meta) — use past ~6 items
+         .facts (dl, uppercase dt) · .empty (+__title) · .meter > .meter__fill
+         .table inside .table-wrap — the WRAPPER scrolls, never the page body
+         .table--compact · td.num for right-aligned tabular figures
+Nav      .crumb · .tabs · .divider · .avatar [--sm|--lg]
+
+## Forms
+
+  .field > .label + .input|.textarea|.select + .hint|.error
+  .input-group > .input-group__addon + .input   (border lives on the group)
+  .check > input + .check__body > .check__label + .check__hint
+  .check--boxed  selectable card, uses :has(input:checked)
+  .switch > input + .switch__track + label text
+  .fieldset > .fieldset__legend + .fieldset__intro
+  .form-grid [--2] with .span-2 · .form-actions
+  sizes .input--sm|--lg · .textarea--code · .range · .file
+
+Errors use `aria-invalid="true"` + `aria-describedby`, NOT a class — the
+attribute a screen reader uses is the one that turns the field red.
+Validate on blur and on submit, never on keystroke.
+Mark optional fields, not required ones.
+A switch applies immediately; a checkbox applies on submit.
+
+## Overlays
+
+  .modal   <dialog>, .showModal(). Centred; becomes a bottom sheet under 480px.
+  .drawer [--start]  <dialog>, full height, pinned to an edge.
+  .navsheet  the mobile menu — a .drawer, opened by .navsheet__trigger
+  .menu    <details> + .menu__list [--end] + .menu__sep
+  .accordion > .accordion__item (<details>) + .accordion__chev
+  .toasts (top-centre, aria-live) > .toast [--warn|--danger] + .toast__icon
+  .tip > .tip__bubble [.tip--start|--end|--below for edges]
+
+Two traps, both already handled in the CSS — do not reintroduce them:
+1. base.css resets `* { margin: 0 }`, which kills the UA `dialog { margin:auto }`
+   and pins a dialog to the corner. .modal and .drawer restore margin explicitly.
+2. `backdrop-filter` on .site-head makes it a containing block for
+   position:fixed descendants. The nav sheet MUST be a sibling of <header>,
+   never a child, or it gets trapped in the header box.
+
+## Prose
+
+`.prose` on the wrapper, then unclassed HTML inside — Markdown output drops
+straight in. Spacing is the owl selector `.prose > * + *`. Caps at 68ch.
+  .lede 56ch · .quote / blockquote 60ch + .quote-note
+  .eyebrow (uppercase label above a heading) · .article-head + .article-meta
+  .steps (CSS counter, mono accent numbers) · .codeblock · .code-inline · .kbd
+  .measure 68ch · .measure-tight 56ch · .measure-wide 80ch
+  .measure-headline 20ch · --tight 16ch  (big type needs a much tighter cap)
+Links inside .prose underline always; hover-only is undiscoverable mid-paragraph.
+content.css ends with a print block that drops all chrome.
+
+## Utilities
+
+.t2 .t3 .t-accent .t-danger · .sm .xs .lead · .mono .nums · .w-med .w-semi
+.center .end .mx-auto · .measure* · .vh (visually hidden, still announced)
+.hidden .flex-1 .no-wrap .truncate .clamp-2 .clamp-3 · .scroll-x
+.mt-2 .mt-3 .mt-4 .mt-6 .mt-8 .mt-12 .mt-16  (top margin only — bottom margins
+fight the owl selector)
+Every [id] gets scroll-margin-block-start so anchors clear the sticky header.
+
+## Writing markup
+
+- Build from the vocabulary above before writing any new CSS. A genuinely new
+  component goes in the right layer file with a comment saying what it is for
+  and when NOT to use it.
+- Prefer logical properties: inline-size/block-size, inset-*, margin-inline,
+  border-inline-start. The system ships in English and Chinese.
+- SVG icons 16–20px, `fill="none" stroke="currentColor" stroke-width="1.8–2"`,
+  always `aria-hidden="true"`. An icon-only control needs `aria-label`.
+- One `<h1>` per page. Never skip a heading level. To render text at heading
+  size without being a heading, style a `<p>` — do not add a second `<h1>`.
+
+## Avoid
+
+- A second primary button in the same view.
+- A shadow in dark theme (they are `none`; use --bg-elevated for depth).
+- A tooltip carrying information available nowhere else.
+- A fifth breakpoint — try clamp(), minmax() or auto-fill first.
+- `vh` for full-height overlays; use `dvh` or mobile browser chrome clips them.
+- Any animation that ignores `prefers-reduced-motion: reduce`.
+
+## Ship checklist
+
+No literal hex/px/radius/duration outside tokens.css · both themes checked in
+both toggle directions · tabbed the whole page, focus ring visible everywhere ·
+every field labelled, every error wired with aria-invalid + aria-describedby ·
+every icon-only control has aria-label · one .btn--filled per view · no
+horizontal scroll at 320px · heading levels unbroken · checked with reduced
+motion forced on · print preview clean.
