@@ -192,3 +192,13 @@
   background-position: 0 0, 0 8px, 8px -8px, -8px 0;
 }
 .mark-on { display: grid; place-items: center; padding: var(--s-8); border-radius: var(--r-md); }
+
+/* --- Hero figure ---------------------------------------------------------
+   The stacked-layers graphic on the home page. Entrance only, and base.css's
+   global reduced-motion rule already covers it because the SVG is inline in
+   the document rather than loaded as a file. */
+.sysfig__layer, .sysfig__bit { animation: sysfig-rise var(--dur-slow) var(--ease) both; }
+@keyframes sysfig-rise { from { opacity: 0; transform: translateY(10px); } }
+/* var() resolves reliably in a stylesheet; in an SVG presentation attribute it
+   is patchier across browsers, so the type is styled here instead. */
+.sysfig text { font-family: var(--font-mono); }

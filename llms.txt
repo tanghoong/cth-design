@@ -135,6 +135,10 @@ surfaces to band the scroll. Inside each, one `.container`.
     .head-end holds exactly two icon buttons: theme toggle, then
     .navsheet__trigger. No CTA in the corner — it competes with the hero one.
     900px: .head-nav appears, .navsheet__trigger hides. Theme is always shown.
+    The theme button carries THREE icons — .ic.ic--auto, .ic.ic--light,
+    .ic.ic--dark — and CSS shows one based on the data-theme attribute. Do not
+    swap the icon from script: driving it off the attribute is what stops the
+    icon drifting out of sync with the theme it claims to show.
   .site-foot > .container > .foot-grid + .foot-legal
 
 Rhythm rule: the section owns vertical padding, the grid owns gaps.

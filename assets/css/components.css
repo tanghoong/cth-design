@@ -61,6 +61,20 @@
 .iconbtn:hover  { background: var(--bg-sunken); }
 .iconbtn:active { scale: 0.97; }
 
+/* --- Theme toggle icon ---------------------------------------------------
+   Three icons in the button, one visible at a time. Driven entirely by the
+   data-theme attribute rather than by script: the icon is then a function of
+   the actual theme state and cannot drift out of sync with it.
+
+   No attribute at all means Auto, which is the default and so needs no
+   selector of its own — the other two override it. */
+.ic { display: none; }
+.ic--auto { display: inline-flex; }
+:root[data-theme="light"] .ic--auto,
+:root[data-theme="dark"]  .ic--auto { display: none; }
+:root[data-theme="light"] .ic--light { display: inline-flex; }
+:root[data-theme="dark"]  .ic--dark  { display: inline-flex; }
+
 /* Inline "more" link with a nudging arrow. */
 .link-more {
   display: inline-flex; align-items: center; gap: var(--s-2);

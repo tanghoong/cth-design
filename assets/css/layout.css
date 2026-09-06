@@ -188,3 +188,26 @@
   color: var(--text);
   background: color-mix(in oklab, var(--text) 5%, transparent);
 }
+
+/* --- Hero ----------------------------------------------------------------
+   Text and an optional figure. Single column until there is genuinely room
+   for two — a hero that goes side-by-side too early squeezes the headline
+   into a column narrower than its own measure. */
+.hero { display: grid; gap: var(--s-10); align-items: center; }
+@media (width >= 900px) {
+  .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: var(--s-16); }
+}
+/* The figure is decoration: it goes last in the DOM so a screen reader and a
+   narrow viewport both reach the headline and the actions first. */
+.hero__media { justify-self: center; inline-size: 100%; max-inline-size: 420px; }
+.hero__proof {
+  display: flex; flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+  margin-block-start: var(--s-8);
+  font-size: var(--fs-xs); color: var(--text-3);
+  list-style: none; padding: 0;
+}
+.hero__proof li { margin: 0; }
+.hero__proof li + li::before {
+  content: "·"; margin-inline-end: var(--s-4); opacity: 0.5;
+}
