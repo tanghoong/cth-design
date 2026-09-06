@@ -359,3 +359,128 @@ a.row:hover .row__title { color: var(--accent); }
   text-align: center; color: var(--text-3);
 }
 .empty__title { margin-block-end: var(--s-2); font-weight: 600; color: var(--text); }
+
+/* ==========================================================================
+   Loading and async state
+   Three tools, and choosing between them is the whole decision:
+   skeleton when you know the shape, spinner when you do not, and neither
+   when the wait is under ~300ms — a flash of spinner reads as a glitch.
+   ========================================================================== */
+
+/* --- Skeleton ------------------------------------------------------------
+   A placeholder that occupies the exact space the real content will. It is
+   not decoration: its job is to stop the layout jumping when the content
+   lands. If your skeleton is a different height from the thing it stands in
+   for, it is causing the shift it exists to prevent. */
+.skel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-sm);
+  background: var(--bg-sunken);
+  /* Nothing inside is real, so nothing inside should be readable or
+     focusable. The container carries the live-region announcement. */
+  color: transparent;
+  user-select: none;
+  pointer-events: none;
+}
+/* The sweep is a gradient moving across, not an opacity pulse. A pulse reads
+   as "broken"; a sweep reads as "working". */
+.skel::after {
+  content: "";
+  position: absolute; inset: 0;
+  translate: -100% 0;
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in oklab, var(--text) 6%, transparent),
+    transparent);
+  animation: skel-sweep 1.4s var(--ease-in) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Hold a static tint rather than removing the affordance entirely — the
+     reader still needs to know this is a placeholder. */
+  .skel::after {
+    animation: none;
+    translate: 0 0;
+    background: color-mix(in oklab, var(--text) 4%, transparent);
+  }
+}
+@keyframes skel-sweep { to { translate: 100% 0; } }
+
+/* Text skeletons match the line-height of the type they replace. */
+.skel--text  { block-size: 1em; margin-block: 0.3em; border-radius: 4px; }
+.skel--title { block-size: 1.4em; inline-size: 60%; margin-block: 0.25em; border-radius: 6px; }
+/* The last line of a paragraph is never full width. */
+.skel--text:last-child { inline-size: 72%; }
+.skel--chip   { block-size: 24px; inline-size: 72px; border-radius: var(--r-chip); }
+.skel--avatar { block-size: 40px; inline-size: 40px; border-radius: 50%; }
+.skel--btn    { block-size: 44px; inline-size: 132px; border-radius: var(--r-chip); }
+.skel--media  { aspect-ratio: 16 / 9; inline-size: 100%; border-radius: var(--r-md); }
+
+/* --- Spinner -------------------------------------------------------------
+   For a wait whose shape you cannot predict — a submit, a search, a route
+   change. Never for first paint of a known layout; that is a skeleton. */
+.spinner {
+  display: inline-block;
+  inline-size: 18px; block-size: 18px;
+  border: 2px solid color-mix(in oklab, currentColor 22%, transparent);
+  border-block-start-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex: none;
+}
+.spinner--sm { inline-size: 14px; block-size: 14px; border-width: 1.5px; }
+.spinner--lg { inline-size: 28px; block-size: 28px; border-width: 2.5px; }
+@keyframes spin { to { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  /* Slow, not stopped: a frozen spinner says "hung", which is worse. */
+  .spinner { animation-duration: 2.4s; }
+}
+
+/* A button mid-request keeps its width so the row does not reflow. */
+.btn[aria-busy="true"] { pointer-events: none; opacity: 0.75; }
+.btn[aria-busy="true"] .btn__label { visibility: hidden; }
+.btn[aria-busy="true"] .spinner { position: absolute; }
+.btn { position: relative; }
+
+/* --- Indeterminate bar ---------------------------------------------------
+   Page-level progress: a route change, a long upload with no percentage.
+   When you DO have a percentage, use .meter instead — a real number always
+   beats a moving stripe. */
+.progress {
+  position: relative;
+  block-size: 2px;
+  inline-size: 100%;
+  overflow: hidden;
+  background: var(--bg-sunken);
+}
+.progress::after {
+  content: "";
+  position: absolute; inset-block: 0;
+  inline-size: 40%;
+  background: var(--accent);
+  animation: progress-slide 1.1s var(--ease) infinite;
+}
+@keyframes progress-slide {
+  from { inset-inline-start: -40%; }
+  to   { inset-inline-start: 100%; }
+}
+/* Pinned under the sticky header, where a route-change bar belongs. */
+.progress--top {
+  position: fixed;
+  inset-block-start: calc(var(--nav-h) + env(safe-area-inset-top));
+  inset-inline: 0;
+  z-index: var(--z-head);
+}
+
+/* --- Async region --------------------------------------------------------
+   Wrap a region that swaps between loading, empty, error and loaded. The
+   attribute is the state; there is no is-loading class to fall out of sync. */
+[aria-busy="true"] { cursor: progress; }
+.async { position: relative; min-block-size: 2rem; }
+/* Content being refreshed in place stays visible and dims, rather than being
+   replaced by a skeleton — replacing it loses the reader's place. */
+.async[aria-busy="true"] > .async__content {
+  opacity: 0.45;
+  transition: opacity var(--dur) var(--ease);
+  pointer-events: none;
+}

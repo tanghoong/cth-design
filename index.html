@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>tanghoong design system</title>
-<meta name="description" content="The visual identity behind every tanghoong.com property — the mark, the colour, the type, the components and the rules — documented so a new sub-domain looks like it belongs on day one.">
+<meta name="description" content="The visual identity behind every tanghoong.com property: the mark, colour, type, components and rules, documented so a new sub-domain belongs on day one.">
 <link rel="canonical" href="https://design.tanghoong.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="tanghoong design system">
 <meta property="og:title" content="tanghoong design system">
-<meta property="og:description" content="The visual identity behind every tanghoong.com property — the mark, the colour, the type, the components and the rules — documented so a new sub-domain looks like it belongs on day one.">
+<meta property="og:description" content="The visual identity behind every tanghoong.com property: the mark, colour, type, components and rules, documented so a new sub-domain belongs on day one.">
 <meta property="og:url" content="https://design.tanghoong.com/">
 <meta property="og:image" content="https://design.tanghoong.com/og.png">
 <meta property="og:image:width" content="1200">
@@ -36,6 +36,9 @@
 <link rel="stylesheet" href="/assets/css/overlays.css">
 <link rel="stylesheet" href="/assets/css/content.css">
 <link rel="stylesheet" href="/assets/css/utilities.css">
+<!-- conform:allow one-primary — the hero and the agent panel are separate decisions -->
+<!-- conform:allow docs-css-shipped — this IS the reference site; docs.css
+     styles the specimen frames. No product page should ever link it. -->
 <link rel="stylesheet" href="/assets/css/docs.css">
 </head>
 <body>
@@ -61,6 +64,7 @@
         <div class="menu__list">
           <a href="/pages/layout.html">Layout</a>
           <a href="/pages/overlays.html">Overlays</a>
+          <a href="/pages/loading.html">Loading &amp; motion</a>
           <a href="/pages/content.html">Content &amp; prose</a>
           <a href="/pages/svg.html">SVG &amp; data</a>
           <div class="menu__sep"></div>
@@ -95,6 +99,7 @@
     <a class="sheet-row" href="/pages/components.html">Components</a>
     <a class="sheet-row" href="/pages/forms.html">Forms</a>
     <a class="sheet-row" href="/pages/overlays.html">Overlays</a>
+    <a class="sheet-row" href="/pages/loading.html">Loading &amp; motion</a>
     <a class="sheet-row" href="/pages/content.html">Content &amp; prose</a>
     <a class="sheet-row" href="/pages/svg.html">SVG &amp; data</a>
     <a class="sheet-row" href="/pages/patterns.html">Patterns</a>
@@ -321,29 +326,36 @@
           <span class="card__foot"><span class="chips"><span class="chip">overlays.css</span></span><svg class="card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg></span>
         </a>
 
-        <a class="card" href="/pages/content.html">
+        <a class="card" href="/pages/loading.html">
           <span class="idx__n">07</span>
+          <span class="card__title">Loading &amp; motion</span>
+          <span class="card__desc">Skeletons, spinners and the four async states; the complete list of what this system animates, and what it deliberately does not.</span>
+          <span class="card__foot"><span class="chips"><span class="chip">async</span></span><svg class="card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg></span>
+        </a>
+
+        <a class="card" href="/pages/content.html">
+          <span class="idx__n">08</span>
           <span class="card__title">Content &amp; prose</span>
           <span class="card__desc">Article typography, leads, eyebrows, quotes, code, keyboard keys, steps and the print stylesheet.</span>
           <span class="card__foot"><span class="chips"><span class="chip">content.css</span></span><svg class="card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg></span>
         </a>
 
         <a class="card" href="/pages/patterns.html">
-          <span class="idx__n">09</span>
+          <span class="idx__n">10</span>
           <span class="card__title">Patterns</span>
           <span class="card__desc">Whole compositions: the hero, a work index, a case study, a stats band, the closing CTA and the footer.</span>
           <span class="card__foot"><span class="chips"><span class="chip">compositions</span></span><svg class="card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg></span>
         </a>
 
         <a class="card" href="/pages/svg.html">
-          <span class="idx__n">08</span>
+          <span class="idx__n">09</span>
           <span class="card__title">SVG &amp; data graphics</span>
           <span class="card__desc">Icons, the six-step chart ramp, stacked bars, radar charts and the self-contained SVG cards behind the GitHub profile.</span>
           <span class="card__foot"><span class="chips"><span class="chip">graphics</span></span><svg class="card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg></span>
         </a>
 
         <a class="card" href="/pages/prompt.html">
-          <span class="idx__n">10</span>
+          <span class="idx__n">11</span>
           <span class="card__title">Agent prompt</span>
           <span class="card__desc">The system prompt to paste into any repo or CLAUDE.md so generated code lands on-system first time.</span>
           <span class="card__foot"><span class="chips"><span class="chip">CLAUDE.md</span></span><svg class="card__arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg></span>
@@ -416,6 +428,7 @@ if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}&
           <li><a href="/pages/components.html">Components</a></li>
           <li><a href="/pages/forms.html">Forms</a></li>
           <li><a href="/pages/overlays.html">Overlays</a></li>
+          <li><a href="/pages/loading.html">Loading &amp; motion</a></li>
           <li><a href="/pages/svg.html">SVG &amp; data</a></li>
         </ul>
       </div>

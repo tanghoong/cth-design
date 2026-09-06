@@ -16,6 +16,8 @@ repos consume; the pages are live specimens of them.
 | Pin the rules inside a repo | [`pages/prompt.html`](pages/prompt.html) — a `CLAUDE.md` block |
 | Change a colour or a size | [`assets/css/tokens.css`](assets/css/tokens.css) — and nowhere else |
 | Use the mark correctly | [`pages/brand.html`](pages/brand.html) |
+| Check a page follows the system | `node scripts/conform.mjs <file>` |
+| See what changed | [`CHANGELOG.md`](CHANGELOG.md) |
 
 ## Layout of the repo
 
@@ -58,10 +60,11 @@ and utilities come last so they can win.
 | 04 | [Components](pages/components.html) | Buttons, chips, badges, cards, panels, notes, stats, rows, tables, lists, tabs |
 | 05 | [Forms](pages/forms.html) | Inputs, validation, choices, switches, file drops, form layout |
 | 06 | [Overlays](pages/overlays.html) | Modals, drawers, menus, nav sheet, tooltips, toasts, accordions |
-| 07 | [Content & prose](pages/content.html) | Article typography, leads, quotes, code, steps, measure, print |
-| 08 | [SVG & data](pages/svg.html) | Icons, the chart ramp, and seven charting idioms with live specimens |
-| 09 | [Patterns](pages/patterns.html) | Whole page compositions — hero, work index, case study, CTA band |
-| 10 | [Agent prompt](pages/prompt.html) | The block to paste into a repo's `CLAUDE.md` |
+| 07 | [Loading & motion](pages/loading.html) | Skeletons, spinners, async states, the sanctioned animation list, title convention |
+| 08 | [Content & prose](pages/content.html) | Article typography, leads, quotes, code, steps, measure, print |
+| 09 | [SVG & data](pages/svg.html) | Icons, the chart ramp, and seven charting idioms with live specimens |
+| 10 | [Patterns](pages/patterns.html) | Whole page compositions — hero, work index, case study, CTA band |
+| 11 | [Agent prompt](pages/prompt.html) | The block to paste into a repo's `CLAUDE.md` |
 
 ## Starting a new sub-domain
 
@@ -85,6 +88,21 @@ Static hosting, no build command, output directory `/`. `_headers` sets the cach
 Cloudflare Pages and allows cross-origin reads of `assets/` and `llms.txt`, so another
 sub-domain can link the stylesheets directly rather than vendoring them.
 
+## Checking your work
+
+Two dependency-free scripts. Full notes in [`scripts/README.md`](scripts/README.md).
+
+```bash
+node scripts/conform.mjs index.html pages --fail   # does the page follow the system?
+node scripts/contrast.mjs --fail                   # do the tokens still pass WCAG?
+```
+
+This is how you check an agent's output: point it at `llms.txt`, let it write the
+page, then run `conform.mjs` over the result. It enforces only what is documented —
+if a rule is not in `llms.txt` or on a reference page, it does not belong in the
+script. Neither script can see computed styles or runtime behaviour, so they are a
+first pass, not a substitute for opening the page in both themes and tabbing through it.
+
 ## Editing the system
 
 - A colour, size or duration change goes in `tokens.css` and nowhere else.
@@ -101,7 +119,13 @@ sub-domain can link the stylesheets directly rather than vendoring them.
 
 ## Known drift
 
-The generated SVG cards on [github.com/tanghoong](https://github.com/tanghoong/tanghoong) use
-accent `#03724d` / `#4dff9a`; `tokens.css` and cv.tanghoong.com use `#03744e` / `#4dff9b`.
-One digit apart in each — invisible side by side, but real. Recorded rather than silently
-reconciled, because which direction to align is a decision, not a cleanup.
+Both recorded rather than silently reconciled, because each is a decision rather than a
+cleanup. See [`CHANGELOG.md`](CHANGELOG.md) for the detail.
+
+1. **Accent.** The generated SVG cards on
+   [github.com/tanghoong](https://github.com/tanghoong/tanghoong) use `#03724d` /
+   `#4dff9a`; `tokens.css` and cv.tanghoong.com use `#03744e` / `#4dff9b`.
+2. **Chart ramp spacing.** `scripts/contrast.mjs` reports adjacent steps at the pale end
+   of the light ramp are perceptually close — ΔE 0.027 where evenly spaced would be
+   0.071. Interpolating in OKLab rather than sRGB would fix it, in both the tokens and
+   the card generator.

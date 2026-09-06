@@ -4,7 +4,7 @@
 > is the complete specification. An agent that reads it does not need to crawl
 > the HTML pages — those exist for humans to look at.
 >
-> Version: 1.0.0 · Updated: 2026-09-06
+> Version: 1.1.0 · Updated: 2026-09-06
 > Source of truth: the files in /assets/css/ at https://design.tanghoong.com
 > Starter template for a new sub-domain: /template/index.html
 > Human documentation: /pages/*.html · Machine documentation: this file
@@ -24,7 +24,8 @@
   webfont, no CSS-in-JS. Plain HTML plus a class.
 - Full detail per topic: /pages/brand.html, /pages/foundations.html, /pages/layout.html,
   /pages/components.html, /pages/forms.html, /pages/overlays.html,
-  /pages/content.html, /pages/svg.html, /pages/patterns.html, /pages/prompt.html
+  /pages/loading.html, /pages/content.html, /pages/svg.html,
+  /pages/patterns.html, /pages/prompt.html
 
 ## Non-negotiables
 
@@ -213,6 +214,81 @@ Two traps, both already handled in the CSS — do not reintroduce them:
    position:fixed descendants. The nav sheet MUST be a sibling of <header>,
    never a child, or it gets trapped in the header box.
 
+## Loading and async state
+
+Pick by what you know, not by habit:
+  under ~300ms   show NOTHING — a spinner that flashes reads as a glitch
+  shape known    .skel (+ --text --title --chip --avatar --btn --media)
+  shape unknown  .spinner (+ --sm --lg) — submits, searches, saves
+  route change   .progress--top, a 2px bar under the header
+  real percent   .meter, always. A number beats a moving stripe.
+  refresh in place  .async[aria-busy] dims .async__content — do NOT swap in a
+                    skeleton, it loses the reader's place
+
+A skeleton exists to stop the layout jumping — that is its whole job. Build it
+from the SAME component as the real thing (.card etc) so padding, gap and
+radius match and the two boxes are the same height. Sizes are in em. The last
+text line is 72% wide; real paragraphs do not end flush. Sweep, never pulse —
+a pulse reads as broken. Do not skeleton a list of unknown length; show 3-4.
+
+Every fetching region has FOUR states — loading, loaded, empty, error. A page
+that designs only the happy one ships the other three by accident. Empty is not
+an error (give them the action); an error is not empty (say what failed, offer
+a retry).
+
+Announcing: aria-busy="true" on the waiting region · role="status" on a short
+progress message · role="alert" on the error that replaces it · aria-label on a
+skeleton container. 🔴 NEVER leave aria-busy set after the request finishes —
+the region is then permanently "updating" to a screen reader while looking
+normal to everyone else. Clear it where you remove the spinner.
+
+## Motion boundaries
+
+Motion is feedback and continuity. It confirms something happened, or carries
+the eye between states. It is never ornament, and nothing moves on its own.
+
+SANCTIONED — this is the complete list:
+  colour/background change  --dur-fast   hover and focus on any control
+  scale to 0.97             --dur-fast   :active on buttons
+  lift 2px + shadow         --dur        hover on a card that is a link
+  arrow nudge 3px           --dur        .link-more, .card__arrow
+  fade + 4px rise           --dur-fast   menus and popovers
+  fade + scale 0.97         --dur        modal entrance
+  slide from edge           --dur-slow   drawers and the nav sheet
+  chevron rotate 180°       --dur        accordion open
+  skeleton sweep            1.4s loop    placeholders only
+  spinner rotate            0.7s loop    indeterminate waits only
+
+NOT IN THIS SYSTEM:
+  scroll-triggered reveals (breaks find-in-page, print and fast readers)
+  parallax, tilt, magnetic cursors, spring/bounce/elastic easing
+  autoplaying decoration: pulsing dots, breathing gradients, animated mesh
+    (the ONLY permitted infinite animations are the skeleton and the spinner,
+     and both mean "waiting")
+  page transitions that delay navigation
+  animating height/width/top/margin — only opacity and transform stay on the
+    compositor; the rest force layout every frame
+
+The test: if the animation were removed, would anything be harder to
+understand? If not, it is ornament — cut it.
+
+JS-driven motion must read the preference itself:
+matchMedia('(prefers-reduced-motion: reduce)').matches — base.css cannot
+reach it, and neither can it reach animation inside a standalone .svg file.
+
+## Titles and meta
+
+  <title>       "Page name — Site name", em dash with spaces. ≤60 chars.
+                Page name FIRST: a tab truncates from the right, and at eight
+                visible characters the page name is the only distinguishing part.
+                A sub-domain home page drops the repetition — "tanghoong design
+                system", not "Home — tanghoong design system".
+  description   ≤160 chars, one sentence, written for a person.
+  og:title      same as <title>. og:image 1200x630, required or links preview blank.
+  h1            one per page; may be shorter than the title, which carries the
+                site name where the h1 does not.
+Keep the site name byte-identical across a property.
+
 ## Prose
 
 `.prose` on the wrapper, then unclassed HTML inside — Markdown output drops
@@ -352,6 +428,18 @@ Every [id] gets scroll-margin-block-start so anchors clear the sticky header.
 The generated SVG cards use accent #03724d/#4dff9a; tokens.css and
 cv.tanghoong.com use #03744e/#4dff9b. One digit apart in each, invisible side
 by side. The chart ramp above is recorded as-generated. Not yet reconciled.
+
+## Checking a page you generated
+
+  node scripts/conform.mjs <file.html> --fail   structural conformance
+  node scripts/contrast.mjs --fail              only if you touched tokens.css
+
+conform.mjs enforces the rules in this file and reports error/warn/info. A
+deliberate exception is declared in the page, not by weakening the rule:
+  <!-- conform:allow rule-id — the reason -->
+Both scripts are dependency-free Node. Neither can see computed styles or
+runtime behaviour: they are a first pass, not a substitute for opening the page
+in both themes and tabbing through it.
 
 ## Ship checklist
 
