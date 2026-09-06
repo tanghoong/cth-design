@@ -4,7 +4,7 @@
 > is the complete specification. An agent that reads it does not need to crawl
 > the HTML pages — those exist for humans to look at.
 >
-> Version: 1.1.0 · Updated: 2026-09-06
+> Version: 1.2.0 · Updated: 2026-09-06
 > Source of truth: the files in /assets/css/ at https://design.tanghoong.com
 > Starter template for a new sub-domain: /template/index.html
 > Human documentation: /pages/*.html · Machine documentation: this file
@@ -88,6 +88,8 @@ Ink
   --text        #1d1d1f / #f5f5f7   body and headings
   --text-2      #515154 / #a1a1a6   supporting copy
   --text-3      #6e6e73 / #86868b   labels, metadata
+  --text-hi     #000000 / #ffffff   display only — a hero word, a headline
+                                    figure. Not a fourth content level.
 Lines (alpha, so they sit on any surface)
   --hairline      #0000001a / #ffffff21   separators, input borders
   --hairline-soft #0000000f / #ffffff14   card and panel outlines
@@ -95,6 +97,8 @@ Accent
   --accent      #03744e / #4dff9b
   --accent-ink  #ffffff / #04140b   text on a filled accent
   --accent-wash accent at 12%       tinted buttons, active rows
+  --accent-2    #8a5a00 / #ffd38a   optional second voice (kickers, inline
+                --accent-2-ink/-wash  marks). Leave unused if not needed.
 Status (each has a matching -wash)
   --ok #03744e/#4dff9b · --warn #8a5a00/#f5c451
   --danger #b3261e/#ff6b62 · --info #0a5ec2/#6bb6ff
@@ -110,6 +114,7 @@ Type
   --fs-h2 clamp(1.5rem, 1.25rem + 1.2vw, 2.25rem)  w620 lh1.15 ls-0.021em
   --fs-h3 clamp(1.25rem, 1.15rem + .5vw, 1.5rem)   w600 lh1.3  ls-0.014em
   --fs-lead / --fs-stat (fluid) · --fs-body 17px · --fs-sm 15px · --fs-xs 13px
+  --fs-read clamp(1.3125rem, 1.15rem + .8vw, 1.625rem)  editorial lead only
   Body: lh 1.6, ls -0.006em. Tracking tightens as size grows.
 Space (4px scale)
   --s-1 4 · --s-2 8 · --s-3 12 · --s-4 16 · --s-5 20 · --s-6 24 · --s-8 32
@@ -131,6 +136,31 @@ Motion
 Layers
   --z-head 40 · --z-sheet 50 · --z-toast 70 · --z-skip 100
   No --z-modal: a <dialog> opened with showModal() is in the top layer.
+
+## Property skins
+
+A property may re-skin by redefining tokens in its own file, loaded AFTER
+tokens.css. tanghoong.com does exactly this — same token set, then a deep
+petrol ground (#071a24), sage accent (#b8d9c9), gold second voice (#ffd38a),
+forced dark. Every component still works because none of them names a colour.
+
+MAY redefine: the four surfaces · the four inks · both hairlines · --accent and
+  its ink/wash · --accent-2 · --fs-read · container widths · color-scheme.
+MUST NOT touch: the space scale · the radius scale · --ease and durations ·
+  the status colours · the focus treatment · the mark.
+Rules: re-run scripts/contrast.mjs against the skinned values, and on a
+coloured ground tint the hairlines to match (#dcf1f52e, not plain white alpha —
+neutral alpha over petrol reads as grey scum).
+Never edit tokens.css in a consuming repo. That is a fork, not a skin.
+
+## Editorial type
+
+For a landing page where a short paragraph carries the weight:
+  .read       --fs-read, line-height 1.48, ls -0.027em, max-width 30rem
+  .read-body  --fs-sm, line-height 1.8, --text-2, max-width 30rem
+  .meta-mono  mono, --fs-xs, POSITIVE tracking 0.08em, uppercase, --text-3
+The measure comes DOWN as the size goes up — 30rem, not 68ch. Mono uppercase
+metadata is the counterweight to large warm type: tiny, technical, precise.
 
 ## Layout
 

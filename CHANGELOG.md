@@ -8,6 +8,30 @@ Versions match the `Version:` line at the top of [`llms.txt`](llms.txt).
 Semver, read as: **major** removes or renames a token or class, **minor** adds
 one, **patch** changes a value without changing the shape.
 
+## [1.2.0] — 2026-09-06
+
+Studied tanghoong.com, which runs this token set and then re-skins it. Adopted
+the parts that generalise; declined the parts that are that page's signature.
+
+### Added
+
+- `--text-hi` — one step above `--text`, for display type only.
+- `--accent-2`, `--accent-2-ink`, `--accent-2-wash` — an optional second
+  voice. tanghoong.com uses a gold beside the green.
+- `--fs-read`, and `.read` / `.read-body` / `.meta-mono` in `content.css` —
+  the editorial scale for a landing page whose lead carries the weight.
+- **The property-skin contract**, documented at the foot of `tokens.css`:
+  what a skin may redefine, what it must not, and the two rules for writing
+  one. This is the strongest evidence the system works, and it was undocumented.
+
+### Not adopted
+
+- The serif display face for a single hero word. Beautiful, and it is that
+  page's signature rather than a system component.
+- Forced dark with no toggle — right for a single-purpose landing page, wrong
+  for documentation and apps.
+- The 3D portrait card. Bespoke, and correctly so.
+
 ## [1.1.0] — 2026-09-06
 
 ### Added

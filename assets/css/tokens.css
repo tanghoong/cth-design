@@ -16,11 +16,17 @@
   --bg-glass:    light-dark(#fbfbfdb8, #000000b8);
 
   /* --- Ink ---------------------------------------------------------------
-     Three weights. text for content, text-2 for supporting copy,
-     text-3 for labels and metadata. There is no fourth. */
+     Three working weights: text for content, text-2 for supporting copy,
+     text-3 for labels and metadata. Plus --text-hi above them, which is a
+     display device rather than a fourth level of content — reach for it only
+     where something has to lift off the page. */
   --text:   light-dark(#1d1d1f, #f5f5f7);
   --text-2: light-dark(#515154, #a1a1a6);
   --text-3: light-dark(#6e6e73, #86868b);
+  /* One step ABOVE --text, for a display line that has to lift off the page.
+     Used sparingly — a hero word, a headline figure. If everything is --text-hi
+     then nothing is, and you have just moved the baseline. */
+  --text-hi: light-dark(#000000, #ffffff);
 
   /* --- Lines -------------------------------------------------------------
      Alpha, not solid — they must sit correctly on any surface. */
@@ -33,6 +39,14 @@
   --accent-ink:  light-dark(#ffffff, #04140b);
   --accent-wash: color-mix(in oklab, var(--accent) 12%, transparent);
   --focus:       var(--accent);
+
+  /* A second accent, for a signal that is neither the primary action nor a
+     status. tanghoong.com uses it on kickers and inline marks. Optional: a
+     property that does not need a second voice should leave it unused rather
+     than find something to paint with it. */
+  --accent-2:      light-dark(#8a5a00, #ffd38a);
+  --accent-2-ink:  light-dark(#ffffff, #04140b);
+  --accent-2-wash: color-mix(in oklab, var(--accent-2) 14%, transparent);
 
   /* --- Status ------------------------------------------------------------
      Used for validation, alerts and badges. Same wash/ink pattern as accent. */
@@ -83,6 +97,10 @@
   --fs-h3:   clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
   --fs-lead: clamp(1.125rem, 1.02rem + 0.5vw, 1.375rem);
   --fs-stat: clamp(1.25rem, 0.95rem + 1.5vw, 1.9375rem);
+  /* Editorial reading size, for short high-value copy: a landing page lead, a
+     pull paragraph. Bigger than --fs-lead and set at a looser line-height.
+     Not for body text — at this size the measure has to come down with it. */
+  --fs-read: clamp(1.3125rem, 1.15rem + 0.8vw, 1.625rem);
   --fs-body: 1.0625rem;   /* 17px — the baseline */
   --fs-sm:   0.9375rem;   /* 15px */
   --fs-xs:   0.8125rem;   /* 13px */
@@ -138,3 +156,42 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { --sh-sm: none; --sh-md: none; --sh-lg: none; }
 }
+
+/* ==========================================================================
+   PROPERTY SKINS
+
+   A property may re-skin the system by redefining tokens. That is the whole
+   point of a token contract, and tanghoong.com is the proof: it runs this
+   exact token set, then overrides the palette to a deep petrol ground with a
+   sage accent and a gold second voice — and every component still works,
+   because not one of them names a colour.
+
+   A skin MAY redefine:
+     the four surfaces · the four inks · both hairlines
+     --accent and its ink/wash · --accent-2 and its pair
+     --fs-read and the container widths
+     color-scheme, if the property is single-purpose and deliberately one theme
+
+   A skin MUST NOT touch, or it stops being the same system:
+     the space scale · the radius scale · --ease and the durations
+     the status colours · the focus treatment · the mark
+
+   Two rules for anyone writing one:
+     1. Re-run scripts/contrast.mjs against the skinned values. A new palette
+        is exactly where contrast quietly breaks.
+     2. On a coloured ground, tint the hairlines to match. A neutral white
+        alpha over petrol reads as grey scum; tanghoong.com uses #dcf1f52e,
+        which carries the ground's own hue.
+
+   Put the override in its own file, loaded after tokens.css. Never edit
+   tokens.css in a consuming repo — that is a fork, not a skin.
+
+   :root {
+     color-scheme: dark;
+     --bg: #071a24;  --bg-sunken: #051620;  --bg-elevated: #0b2733;
+     --text: #f5fafb; --text-2: #e6f2f5d1; --text-3: #a2b3b8; --text-hi: #fff;
+     --hairline: #dcf1f52e; --hairline-soft: #dcf1f51a;
+     --accent: #b8d9c9; --accent-2: #ffd38a;
+     --sh-sm: none; --sh-md: none; --sh-lg: none;
+   }
+   ========================================================================== */

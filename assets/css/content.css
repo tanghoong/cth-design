@@ -168,3 +168,44 @@
   .card, .panel, .table-wrap { break-inside: avoid; border-color: #ccc; box-shadow: none; }
 }
 
+
+/* --- Editorial lead ------------------------------------------------------
+   Larger and looser than .lede, for a landing page where a short paragraph is
+   doing most of the work. The measure comes down as the size goes up — at
+   26px, 68ch is a very long line to track back along.
+
+   Learned from tanghoong.com, which sets its lead at this size over a 30rem
+   column and lets the supporting paragraphs drop to 16px at line-height 1.8. */
+.read {
+  font-size: var(--fs-read);
+  line-height: 1.48;
+  letter-spacing: -0.027em;
+  color: var(--text);
+  max-width: 30rem;
+  text-wrap: pretty;
+}
+/* Supporting paragraphs under a .read lead. Smaller and more open than body
+   copy — the extra leading is what stops a dense block reading as a wall. */
+.read-body {
+  font-size: var(--fs-sm);
+  line-height: 1.8;
+  color: var(--text-2);
+  max-width: 30rem;
+  text-wrap: pretty;
+}
+.read-body + .read-body { margin-block-start: var(--s-5); }
+
+/* --- Mono metadata -------------------------------------------------------
+   Uppercase mono with open tracking, for a caption, a timestamp, a scene
+   label. It is the counterweight to the large editorial type: tiny, technical
+   and precise against something loose and warm. Positive tracking, always —
+   caps and mono both need opening up. */
+.meta-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+.meta-mono--tight { font-size: 10px; letter-spacing: 0.025em; text-transform: none; }

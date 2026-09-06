@@ -286,6 +286,46 @@
     <div class="tile" style="border-radius:var(--r-md);box-shadow:var(--sh-lg)">--sh-lg</div>
   </div>
 
+  <h2 id="skins">Property skins</h2>
+  <p class="t2 mt-4 measure">A property may re-skin the system by redefining tokens in its own file, loaded after <code>tokens.css</code>. This is the strongest evidence a token system actually works — and <a href="https://tanghoong.com/">tanghoong.com</a> is the proof. It runs this exact token set, then overrides the palette to a deep petrol ground with a sage accent and a gold second voice. Every component still works, because not one of them names a colour.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">The tanghoong.com skin</div>
+    <div class="spec__code">
+<pre>/* skin.css — loaded AFTER tokens.css */
+:root {
+  color-scheme: dark;
+  --bg: #071a24;  --bg-sunken: #051620;  --bg-elevated: #0b2733;
+  --text: #f5fafb; --text-2: #e6f2f5d1; --text-3: #a2b3b8; --text-hi: #fff;
+  --hairline: #dcf1f52e; --hairline-soft: #dcf1f51a;
+  --accent: #b8d9c9; --accent-2: #ffd38a;
+  --sh-sm: none; --sh-md: none; --sh-lg: none;
+}</pre>
+    </div>
+    <p class="spec__note">Note the hairlines: <code>#dcf1f52e</code>, not a neutral white alpha. On a coloured ground a neutral line reads as grey scum — it has to carry the ground's own hue.</p>
+  </div>
+
+  <div class="rules mt-6">
+    <div class="rule rule--do">
+      <span class="rule__h">A skin may redefine</span>
+      The four surfaces, the four inks, both hairlines, <code>--accent</code> and its ink/wash, <code>--accent-2</code>, <code>--fs-read</code>, the container widths, and <code>color-scheme</code> if the property is single-purpose and deliberately one theme.
+    </div>
+    <div class="rule rule--dont">
+      <span class="rule__h">A skin must not touch</span>
+      The space scale, the radius scale, <code>--ease</code> and the durations, the status colours, the focus treatment, or the mark. Change those and it stops being the same system.
+    </div>
+  </div>
+
+  <div class="note note--warn mt-6">
+    <strong class="note__title">Re-run the contrast check against a new palette</strong>
+    <code>node scripts/contrast.mjs</code> parses whatever <code>light-dark()</code> values it finds. A new palette is exactly where contrast quietly breaks, and a skin that has not been checked is a skin that has not been finished.
+  </div>
+
+  <div class="note note--danger mt-4">
+    <strong class="note__title">A skin is a separate file</strong>
+    Never edit <code>tokens.css</code> in a consuming repo. That is a fork, and the next time the system changes you will find out the expensive way.
+  </div>
+
   <h2 id="motion">Motion</h2>
   <p class="t2 mt-4 measure">One easing curve for almost everything: <code>cubic-bezier(.22, 1, .36, 1)</code> — fast out, long settle. Three durations. Anything slower than <code>--dur-slow</code> feels broken.</p>
 
@@ -373,6 +413,7 @@
     <li><a href="#space">Space</a></li>
     <li><a href="#radius">Radius</a></li>
     <li><a href="#shadow">Shadow</a></li>
+    <li><a href="#skins">Property skins</a></li>
     <li><a href="#motion">Motion</a></li>
     <li><a href="#focus">Focus</a></li>
     <li><a href="#themes">Themes</a></li>
