@@ -1,61 +1,99 @@
 # Deploying to design.tanghoong.com
 
-Static files, no build step. The repo root **is** the output directory.
+Static files, no build step. The repo root **is** the output.
 
-## Cloudflare Pages — first time
+Cloudflare now has two flows, and which one you get depends on how the project
+is created. The dashboard asking you for a **deploy command** is the tell.
 
-### 1. Push to GitHub
+---
 
-```bash
-git remote add origin git@github.com:tanghoong/cth-design.git
-git push -u origin main --tags
-```
+## Which one am I in?
 
-### 2. Create the Pages project
+| The form asks for… | You are in | Config file |
+| --- | --- | --- |
+| Build command + Build output directory | **Pages** (classic) | none |
+| Build command + **Deploy command** | **Workers Builds** | `wrangler.jsonc` |
 
-Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** →
-**Connect to Git** → pick `cth-design`.
+Both are fine. Workers Builds is where Cloudflare is heading, and this repo has
+the config for it committed already.
+
+---
+
+## A. Workers Builds — if it asks for a deploy command
+
+`wrangler.jsonc` is already in the repo. In the dashboard:
 
 | Setting | Value |
 | --- | --- |
+| Build command | *(leave blank)* |
+| **Deploy command** | `npx wrangler deploy` |
 | Production branch | `main` |
-| Framework preset | **None** |
-| Build command | *(leave empty)* |
-| Build output directory | `/` |
 | Root directory | `/` |
 
-There is no build. If Cloudflare asks for a command, leaving it blank is
-correct — filling one in is how a static site starts failing to deploy.
+That is the whole answer to "what do I put in deploy command" — **`npx wrangler deploy`**.
+There is nothing to build; the deploy command is the only one that does work.
 
-### 3. Custom domain
+What `wrangler.jsonc` sets:
+
+```jsonc
+{
+  "name": "cth-design",
+  "compatibility_date": "2026-09-05",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
+```
+
+- `directory: "./"` — the repo root. There is no `dist/`.
+- `not_found_handling: "404-page"` — serves `404.html` with a real **404** status.
+  The default falls back to `index.html` with a **200**, which means every wrong
+  URL silently answers OK. A reference site that does that cannot be trusted.
+- `html_handling: "auto-trailing-slash"` — the default. `/pages/brand.html`
+  serves without a trailing slash; a folder's `index.html` serves with one.
+
+`.assetsignore` keeps `.git`, `node_modules`, `scripts/` and the markdown docs
+out of the upload. Same syntax as `.gitignore`. Without it, `.git` would be
+served over HTTP.
+
+## B. Pages (classic) — if there is no deploy command field
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | **None** |
+| Build command | *(leave blank — or `exit 0` if the form refuses to be empty)* |
+| Build output directory | `/` |
+| Production branch | `main` |
+
+`wrangler.jsonc` is ignored in this mode. Harmless either way.
+
+---
+
+## Custom domain
 
 Project → **Custom domains** → **Set up a custom domain** →
 `design.tanghoong.com`.
 
-If `tanghoong.com` is already on Cloudflare DNS, the `CNAME` is created for
-you and the certificate issues in a few minutes. If it is not, add:
+`tanghoong.com` is already on Cloudflare DNS, so the record is created for you
+and the certificate issues in a few minutes.
 
-```
-CNAME  design  <project-name>.pages.dev  (proxied)
-```
-
-### 4. Check it landed
+## Check it landed
 
 ```bash
 curl -sI https://design.tanghoong.com/ | head -1
 curl -s  https://design.tanghoong.com/llms.txt | head -3
-curl -sI https://design.tanghoong.com/assets/css/tokens.css | grep -i 'access-control'
+
+# CORS — the one that actually matters
+curl -sI https://design.tanghoong.com/assets/css/tokens.css | grep -i access-control
+
+# 404 must be a real 404, not a 200 with the home page
+curl -sI https://design.tanghoong.com/no-such-page | head -1
 ```
 
-The last one matters: `_headers` sets `Access-Control-Allow-Origin: *` on
-`assets/` and `llms.txt` so another sub-domain can link the stylesheets
-directly instead of vendoring a copy that will drift.
-
-## Every deploy after that
-
-`git push` to `main`. Pages rebuilds and publishes. A pull request gets its own
-preview URL, which is the right place to look at a design change before it is
-live.
+The CORS header is what lets another sub-domain link these stylesheets directly
+instead of vendoring a copy that quietly drifts out of date.
 
 ## Before you push
 
@@ -64,20 +102,30 @@ node scripts/conform.mjs index.html 404.html template/index.html pages --fail
 node scripts/contrast.mjs
 ```
 
-Both are dependency-free. `contrast.mjs` currently reports 4 failures — those
-are the known chart-ramp spacing finding recorded in `CHANGELOG.md`, not a
-regression. Run it without `--fail` until that decision is made.
+`contrast.mjs` currently reports 4 failures. Those are the known chart-ramp
+spacing finding in `CHANGELOG.md`, not a regression — run it without `--fail`
+until that decision is made.
+
+## Every deploy after the first
+
+`git push` to `main`. A pull request gets its own preview URL, which is the
+right place to look at a design change before it is live.
+
+## Rolling back
+
+Cloudflare keeps every deployment. Project → **Deployments** → pick the good
+one → **Rollback**. Faster than a revert commit when something is visibly wrong
+in production.
 
 ## What `_headers` does
+
+Supported in both flows.
 
 - `assets/*` and `llms.txt` — 1 hour cache, must-revalidate, CORS open. Short
   on purpose: a token change has to reach every consuming property quickly.
 - `og.png` — 1 day.
-- Everything — `X-Content-Type-Options: nosniff`,
-  `Referrer-Policy: strict-origin-when-cross-origin`.
+- Everything — `nosniff`, `strict-origin-when-cross-origin`.
 
-## Rolling back
-
-Pages keeps every deployment. Project → **Deployments** → find the good one →
-**Rollback**. Faster than a revert commit when something is visibly wrong in
-production.
+One difference worth knowing in Workers: `_headers` rules do **not** apply to
+responses generated by Worker code. This site has no Worker code, so every
+response is a static asset and every rule applies.

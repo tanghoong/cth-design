@@ -1,0 +1,12 @@
+# Not part of the published site. Without this they are uploaded and served —
+# .git in particular would expose the whole history over HTTP.
+.git
+.gitattributes
+node_modules
+scripts
+CLAUDE.md
+CHANGELOG.md
+DEPLOY.md
+README.md
+wrangler.jsonc
+.assetsignore

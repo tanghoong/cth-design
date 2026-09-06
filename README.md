@@ -30,7 +30,8 @@ assets/js/        theme toggle, nav sheet and menus, docs-site chrome
 pages/            the reference pages
 index.html        overview, the agent path, and the reference index
 404.html          not-found page
-_headers          Cloudflare Pages cache and CORS policy
+_headers          cache and CORS policy (both Cloudflare flows)
+wrangler.jsonc    Workers Builds config — only used if asked for a deploy command
 ```
 
 ### The CSS layers
@@ -84,8 +85,9 @@ npx http-server -p 8099 -c-1
 
 ## Deploying
 
-Static hosting, no build command, output directory `/`. Full walkthrough in
-[`DEPLOY.md`](DEPLOY.md). `_headers` sets the cache policy for Cloudflare Pages and allows
+Static hosting, no build step. Cloudflare now has two flows — classic Pages, and Workers
+Builds which asks for a **deploy command** (`npx wrangler deploy`). Both are covered in
+[`DEPLOY.md`](DEPLOY.md), and `wrangler.jsonc` for the second is committed. `_headers` sets the cache policy for Cloudflare Pages and allows
 cross-origin reads of `assets/` and `llms.txt`, so another sub-domain can link the
 stylesheets directly rather than vendoring a copy that will drift.
 

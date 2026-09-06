@@ -1,0 +1,28 @@
+{
+  // Cloudflare Workers with static assets.
+  //
+  // Only needed if the dashboard asks for a DEPLOY COMMAND — that is the newer
+  // Workers Builds flow. Classic Pages projects do not use this file at all:
+  // there you leave the build command blank and set the output directory to "/".
+  //
+  //   Build command   : (leave blank)
+  //   Deploy command  : npx wrangler deploy
+  //
+  // There is no build step. This repo IS the output.
+  "name": "cth-design",
+  "compatibility_date": "2026-09-05",
+
+  "assets": {
+    // The repo root. Everything is already static — no dist/ to point at.
+    "directory": "./",
+
+    // Serve 404.html with a real 404 status for anything unmatched, rather
+    // than the default of falling back to index.html. A design reference that
+    // answers 200 for every wrong URL is a reference you cannot trust.
+    "not_found_handling": "404-page",
+
+    // The default. /pages/brand.html serves without a trailing slash;
+    // a folder's index.html serves with one.
+    "html_handling": "auto-trailing-slash"
+  }
+}
