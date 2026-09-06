@@ -84,9 +84,10 @@ npx http-server -p 8099 -c-1
 
 ## Deploying
 
-Static hosting, no build command, output directory `/`. `_headers` sets the cache policy for
-Cloudflare Pages and allows cross-origin reads of `assets/` and `llms.txt`, so another
-sub-domain can link the stylesheets directly rather than vendoring them.
+Static hosting, no build command, output directory `/`. Full walkthrough in
+[`DEPLOY.md`](DEPLOY.md). `_headers` sets the cache policy for Cloudflare Pages and allows
+cross-origin reads of `assets/` and `llms.txt`, so another sub-domain can link the
+stylesheets directly rather than vendoring a copy that will drift.
 
 ## Checking your work
 
