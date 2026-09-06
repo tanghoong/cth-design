@@ -28,6 +28,20 @@ import path from 'node:path';
 
 const lineOf = (text, index) => text.slice(0, index).split('\n').length;
 
+/* Every class the stylesheets define, built once and handed to the rules.
+   Without this, a class no stylesheet declares just silently does nothing —
+   which is exactly what a missing utility step does, and it is invisible to
+   every other check in this file. */
+function definedClasses(root) {
+  const dir = path.join(root, 'assets/css');
+  if (!fs.existsSync(dir)) return null;
+  const css = fs.readdirSync(dir)
+    .filter(f => f.endsWith('.css'))
+    .map(f => fs.readFileSync(path.join(dir, f), 'utf8'))
+    .join('\n');
+  return new Set([...css.matchAll(/\.(-?[_a-zA-Z][\w-]*)/g)].map(m => m[1]));
+}
+
 const RULES = [
 
   /* ---- Tokens ---------------------------------------------------------- */
@@ -57,6 +71,28 @@ const RULES = [
         const s = m[1];
         if (/(?:font-size|border-radius|transition-duration|animation-duration)\s*:\s*[\d.]+(?:px|ms|s)\b/.test(s)) {
           out.push({ line: lineOf(text, m.index), text: s.trim().slice(0, 68) });
+        }
+      }
+      return out;
+    },
+  },
+
+  {
+    id: 'unknown-class',
+    level: 'error',
+    why: 'A class no stylesheet defines does nothing. It does not error — the styling it was meant to apply is simply absent.',
+    run(text, ctx) {
+      if (!ctx || !ctx.defined) return [];
+      const out = [];
+      // Escaped code samples are illustrations, not live markup.
+      const live = text.replace(/<pre>[\s\S]*?<\/pre>/g, m => ' '.repeat(m.length));
+      for (const m of live.matchAll(/class="([^"]+)"/g)) {
+        // SVG <g> groups carry structural labels with no styling. Legitimate.
+        const tag = live.slice(Math.max(0, m.index - 40), m.index).match(/<([a-z]+)[^<]*$/);
+        if (tag && tag[1] === 'g') continue;
+        for (const cls of m[1].split(/\s+/).filter(Boolean)) {
+          if (ctx.defined.has(cls)) continue;
+          out.push({ line: lineOf(text, m.index), text: '.' + cls });
         }
       }
       return out;
@@ -314,6 +350,12 @@ const files = targets.flatMap(t => {
 
 let errors = 0, warns = 0, infos = 0;
 
+// Resolve the stylesheets relative to the first target, so the check works
+// from a consuming repo as well as from this one.
+const root = path.resolve(path.dirname(files[0] || '.'), files[0]?.includes('/') ? '..' : '.');
+const ctx = { defined: definedClasses(root) || definedClasses(process.cwd()) };
+if (!ctx.defined) console.log('  (no assets/css found — unknown-class rule skipped)');
+
 for (const file of files) {
   if (!fs.existsSync(file)) { console.error(`  missing: ${file}`); errors++; continue; }
   const text = fs.readFileSync(file, 'utf8');
@@ -327,7 +369,7 @@ for (const file of files) {
   const found = [];
   for (const rule of RULES) {
     if (waived.has(rule.id)) continue;
-    for (const hit of rule.run(text)) found.push({ rule, ...hit });
+    for (const hit of rule.run(text, ctx)) found.push({ rule, ...hit });
   }
   if (!found.length) { console.log(`\n  ✓ ${file}`); continue; }
 
