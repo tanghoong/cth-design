@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SVG and data graphics — tanghoong design system</title>
-<meta name="description" content="Icons, the six-step chart ramp, stacked bars, radar charts and the self-contained SVG cards behind the GitHub profile README.">
+<meta name="description" content="Icons, the card system, the chart ramp as a function, and seven charting idioms taken from the generated GitHub profile cards — stat rows, share bars, proportional blocks, columns, radar, year clock and comparison tracks.">
 <link rel="canonical" href="https://design.tanghoong.com/pages/svg.html">
 <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -103,7 +103,7 @@
     <ol class="crumb"><li><a href="/">Design system</a></li><li aria-current="page">SVG &amp; data</li></ol>
     <p class="eyebrow mt-6">08 — SVG &amp; data graphics</p>
     <h1 class="mt-3">SVG &amp; data graphics</h1>
-    <p class="lede mt-5">Icons, diagrams and the self-contained data cards on <a href="https://github.com/tanghoong/tanghoong">github.com/tanghoong</a>. An SVG is a surface like any other — same tokens, same radius, same easing.</p>
+    <p class="lede mt-5">Icons, charts, and the self-contained data cards on <a href="https://github.com/tanghoong/tanghoong">github.com/tanghoong</a>. An SVG is a surface like any other — same tokens, same radius, same easing curve.</p>
   </div>
 </section>
 
@@ -113,14 +113,13 @@
 <div>
 
   <div class="note note--info">
-    <strong class="note__title">Where this came from</strong>
-    The eight cards in the GitHub profile README are generated daily by
-    <code>scripts/generate-cards.mjs</code> and committed as static SVG — no third-party
-    badge service in the render path. They already use this system's tokens exactly:
-    <code>rx="20"</code> is <code>--r-lg</code>, the card stroke is <code>--hairline</code>,
-    the gridlines are <code>--hairline-soft</code>, and the animation is
-    <code>cubic-bezier(.22,1,.36,1)</code> at 260/420&nbsp;ms. This page writes that down
-    so the next graphic matches without anyone having to reverse-engineer it.
+    <strong class="note__title">Everything here is measured, not invented</strong>
+    The eight cards in the profile README are generated daily by
+    <code>scripts/generate-cards.mjs</code> and committed as static SVG — no third-party badge
+    service in the render path. Every number on this page was read back out of those files.
+    They already use this system's tokens exactly: <code>rx="20"</code> is <code>--r-lg</code>,
+    the card stroke is <code>--hairline</code>, gridlines are <code>--hairline-soft</code>, and
+    the motion is <code>cubic-bezier(.22,1,.36,1)</code> at 260/420&nbsp;ms.
   </div>
 
   <h2 id="icons">Icons</h2>
@@ -129,7 +128,7 @@
   <div class="spec mt-6">
     <div class="spec__label">The icon contract</div>
     <div class="spec__demo">
-      <div class="cluster" style="gap:var(--s-6)">
+      <div class="cluster demo-gap-6">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
@@ -138,7 +137,7 @@
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg>
       </div>
       <p class="sm t2 mt-6">The same six on a filled accent — they inherit <code>--accent-ink</code> with no extra rule:</p>
-      <div class="cluster mt-3" style="gap:var(--s-6);background:var(--accent);color:var(--accent-ink);padding:var(--s-4);border-radius:var(--r-md)">
+      <div class="cluster mt-3 demo-gap-6 demo-on-accent">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
@@ -170,147 +169,451 @@
     </table>
   </div>
 
-  <h2 id="chart-colour">Chart colour</h2>
-  <p class="t2 mt-4 measure">Six steps out from the accent. Light runs dark&nbsp;→&nbsp;pale, dark runs bright&nbsp;→&nbsp;deep. Assign <code>--c-1</code> to the largest series and work down, so the ordering carries meaning rather than being arbitrary.</p>
-
-  <div class="swatches mt-6">
-    <div class="swatch"><div class="swatch__chip" style="background:var(--c-1)"></div><div class="swatch__meta"><p class="swatch__name">--c-1</p><p class="swatch__val">#03724d / #4dff9a</p></div></div>
-    <div class="swatch"><div class="swatch__chip" style="background:var(--c-2)"></div><div class="swatch__meta"><p class="swatch__name">--c-2</p><p class="swatch__val">#089a6a / #2dfa86</p></div></div>
-    <div class="swatch"><div class="swatch__chip" style="background:var(--c-3)"></div><div class="swatch__meta"><p class="swatch__name">--c-3</p><p class="swatch__val">#10c085 / #10f473</p></div></div>
-    <div class="swatch"><div class="swatch__chip" style="background:var(--c-4)"></div><div class="swatch__meta"><p class="swatch__name">--c-4</p><p class="swatch__val">#1ae3a0 / #0fd163</p></div></div>
-    <div class="swatch"><div class="swatch__chip" style="background:var(--c-5)"></div><div class="swatch__meta"><p class="swatch__name">--c-5</p><p class="swatch__val">#47e3af / #10ac54</p></div></div>
-    <div class="swatch"><div class="swatch__chip" style="background:var(--c-6)"></div><div class="swatch__meta"><p class="swatch__name">--c-6</p><p class="swatch__val">#73e5bf / #118844</p></div></div>
-  </div>
-
-  <div class="note note--warn mt-6">
-    <strong class="note__title">Six is the ceiling</strong>
-    Past six categories nobody can match a colour back to a legend. Group the tail into
-    "Other" and label it. If the data genuinely has twelve categories, a chart is the wrong
-    form for it — use a <a href="/pages/components.html#tables">table</a>.
-  </div>
-
-  <h2 id="stacked">Stacked bar</h2>
-  <p class="t2 mt-4 measure">The language-share idiom from the profile cards. One rounded track, segments in ramp order, a legend beneath with the figure as tabular numerals.</p>
+  <h2 id="card">The card system</h2>
+  <p class="t2 mt-4 measure">A card is a complete SVG — frame, type, data and animation in one file, with no external CSS. It has to stand alone because GitHub strips <code>&lt;style&gt;</code> from Markdown but honours it <em>inside</em> an SVG.</p>
 
   <div class="spec mt-6">
-    <div class="spec__label">Stacked bar with legend</div>
-    <div class="spec__demo">
-      <svg viewBox="0 0 600 8" width="100%" height="8" role="img" aria-label="Language share: TypeScript 42 percent, Go 24, Python 16, CSS 9, Shell 5, other 4." style="border-radius:4px;overflow:hidden">
-        <rect x="0" y="0" width="600" height="8" fill="var(--bg-sunken)"/>
-        <rect x="0" y="0" width="252" height="8" fill="var(--c-1)"/>
-        <rect x="252" y="0" width="144" height="8" fill="var(--c-2)"/>
-        <rect x="396" y="0" width="96" height="8" fill="var(--c-3)"/>
-        <rect x="492" y="0" width="54" height="8" fill="var(--c-4)"/>
-        <rect x="546" y="0" width="30" height="8" fill="var(--c-5)"/>
-        <rect x="576" y="0" width="24" height="8" fill="var(--c-6)"/>
-      </svg>
-      <ul class="chips mt-5" style="gap:var(--s-2) var(--s-5)">
-        <li class="xs t2"><span class="badge__dot" style="color:var(--c-1);display:inline-block;margin-inline-end:6px"></span>TypeScript <span class="nums t3">42%</span></li>
-        <li class="xs t2"><span class="badge__dot" style="color:var(--c-2);display:inline-block;margin-inline-end:6px"></span>Go <span class="nums t3">24%</span></li>
-        <li class="xs t2"><span class="badge__dot" style="color:var(--c-3);display:inline-block;margin-inline-end:6px"></span>Python <span class="nums t3">16%</span></li>
-        <li class="xs t2"><span class="badge__dot" style="color:var(--c-4);display:inline-block;margin-inline-end:6px"></span>CSS <span class="nums t3">9%</span></li>
-        <li class="xs t2"><span class="badge__dot" style="color:var(--c-5);display:inline-block;margin-inline-end:6px"></span>Shell <span class="nums t3">5%</span></li>
-        <li class="xs t2"><span class="badge__dot" style="color:var(--c-6);display:inline-block;margin-inline-end:6px"></span>Other <span class="nums t3">4%</span></li>
-      </ul>
-    </div>
-    <p class="spec__note">The whole graphic is one <code>role="img"</code> with the figures spelled out in <code>aria-label</code>. A screen reader gets the numbers; it should never have to infer them from bar widths.</p>
-  </div>
-
-  <h2 id="radar">Radar</h2>
-  <p class="t2 mt-4 measure">Six axes, three gridline rings, an accent polygon filled at 16%. More than six axes and the shape stops being readable; fewer than five and a bar chart says it better.</p>
-
-  <div class="spec mt-6">
-    <div class="spec__label">Ability radar</div>
-    <div class="spec__demo" style="text-align:center">
-      <svg viewBox="0 0 260 260" width="260" height="260" role="img" aria-label="Ability profile: delivery 9 of 10, architecture 8, applied AI 8, data 7, frontend 6, ops 7." style="display:inline-block">
-        <g fill="none" stroke="var(--chart-grid)">
-          <polygon points="130,86 168.1,108 168.1,152 130,174 91.9,152 91.9,108"/>
-          <polygon points="130,64 187.2,97 187.2,163 130,196 72.8,163 72.8,97"/>
-          <polygon points="130,42 206.2,86 206.2,174 130,218 53.8,174 53.8,86"/>
+    <div class="spec__label">Frame and grid</div>
+    <div class="spec__demo spec__demo--sunken">
+      <svg viewBox="0 0 880 208" width="100%" role="img" aria-label="Card grid diagram: 880 by 208, 24 pixel padding, title baseline at 36, subtitle at 54, plot area starting at 84." class="sysdiag">
+        <rect x="0.5" y="0.5" width="879" height="207" rx="20" fill="var(--bg-elevated)" stroke="var(--hairline)"/>
+        <g stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 4" opacity="0.7">
+          <path d="M24 0v208M856 0v208M0 84h880"/>
         </g>
-        <g stroke="var(--chart-grid)">
-          <path d="M130 130 130 42M130 130 206.2 86M130 130 206.2 174M130 130 130 218M130 130 53.8 174M130 130 53.8 86"/>
+        <g stroke="var(--hairline)" stroke-dasharray="2 3">
+          <path d="M0 36h880M0 54h880"/>
         </g>
-        <polygon points="130,50 191.0,90 183.6,166 130,205 68.1,161 76.4,95"
-                 fill="var(--accent)" fill-opacity="0.16"
-                 stroke="var(--accent)" stroke-width="1.8" stroke-linejoin="round"/>
-        <g fill="var(--text-3)" font-size="10" font-weight="600" text-anchor="middle" font-family="var(--font-sans)">
-          <text x="130" y="32">DELIVERY</text>
-          <text x="221" y="82">ARCH</text>
-          <text x="223" y="184">AI</text>
-          <text x="130" y="234">DATA</text>
-          <text x="37" y="184">FRONTEND</text>
-          <text x="39" y="82">OPS</text>
+        <text x="24" y="36" font-size="14" font-weight="600" fill="var(--text)" letter-spacing="-0.2">Card title</text>
+        <text x="24" y="54" font-size="10" font-weight="400" fill="var(--text-3)">Supporting line — what the numbers are measuring</text>
+        <g fill="var(--text-3)" font-size="9" font-weight="600">
+          <text x="34" y="200">24 padding</text>
+          <text x="770" y="200">24 padding</text>
+          <text x="640" y="78">plot area starts y=84</text>
+          <text x="640" y="32">title baseline y=36</text>
+          <text x="640" y="50">subtitle baseline y=54</text>
         </g>
       </svg>
     </div>
-    <p class="spec__note">Gridlines use <code>--chart-grid</code>, which resolves to <code>--hairline-soft</code>. The fill opacity is <code>0.16</code> rather than the <code>--accent-wash</code> 12% — a wash sits over a flat surface, this sits over gridlines and needs a little more body.</p>
-  </div>
-
-  <h2 id="cards">Self-contained SVG cards</h2>
-  <p class="t2 mt-4 measure">The pattern behind the profile README: an SVG that is a complete card — frame, type, data and animation in one file, with no external CSS. It has to stand alone because GitHub strips <code>&lt;style&gt;</code> from Markdown but honours it <em>inside</em> an SVG.</p>
-
-  <div class="spec mt-6">
-    <div class="spec__label">Card frame — the values that make it match</div>
     <div class="spec__code">
 <pre>&lt;svg xmlns="http://www.w3.org/2000/svg" width="100%" height="208"
      viewBox="0 0 880 208" fill="none" role="img"
      preserveAspectRatio="xMidYMid meet"&gt;
 
-  &lt;!-- The 0.5 offset is what keeps a 1px stroke crisp: a whole-pixel
-       edge straddles two device pixels and renders as 2px of grey. --&gt;
+  &lt;!-- The 0.5 offset keeps a 1px stroke crisp: a whole-pixel edge
+       straddles two device pixels and renders as 2px of grey. --&gt;
   &lt;rect x="0.5" y="0.5" width="879" height="207" rx="20"
         fill="#ffffff" stroke="#000000" stroke-opacity="0.1"/&gt;
 
   &lt;!-- dark twin: fill="#1c1c1e" stroke="#ffffff" stroke-opacity="0.13" --&gt;
 &lt;/svg&gt;</pre>
     </div>
-    <p class="spec__note">880&nbsp;px wide for every card, so a column of them lines up. <code>rx="20"</code> is <code>--r-lg</code>. The stroke opacities are <code>--hairline</code> in each theme (10% and 13%).</p>
+    <p class="spec__note">Every card is 880 wide so a column of them lines up. <code>rx="20"</code> is <code>--r-lg</code>. The stroke opacities are <code>--hairline</code> in each theme — 10% black, 13% white.</p>
   </div>
 
-  <div class="spec">
-    <div class="spec__label">Type inside an SVG</div>
-    <div class="spec__demo">
-      <div class="table-wrap">
-        <table class="table table--compact">
-          <thead><tr><th class="num">size</th><th class="num">weight</th><th class="num">tracking</th><th>Role</th></tr></thead>
-          <tbody>
-            <tr><td class="num">20</td><td class="num">700</td><td class="num">-0.6</td><td>The headline figure on a card</td></tr>
-            <tr><td class="num">14</td><td class="num">600</td><td class="num">-0.2</td><td>Card title</td></tr>
-            <tr><td class="num">12</td><td class="num">500</td><td class="num">-0.07</td><td>Series labels, axis values</td></tr>
-            <tr><td class="num">10</td><td class="num">600</td><td class="num">-0.05</td><td>Uppercase axis captions</td></tr>
-            <tr><td class="num">9</td><td class="num">400</td><td class="num">-0.05</td><td>Footnotes, timestamps</td></tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="table-wrap mt-6">
+    <table class="table table--compact">
+      <caption>Canonical heights, as generated. Width is always 880.</caption>
+      <thead><tr><th>Card</th><th class="num">Height</th><th>Idiom</th></tr></thead>
+      <tbody>
+        <tr><td>streak</td><td class="num">168</td><td>Three-column stat row</td></tr>
+        <tr><td>overview</td><td class="num">208</td><td>Stats plus a stacked share bar</td></tr>
+        <tr><td>rhythm</td><td class="num">208</td><td>Two panels side by side</td></tr>
+        <tr><td>activity</td><td class="num">268</td><td>Weekly columns on a gridded plot</td></tr>
+        <tr><td>languages</td><td class="num">276</td><td>Full-width share bar and legend</td></tr>
+        <tr><td>ability</td><td class="num">336</td><td>Six-axis radar</td></tr>
+        <tr><td>frameworks</td><td class="num">356</td><td>Proportional blocks</td></tr>
+        <tr><td>calendar</td><td class="num">428</td><td>Polar year clock</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note--info mt-6">
+    <strong class="note__title">Order the column most-signal-first</strong>
+    Identity and headline numbers, then "is this person active right now", then "what do they
+    build with", then the slower-moving shape of the year. The tallest and most decorative
+    card goes last, where its height costs the reader nothing.
+  </div>
+
+  <h2 id="type">Type inside an SVG</h2>
+  <p class="t2 mt-4 measure">SVG has no <code>rem</code>, so sizes are raw px and do not scale with the reader's font setting. That is the single biggest constraint here: keep card text at 8.5&nbsp;px or above, and never put anything essential in it that is not also in the <code>aria-label</code>.</p>
+
+  <div class="table-wrap mt-6">
+    <table class="table">
+      <caption>Every size/weight/tracking combination used across the eight cards</caption>
+      <thead><tr><th class="num">size</th><th class="num">weight</th><th class="num">tracking</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td class="num">30</td><td class="num">700</td><td class="num">-0.9</td><td>Headline figure in a stat column</td></tr>
+        <tr><td class="num">20</td><td class="num">700</td><td class="num">-0.6</td><td>Secondary figure</td></tr>
+        <tr><td class="num">14</td><td class="num">600</td><td class="num">-0.2</td><td>Card title</td></tr>
+        <tr><td class="num">12</td><td class="num">600</td><td class="num">-0.07</td><td>Panel heading, series name</td></tr>
+        <tr><td class="num">11</td><td class="num">600</td><td class="num">-0.07</td><td>Label inside a filled block</td></tr>
+        <tr><td class="num">10</td><td class="num">600</td><td class="num">+0.7</td><td>Uppercase stat label — positive tracking, it is set in caps</td></tr>
+        <tr><td class="num">10</td><td class="num">400</td><td class="num">-0.06</td><td>Card subtitle, date range, footnote</td></tr>
+        <tr><td class="num">9</td><td class="num">600</td><td class="num">-0.05</td><td>Axis caption</td></tr>
+        <tr><td class="num">9</td><td class="num">400</td><td class="num">-0.06</td><td>Axis value, secondary label in a block</td></tr>
+        <tr><td class="num">8.5</td><td class="num">600</td><td class="num">-0.05</td><td>Month label on the year clock — the floor</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rules mt-6">
+    <div class="rule rule--do">
+      <span class="rule__h">Do</span>
+      Set uppercase labels with <em>positive</em> tracking (+0.7). Caps need opening up; the negative tracking used everywhere else is for mixed-case type.
     </div>
-    <p class="spec__note">SVG has no <code>rem</code>, so sizes are raw px and do not scale with the user's font setting. Keep card text at 9&nbsp;px or above, and never put anything essential in it that is not also in the <code>aria-label</code>.</p>
+    <div class="rule rule--do">
+      <span class="rule__h">Do</span>
+      Put <code>style="font-variant-numeric:tabular-nums"</code> on every figure. Proportional digits make a column of numbers ripple.
+    </div>
   </div>
 
-  <div class="spec">
-    <div class="spec__label">Animation — same curve and durations as the CSS</div>
+  <h2 id="ramp">The chart ramp</h2>
+  <p class="t2 mt-4 measure">Not a fixed palette — a <strong>function</strong>. Interpolate from <code>--c-from</code> to <code>--c-to</code> and sample it at however many series you have. The overview card samples 6, frameworks 10, languages 16, all from the same two endpoints.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">The ramp at 6, 10 and 16 samples</div>
+    <div class="spec__demo">
+      <p class="xs t3 mono">6 — the --c-1 … --c-6 tokens</p>
+      <svg viewBox="0 0 600 26" width="100%" height="26" role="img" aria-label="The ramp sampled at six steps." class="ramp">
+        <rect x="0"   y="0" width="100" height="26" fill="var(--c-1)"/><rect x="100" y="0" width="100" height="26" fill="var(--c-2)"/>
+        <rect x="200" y="0" width="100" height="26" fill="var(--c-3)"/><rect x="300" y="0" width="100" height="26" fill="var(--c-4)"/>
+        <rect x="400" y="0" width="100" height="26" fill="var(--c-5)"/><rect x="500" y="0" width="100" height="26" fill="var(--c-6)"/>
+      </svg>
+      <p class="xs t3 mono mt-5">10 — as generated for the frameworks card</p>
+      <svg viewBox="0 0 600 26" width="100%" height="26" role="img" aria-label="The ramp sampled at ten steps." class="ramp">
+        <rect x="0" y="0" width="60" height="26" fill="#03724d"/><rect x="60" y="0" width="60" height="26" fill="#06895e"/>
+        <rect x="120" y="0" width="60" height="26" fill="#09a06e"/><rect x="180" y="0" width="60" height="26" fill="#0eb57d"/>
+        <rect x="240" y="0" width="60" height="26" fill="#13ca8d"/><rect x="300" y="0" width="60" height="26" fill="#19de9c"/>
+        <rect x="360" y="0" width="60" height="26" fill="#2de4a7"/><rect x="420" y="0" width="60" height="26" fill="#47e3af"/>
+        <rect x="480" y="0" width="60" height="26" fill="#60e4b8"/><rect x="540" y="0" width="60" height="26" fill="#79e5c1"/>
+      </svg>
+      <p class="xs t3 mono mt-5">16 — as generated for the languages card</p>
+      <svg viewBox="0 0 600 26" width="100%" height="26" role="img" aria-label="The ramp sampled at sixteen steps." class="ramp">
+        <rect x="0" y="0" width="37.5" height="26" fill="#03724d"/><rect x="37.5" y="0" width="37.5" height="26" fill="#058157"/>
+        <rect x="75" y="0" width="37.5" height="26" fill="#068f61"/><rect x="112.5" y="0" width="37.5" height="26" fill="#099c6b"/>
+        <rect x="150" y="0" width="37.5" height="26" fill="#0baa75"/><rect x="187.5" y="0" width="37.5" height="26" fill="#0eb77e"/>
+        <rect x="225" y="0" width="37.5" height="26" fill="#11c388"/><rect x="262.5" y="0" width="37.5" height="26" fill="#15d092"/>
+        <rect x="300" y="0" width="37.5" height="26" fill="#18dc9b"/><rect x="337.5" y="0" width="37.5" height="26" fill="#20e4a3"/>
+        <rect x="375" y="0" width="37.5" height="26" fill="#31e3a8"/><rect x="412.5" y="0" width="37.5" height="26" fill="#41e3ad"/>
+        <rect x="450" y="0" width="37.5" height="26" fill="#51e3b2"/><rect x="487.5" y="0" width="37.5" height="26" fill="#60e4b8"/>
+        <rect x="525" y="0" width="37.5" height="26" fill="#6fe5bd"/><rect x="562.5" y="0" width="37.5" height="26" fill="#7ee6c3"/>
+      </svg>
+    </div>
+    <div class="spec__code">
+<pre>// Endpoints, and the sampler the cards use.
+const RAMP = {
+  light: ['#03724d', '#7ee6c3'],   // dark green  → pale mint
+  dark:  ['#4dff9a', '#107f40'],   // vivid mint  → deep green
+};
+
+// n samples, evenly spaced, interpolated in sRGB.
+const mix = (a, b, t) =>
+  '#' + [0, 2, 4].map(i => {
+    const v = Math.round(
+      parseInt(a.slice(i + 1, i + 3), 16) * (1 - t) +
+      parseInt(b.slice(i + 1, i + 3), 16) * t
+    );
+    return v.toString(16).padStart(2, '0');
+  }).join('');
+
+const ramp = (n, theme) => {
+  const [from, to] = RAMP[theme];
+  return Array.from({ length: n }, (_, i) =>
+    mix(from, to, n === 1 ? 0 : i / (n - 1)));
+};</pre>
+    </div>
+    <p class="spec__note">The direction inverts by theme: light runs dark&nbsp;→&nbsp;pale, dark runs bright&nbsp;→&nbsp;deep. In both, index&nbsp;0 is the largest series and carries the most weight against its own background.</p>
+  </div>
+
+  <div class="note note--warn mt-6">
+    <strong class="note__title">Six is the ceiling for a legend</strong>
+    The generated cards go past six because they label every block <em>in place</em> — you never
+    match a colour back to a legend. If your chart needs a separate legend, stop at six and
+    group the tail as "Other". Past that, a <a href="/pages/components.html#tables">table</a> is
+    the honest form.
+  </div>
+
+  <h2 id="stat-row">Idiom — stat row</h2>
+  <p class="t2 mt-4 measure">Three figures across the card, divided by vertical hairlines at the thirds. The figure is the headline, the uppercase label says what it counts, and the third line gives it a denominator.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Stat row — the streak card</div>
+    <div class="spec__demo spec__demo--sunken">
+      <svg viewBox="0 0 880 168" width="100%" role="img" aria-label="Contribution streak: 5,945 total contributions since 24 June 2013; current streak 82 days; longest streak 82 days." class="card-demo">
+        <rect x="0.5" y="0.5" width="879" height="167" rx="20" fill="var(--bg-elevated)" stroke="var(--hairline)"/>
+        <text x="24" y="40" font-size="14" font-weight="600" fill="var(--text)" letter-spacing="-0.2">Contribution Streak</text>
+        <g stroke="var(--chart-grid)">
+          <path d="M293.33 68v78M586.67 68v78"/>
+        </g>
+        <g text-anchor="middle" class="nums-svg">
+          <text x="146.67" y="108" font-size="30" font-weight="700" fill="var(--text)" letter-spacing="-0.9">5,945</text>
+          <text x="146.67" y="130" font-size="10" font-weight="600" fill="var(--text-2)" letter-spacing="0.7">TOTAL CONTRIBUTIONS</text>
+          <text x="146.67" y="147" font-size="10" font-weight="400" fill="var(--text-3)">Jun 24, 2013 – Present</text>
+
+          <text x="440" y="108" font-size="30" font-weight="700" fill="var(--text)" letter-spacing="-0.9">82</text>
+          <text x="440" y="130" font-size="10" font-weight="600" fill="var(--text-2)" letter-spacing="0.7">CURRENT STREAK</text>
+          <text x="440" y="147" font-size="10" font-weight="400" fill="var(--text-3)">Jun 16 – Sep 5, 2026</text>
+
+          <text x="733.33" y="108" font-size="30" font-weight="700" fill="var(--text)" letter-spacing="-0.9">82</text>
+          <text x="733.33" y="130" font-size="10" font-weight="600" fill="var(--text-2)" letter-spacing="0.7">LONGEST STREAK</text>
+          <text x="733.33" y="147" font-size="10" font-weight="400" fill="var(--text-3)">Jun 16 – Sep 5, 2026</text>
+        </g>
+      </svg>
+    </div>
+    <p class="spec__note">Columns are centred at <code>880/6</code>, <code>880/2</code> and <code>880×5/6</code> — 146.67, 440, 733.33. Dividers sit at the thirds, insetting 68&nbsp;px from the top and 22 from the bottom so they never touch the card edge.</p>
+  </div>
+
+  <h2 id="share-bar">Idiom — share bar</h2>
+  <p class="t2 mt-4 measure">One rounded track, segments in ramp order, labels beneath. The right form for parts of a whole when the parts are named.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Stacked share bar with legend</div>
+    <div class="spec__demo">
+      <svg viewBox="0 0 600 10" width="100%" height="10" role="img" aria-label="Language share: TypeScript 42 percent, Go 24, Python 16, CSS 9, Shell 5, other 4." class="sharebar">
+        <rect x="0" y="0" width="600" height="10" rx="5" fill="var(--bg-sunken)"/>
+        <path d="M0 0h252v10H0z" fill="var(--c-1)"/>
+        <path d="M252 0h144v10H252z" fill="var(--c-2)"/>
+        <path d="M396 0h96v10h-96z" fill="var(--c-3)"/>
+        <path d="M492 0h54v10h-54z" fill="var(--c-4)"/>
+        <path d="M546 0h30v10h-30z" fill="var(--c-5)"/>
+        <path d="M576 0h24v10h-24z" fill="var(--c-6)"/>
+      </svg>
+      <ul class="chips mt-5 demo-legend">
+        <li class="xs t2"><span class="legend-dot legend-dot--1"></span>TypeScript <span class="nums t3">42%</span></li>
+        <li class="xs t2"><span class="legend-dot legend-dot--2"></span>Go <span class="nums t3">24%</span></li>
+        <li class="xs t2"><span class="legend-dot legend-dot--3"></span>Python <span class="nums t3">16%</span></li>
+        <li class="xs t2"><span class="legend-dot legend-dot--4"></span>CSS <span class="nums t3">9%</span></li>
+        <li class="xs t2"><span class="legend-dot legend-dot--5"></span>Shell <span class="nums t3">5%</span></li>
+        <li class="xs t2"><span class="legend-dot legend-dot--6"></span>Other <span class="nums t3">4%</span></li>
+      </ul>
+    </div>
+    <div class="spec__code">
+<pre>&lt;!-- The track is a rounded rect; segments are plain paths drawn over it.
+     Clipping the segments to the radius is unnecessary and costs a
+     clipPath — the track's own corners show through at both ends. --&gt;
+&lt;rect x="0" y="0" width="600" height="10" rx="5" fill="#f5f5f7"/&gt;
+&lt;path d="M0 0h252v10H0z"     fill="#03724d"/&gt;
+&lt;path d="M252 0h144v10H252z" fill="#089a6a"/&gt;</pre>
+    </div>
+    <p class="spec__note">Track height 8–10&nbsp;px, <code>rx</code> exactly half the height. The whole graphic is one <code>role="img"</code> with the figures spelled out — a screen reader should never have to infer a number from a bar width.</p>
+  </div>
+
+  <h2 id="blocks">Idiom — proportional blocks</h2>
+  <p class="t2 mt-4 measure">When every series needs a name and a number visible at once, drop the legend and label each block in place. Width is proportional; height is constant. This is what the frameworks card does, and it is why that card can carry ten series without confusion.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Proportional blocks, labelled in place</div>
+    <div class="spec__demo spec__demo--sunken">
+      <svg viewBox="0 0 832 120" width="100%" role="img" aria-label="Frameworks by repositories using each: Astro 24, Cloudflare Workers 22, React 21, Node 14, Vite 11, others 8." class="card-demo">
+        <g class="blocks">
+          <rect x="0"   y="0" width="192" height="120" rx="10" fill="#03724d"/>
+          <text x="9" y="22" font-size="11" font-weight="600" fill="#ffffff" letter-spacing="-0.07">Astro</text>
+          <text x="9" y="37" font-size="9" font-weight="400" fill="#ffffff" opacity="0.72">24 repos</text>
+
+          <rect x="196" y="0" width="176" height="120" rx="10" fill="#06895e"/>
+          <text x="205" y="22" font-size="11" font-weight="600" fill="#ffffff" letter-spacing="-0.07">Workers</text>
+          <text x="205" y="37" font-size="9" font-weight="400" fill="#ffffff" opacity="0.72">22 repos</text>
+
+          <rect x="376" y="0" width="168" height="120" rx="10" fill="#09a06e"/>
+          <text x="385" y="22" font-size="11" font-weight="600" fill="#ffffff" letter-spacing="-0.07">React</text>
+          <text x="385" y="37" font-size="9" font-weight="400" fill="#ffffff" opacity="0.72">21 repos</text>
+
+          <rect x="548" y="0" width="112" height="120" rx="10" fill="#0eb57d"/>
+          <text x="557" y="22" font-size="11" font-weight="600" fill="#0a2c1e" letter-spacing="-0.07">Node</text>
+          <text x="557" y="37" font-size="9" font-weight="400" fill="#0a2c1e" opacity="0.72">14 repos</text>
+
+          <rect x="664" y="0" width="88" height="120" rx="10" fill="#19de9c"/>
+          <text x="673" y="22" font-size="11" font-weight="600" fill="#0a2c1e" letter-spacing="-0.07">Vite</text>
+          <text x="673" y="37" font-size="9" font-weight="400" fill="#0a2c1e" opacity="0.72">11 repos</text>
+
+          <rect x="756" y="0" width="76" height="120" rx="10" fill="#47e3af"/>
+          <text x="765" y="22" font-size="11" font-weight="600" fill="#0a2c1e" letter-spacing="-0.07">Other</text>
+          <text x="765" y="37" font-size="9" font-weight="400" fill="#0a2c1e" opacity="0.72">8 repos</text>
+        </g>
+      </svg>
+    </div>
+    <p class="spec__note">Blocks are <code>rx="10"</code> with a 4&nbsp;px gutter, labels inset 9&nbsp;px. <strong>Watch the label contrast as the ramp lightens</strong> — white holds to about the fourth step, then the label has to flip to a dark ink. That switch is the one thing this idiom will get wrong if it is automated carelessly.</p>
+  </div>
+
+  <h2 id="columns">Idiom — columns</h2>
+  <p class="t2 mt-4 measure">Weekly activity as columns on a gridded plot. Gridlines behind, axis values in the left margin, columns growing from the baseline.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Column plot with gridlines</div>
+    <div class="spec__demo spec__demo--sunken">
+      <svg viewBox="0 0 832 200" width="100%" role="img" aria-label="Weekly contributions over the last twenty-six weeks, ranging from 4 to 61 per week, trending upward." class="card-demo">
+        <g stroke="var(--chart-grid)">
+          <path d="M30 20h802M30 75h802M30 130h802M30 168h802"/>
+        </g>
+        <g fill="var(--text-3)" font-size="9" text-anchor="end">
+          <text x="24" y="23.5">60</text><text x="24" y="78.5">40</text>
+          <text x="24" y="133.5">20</text><text x="24" y="171.5">0</text>
+        </g>
+        <g class="cols" fill="var(--c-2)">
+          <rect x="34"  y="140" width="18" height="28"/><rect x="65"  y="124" width="18" height="44"/>
+          <rect x="96"  y="146" width="18" height="22"/><rect x="127" y="110" width="18" height="58"/>
+          <rect x="158" y="96"  width="18" height="72"/><rect x="189" y="132" width="18" height="36"/>
+          <rect x="220" y="88"  width="18" height="80"/><rect x="251" y="118" width="18" height="50"/>
+          <rect x="282" y="74"  width="18" height="94"/><rect x="313" y="102" width="18" height="66"/>
+          <rect x="344" y="60"  width="18" height="108"/><rect x="375" y="86"  width="18" height="82"/>
+          <rect x="406" y="112" width="18" height="56"/><rect x="437" y="52"  width="18" height="116"/>
+          <rect x="468" y="78"  width="18" height="90"/><rect x="499" y="44"  width="18" height="124"/>
+          <rect x="530" y="94"  width="18" height="74"/><rect x="561" y="36"  width="18" height="132"/>
+          <rect x="592" y="68"  width="18" height="100"/><rect x="623" y="106" width="18" height="62"/>
+          <rect x="654" y="30"  width="18" height="138"/><rect x="685" y="82"  width="18" height="86"/>
+          <rect x="716" y="56"  width="18" height="112"/><rect x="747" y="24"  width="18" height="144"/>
+          <rect x="778" y="70"  width="18" height="98"/><rect x="809" y="40"  width="18" height="128"/>
+        </g>
+        <path d="M43 154 L74 146 105 157 136 139 167 132 198 150 229 128 260 143 291 121 322 135 353 114 384 127 415 140 446 110 477 123 508 106 539 131 570 102 601 118 632 137 663 99 694 125 725 112 756 96 787 119 818 104"
+              fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+      </svg>
+    </div>
+    <div class="spec__code">
+<pre>&lt;!-- Columns animate with scaleY from the baseline. transform-origin must
+     be explicit and in user units — an SVG element's default origin is the
+     viewport corner, not the element, so without it every bar grows from
+     the top-left of the whole card. --&gt;
+&lt;rect x="34" y="140" width="18" height="28" class="bar"
+      style="transform-origin:43px 168px; animation-delay:0.10s"/&gt;
+
+@keyframes bar { from { transform: scaleY(0); } }</pre>
+    </div>
+    <p class="spec__note">The plot insets from the card edge to leave a left margin for axis values — 54&nbsp;px in on the generated card, against 24 for everything else. Gridlines are <code>--chart-grid</code> and sit <em>behind</em> the data, never over it.</p>
+  </div>
+
+  <h2 id="radar">Idiom — radar</h2>
+  <p class="t2 mt-4 measure">Six axes, three gridline rings, an accent polygon filled at 16%. More than six axes and the shape stops being readable; fewer than five and a bar chart says it better.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Six-axis radar</div>
+    <div class="spec__demo demo-center-text">
+      <svg viewBox="0 0 260 260" width="260" height="260" role="img" aria-label="Ability profile: delivery 9 of 10, architecture 8, applied AI 8, data 7, frontend 6, ops 7." class="demo-inline">
+        <g fill="none" stroke="var(--chart-grid)">
+          <polygon points="130,86 168.1,108 168.1,152 130,174 91.9,152 91.9,108"/>
+          <polygon points="130,64 187.2,97 187.2,163 130,196 72.8,163 72.8,97"/>
+          <polygon points="130,42 206.2,86 206.2,174 130,218 53.8,174 53.8,86"/>
+          <path d="M130 130 130 42M130 130 206.2 86M130 130 206.2 174M130 130 130 218M130 130 53.8 174M130 130 53.8 86"/>
+        </g>
+        <polygon points="130,50 191.0,90 183.6,166 130,205 68.1,161 76.4,95"
+                 fill="var(--accent)" fill-opacity="0.16"
+                 stroke="var(--accent)" stroke-width="1.8" stroke-linejoin="round"/>
+        <g fill="var(--text-3)" font-size="10" font-weight="600" text-anchor="middle">
+          <text x="130" y="32">DELIVERY</text><text x="221" y="82">ARCH</text>
+          <text x="223" y="184">AI</text><text x="130" y="234">DATA</text>
+          <text x="37" y="184">FRONTEND</text><text x="39" y="82">OPS</text>
+        </g>
+      </svg>
+    </div>
+    <p class="spec__note">The fill is <code>0.16</code> rather than the <code>--accent-wash</code> 12% — a wash sits over a flat surface, this sits over gridlines and needs a little more body. The polygon animates with <code>grow-radar</code>, scaling from the centroid, so <code>transform-origin</code> is the radar's centre in user units.</p>
+  </div>
+
+  <h2 id="polar">Idiom — year clock</h2>
+  <p class="t2 mt-4 measure">The most decorative card, and last in the column for that reason. Twelve months around a ring, each day a spoke whose length and colour carry the count. Use it when the <em>shape</em> of a year is the point — not when anyone needs to read a specific value off it.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Polar year clock</div>
+    <div class="spec__demo spec__demo--sunken demo-center-text">
+      <svg viewBox="0 0 300 300" width="300" height="300" role="img" aria-label="Contribution year clock: activity by month, heaviest in March, June and October." class="demo-inline yearclock">
+        <circle cx="150" cy="150" r="52" fill="none" stroke="var(--hairline)"/>
+        <circle cx="150" cy="150" r="124" fill="none" stroke="var(--chart-grid)"/>
+        <g class="spokes" stroke-linecap="round"><path d="M150.0 98.0L150.0 90.9" stroke="var(--c-6)" stroke-width="1.4"/><path d="M150.9 98.0L151.3 76.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M151.8 98.0L152.6 75.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M152.7 98.1L153.9 74.0" stroke="var(--c-4)" stroke-width="1.4"/><path d="M153.6 98.1L155.3 72.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M154.5 98.2L156.7 71.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M155.4 98.3L156.4 88.7" stroke="var(--c-6)" stroke-width="1.4"/><path d="M156.3 98.4L157.5 88.4" stroke="var(--c-6)" stroke-width="1.4"/><path d="M157.1 98.5L161.2 69.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M158.0 98.6L162.7 68.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M158.9 98.8L164.2 68.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M159.8 98.9L165.7 67.9" stroke="var(--c-4)" stroke-width="1.4"/><path d="M160.7 99.1L167.2 67.7" stroke="var(--c-4)" stroke-width="1.4"/><path d="M161.5 99.3L164.1 88.2" stroke="var(--c-6)" stroke-width="1.4"/><path d="M162.4 99.5L165.1 88.4" stroke="var(--c-6)" stroke-width="1.4"/><path d="M163.3 99.7L171.6 68.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M164.1 100.0L173.0 68.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M165.0 100.2L174.4 69.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M165.9 100.5L175.7 69.9" stroke="var(--c-4)" stroke-width="1.4"/><path d="M166.7 100.8L176.9 70.7" stroke="var(--c-4)" stroke-width="1.4"/><path d="M167.6 101.1L171.2 90.8" stroke="var(--c-6)" stroke-width="1.4"/><path d="M168.4 101.4L172.2 91.3" stroke="var(--c-6)" stroke-width="1.4"/><path d="M169.2 101.7L180.3 73.9" stroke="var(--c-4)" stroke-width="1.4"/><path d="M170.1 102.0L181.3 75.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M170.9 102.4L182.2 76.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M171.7 102.7L183.1 77.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M172.5 103.1L184.0 79.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M173.3 103.5L177.3 95.5" stroke="var(--c-6)" stroke-width="1.4"/><path d="M174.1 103.9L178.1 96.2" stroke="var(--c-6)" stroke-width="1.4"/><path d="M174.9 104.3L186.3 83.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M175.7 104.8L187.1 84.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M176.5 105.2L187.8 86.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M177.2 105.7L188.5 87.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M178.0 106.2L189.3 88.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M178.7 106.7L182.7 100.7" stroke="var(--c-6)" stroke-width="1.4"/><path d="M179.5 107.2L183.5 101.4" stroke="var(--c-6)" stroke-width="1.4"/><path d="M180.2 107.7L191.7 91.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M180.9 108.2L192.6 92.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M181.6 108.7L193.6 93.1" stroke="var(--c-5)" stroke-width="1.4"/><path d="M182.3 109.3L194.7 93.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M183.0 109.8L195.9 94.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M183.7 110.4L188.4 104.9" stroke="var(--c-6)" stroke-width="1.4"/><path d="M184.4 111.0L189.3 105.4" stroke="var(--c-6)" stroke-width="1.4"/><path d="M185.1 111.6L200.0 95.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M185.7 112.2L201.6 95.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M186.4 112.8L203.3 95.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M187.0 113.5L205.1 95.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M187.6 114.1L207.1 95.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M188.2 114.8L195.6 108.0" stroke="var(--c-6)" stroke-width="1.4"/><path d="M188.8 115.4L196.7 108.4" stroke="var(--c-6)" stroke-width="1.4"/><path d="M189.4 116.1L213.6 95.3" stroke="var(--c-4)" stroke-width="1.4"/><path d="M190.0 116.8L216.0 95.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M190.6 117.5L218.4 95.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M191.1 118.2L220.9 95.1" stroke="var(--c-3)" stroke-width="1.4"/><path d="M191.7 118.9L223.5 95.1" stroke="var(--c-3)" stroke-width="1.4"/><path d="M192.2 119.6L204.1 111.1" stroke="var(--c-5)" stroke-width="1.4"/><path d="M192.7 120.3L205.3 111.6" stroke="var(--c-5)" stroke-width="1.4"/><path d="M193.2 121.1L231.3 95.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M193.7 121.8L233.9 96.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M194.2 122.6L236.4 96.4" stroke="var(--c-2)" stroke-width="1.4"/><path d="M194.7 123.4L238.9 97.0" stroke="var(--c-2)" stroke-width="1.4"/><path d="M195.1 124.1L241.3 97.6" stroke="var(--c-2)" stroke-width="1.4"/><path d="M195.5 124.9L212.4 115.6" stroke="var(--c-5)" stroke-width="1.4"/><path d="M196.0 125.7L213.4 116.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M196.4 126.5L247.9 100.4" stroke="var(--c-2)" stroke-width="1.4"/><path d="M196.8 127.3L249.7 101.6" stroke="var(--c-2)" stroke-width="1.4"/><path d="M197.2 128.1L251.5 102.9" stroke="var(--c-2)" stroke-width="1.4"/><path d="M197.5 128.9L253.0 104.3" stroke="var(--c-1)" stroke-width="1.4"/><path d="M197.9 129.7L254.3 105.9" stroke="var(--c-1)" stroke-width="1.4"/><path d="M198.2 130.6L218.3 122.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M198.6 131.4L218.8 123.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M198.9 132.2L257.0 111.1" stroke="var(--c-1)" stroke-width="1.4"/><path d="M199.2 133.1L257.5 113.0" stroke="var(--c-1)" stroke-width="1.4"/><path d="M199.5 133.9L257.7 115.0" stroke="var(--c-1)" stroke-width="1.4"/><path d="M199.7 134.8L257.7 117.0" stroke="var(--c-1)" stroke-width="1.4"/><path d="M200.0 135.6L257.5 119.1" stroke="var(--c-2)" stroke-width="1.4"/><path d="M200.2 136.5L220.1 131.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M200.4 137.4L220.0 132.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M200.7 138.2L255.5 125.5" stroke="var(--c-2)" stroke-width="1.4"/><path d="M200.8 139.1L254.4 127.6" stroke="var(--c-2)" stroke-width="1.4"/><path d="M201.0 140.0L253.2 129.8" stroke="var(--c-2)" stroke-width="1.4"/><path d="M201.2 140.9L251.8 131.9" stroke="var(--c-2)" stroke-width="1.4"/><path d="M201.3 141.8L250.3 133.9" stroke="var(--c-2)" stroke-width="1.4"/><path d="M201.5 142.6L218.0 140.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M201.6 143.5L217.4 141.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M201.7 144.4L245.0 139.7" stroke="var(--c-3)" stroke-width="1.4"/><path d="M201.8 145.3L243.1 141.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M201.9 146.2L241.2 143.3" stroke="var(--c-3)" stroke-width="1.4"/><path d="M201.9 147.1L239.3 145.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M202.0 148.0L237.4 146.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M202.0 148.9L213.7 148.6" stroke="var(--c-6)" stroke-width="1.4"/><path d="M202.0 149.8L213.1 149.7" stroke="var(--c-6)" stroke-width="1.4"/><path d="M202.0 150.7L231.8 151.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M202.0 151.6L230.1 152.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M201.9 152.5L228.5 153.7" stroke="var(--c-4)" stroke-width="1.4"/><path d="M201.9 153.4L227.0 155.0" stroke="var(--c-4)" stroke-width="1.4"/><path d="M201.8 154.2L225.7 156.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M201.7 155.1L209.7 155.9" stroke="var(--c-6)" stroke-width="1.4"/><path d="M201.6 156.0L209.3 156.9" stroke="var(--c-6)" stroke-width="1.4"/><path d="M201.5 156.9L222.4 159.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M201.4 157.8L221.7 160.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M201.3 158.7L221.0 162.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M201.1 159.6L220.6 163.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M200.9 160.4L220.2 164.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M200.8 161.3L207.5 162.8" stroke="var(--c-6)" stroke-width="1.4"/><path d="M200.6 162.2L207.4 163.8" stroke="var(--c-6)" stroke-width="1.4"/><path d="M200.3 163.1L220.1 168.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M200.1 163.9L220.2 169.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M199.9 164.8L220.5 170.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M199.6 165.6L220.9 172.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M199.3 166.5L221.3 173.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M199.0 167.3L207.0 170.2" stroke="var(--c-6)" stroke-width="1.4"/><path d="M198.7 168.2L207.0 171.3" stroke="var(--c-6)" stroke-width="1.4"/><path d="M198.4 169.0L222.9 178.7" stroke="var(--c-4)" stroke-width="1.4"/><path d="M198.1 169.8L223.5 180.3" stroke="var(--c-4)" stroke-width="1.4"/><path d="M197.7 170.7L224.0 182.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M197.4 171.5L224.6 183.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M197.0 172.3L225.0 185.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M196.6 173.1L206.7 178.1" stroke="var(--c-6)" stroke-width="1.4"/><path d="M196.2 173.9L206.6 179.3" stroke="var(--c-6)" stroke-width="1.4"/><path d="M195.8 174.7L226.1 191.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M195.3 175.5L226.3 192.9" stroke="var(--c-4)" stroke-width="1.4"/><path d="M194.9 176.3L226.4 194.7" stroke="var(--c-3)" stroke-width="1.4"/><path d="M194.4 177.0L226.3 196.4" stroke="var(--c-3)" stroke-width="1.4"/><path d="M194.0 177.8L226.2 198.2" stroke="var(--c-3)" stroke-width="1.4"/><path d="M193.5 178.5L204.8 186.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M193.0 179.3L204.4 187.1" stroke="var(--c-5)" stroke-width="1.4"/><path d="M192.5 180.0L225.1 203.1" stroke="var(--c-3)" stroke-width="1.4"/><path d="M191.9 180.7L224.5 204.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M191.4 181.5L223.7 206.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M190.9 182.2L222.9 207.4" stroke="var(--c-3)" stroke-width="1.4"/><path d="M190.3 182.9L221.9 208.7" stroke="var(--c-3)" stroke-width="1.4"/><path d="M189.7 183.6L200.6 192.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M189.1 184.2L199.8 193.6" stroke="var(--c-5)" stroke-width="1.4"/><path d="M188.5 184.9L218.5 212.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M187.9 185.6L217.2 213.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M187.3 186.2L215.9 213.9" stroke="var(--c-3)" stroke-width="1.4"/><path d="M186.7 186.8L214.4 214.7" stroke="var(--c-3)" stroke-width="1.4"/><path d="M186.1 187.5L213.0 215.5" stroke="var(--c-3)" stroke-width="1.4"/><path d="M185.4 188.1L194.5 197.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M184.7 188.7L193.6 198.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M184.1 189.3L208.5 217.4" stroke="var(--c-3)" stroke-width="1.4"/><path d="M183.4 189.9L206.9 218.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M182.7 190.4L205.4 218.5" stroke="var(--c-3)" stroke-width="1.4"/><path d="M182.0 191.0L203.9 219.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M181.3 191.5L202.4 219.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M180.6 192.1L187.7 201.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M179.8 192.6L186.7 202.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M179.1 193.1L198.2 221.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M178.4 193.6L196.9 222.0" stroke="var(--c-4)" stroke-width="1.4"/><path d="M177.6 194.1L195.6 222.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M176.8 194.5L194.3 223.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M176.1 195.0L193.1 224.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M175.3 195.4L181.1 205.9" stroke="var(--c-6)" stroke-width="1.4"/><path d="M174.5 195.9L180.2 206.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M173.7 196.3L189.6 227.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M172.9 196.7L188.5 228.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M172.1 197.1L187.5 229.8" stroke="var(--c-3)" stroke-width="1.4"/><path d="M171.3 197.4L186.4 231.1" stroke="var(--c-3)" stroke-width="1.4"/><path d="M170.5 197.8L185.3 232.5" stroke="var(--c-3)" stroke-width="1.4"/><path d="M169.6 198.1L174.8 210.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M168.8 198.5L173.8 211.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M168.0 198.8L182.1 237.1" stroke="var(--c-3)" stroke-width="1.4"/><path d="M167.1 199.1L181.0 238.8" stroke="var(--c-3)" stroke-width="1.4"/><path d="M166.3 199.4L179.8 240.5" stroke="var(--c-3)" stroke-width="1.4"/><path d="M165.4 199.7L178.6 242.1" stroke="var(--c-3)" stroke-width="1.4"/><path d="M164.6 199.9L177.4 243.8" stroke="var(--c-3)" stroke-width="1.4"/><path d="M163.7 200.2L168.1 216.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M162.8 200.4L167.0 216.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M162.0 200.6L173.4 248.8" stroke="var(--c-2)" stroke-width="1.4"/><path d="M161.1 200.8L171.9 250.4" stroke="var(--c-2)" stroke-width="1.4"/><path d="M160.2 201.0L170.4 251.9" stroke="var(--c-2)" stroke-width="1.4"/><path d="M159.3 201.2L168.9 253.3" stroke="var(--c-2)" stroke-width="1.4"/><path d="M158.5 201.3L167.3 254.6" stroke="var(--c-2)" stroke-width="1.4"/><path d="M157.6 201.4L160.4 220.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M156.7 201.6L159.2 220.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M155.8 201.7L162.1 257.6" stroke="var(--c-2)" stroke-width="1.4"/><path d="M154.9 201.8L160.3 258.3" stroke="var(--c-2)" stroke-width="1.4"/><path d="M154.0 201.8L158.5 258.9" stroke="var(--c-2)" stroke-width="1.4"/><path d="M153.1 201.9L156.6 259.2" stroke="var(--c-2)" stroke-width="1.4"/><path d="M152.2 202.0L154.7 259.4" stroke="var(--c-2)" stroke-width="1.4"/><path d="M151.3 202.0L151.9 222.1" stroke="var(--c-5)" stroke-width="1.4"/><path d="M150.4 202.0L150.6 222.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M149.6 202.0L149.1 258.7" stroke="var(--c-2)" stroke-width="1.4"/><path d="M148.7 202.0L147.2 258.1" stroke="var(--c-2)" stroke-width="1.4"/><path d="M147.8 202.0L145.4 257.2" stroke="var(--c-2)" stroke-width="1.4"/><path d="M146.9 201.9L143.6 256.2" stroke="var(--c-2)" stroke-width="1.4"/><path d="M146.0 201.8L141.8 255.0" stroke="var(--c-2)" stroke-width="1.4"/><path d="M145.1 201.8L143.4 219.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M144.2 201.7L142.2 219.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M143.3 201.6L137.0 250.4" stroke="var(--c-2)" stroke-width="1.4"/><path d="M142.4 201.4L135.5 248.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M141.5 201.3L134.1 246.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M140.7 201.2L132.7 244.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M139.8 201.0L131.5 242.4" stroke="var(--c-3)" stroke-width="1.4"/><path d="M138.9 200.8L135.9 214.6" stroke="var(--c-5)" stroke-width="1.4"/><path d="M138.0 200.6L134.9 213.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M137.2 200.4L128.2 235.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M136.3 200.2L127.2 233.3" stroke="var(--c-4)" stroke-width="1.4"/><path d="M135.4 199.9L126.4 231.0" stroke="var(--c-4)" stroke-width="1.4"/><path d="M134.6 199.7L125.5 228.7" stroke="var(--c-4)" stroke-width="1.4"/><path d="M133.7 199.4L124.8 226.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M132.9 199.1L129.8 207.9" stroke="var(--c-6)" stroke-width="1.4"/><path d="M132.0 198.8L129.0 207.0" stroke="var(--c-6)" stroke-width="1.4"/><path d="M131.2 198.5L122.8 220.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M130.4 198.1L122.2 218.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M129.5 197.8L121.5 216.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M128.7 197.4L120.9 214.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M127.9 197.1L120.3 213.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M127.1 196.7L124.5 202.0" stroke="var(--c-6)" stroke-width="1.4"/><path d="M126.3 196.3L123.7 201.3" stroke="var(--c-6)" stroke-width="1.4"/><path d="M125.5 195.9L118.3 209.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M124.7 195.4L117.5 208.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M123.9 195.0L116.7 207.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M123.2 194.5L115.8 206.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M122.4 194.1L114.8 206.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M121.6 193.6L118.9 197.8" stroke="var(--c-6)" stroke-width="1.4"/><path d="M120.9 193.1L118.0 197.4" stroke="var(--c-6)" stroke-width="1.4"/><path d="M120.2 192.6L111.5 205.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M119.4 192.1L110.2 204.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M118.7 191.5L108.8 204.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M118.0 191.0L107.4 204.6" stroke="var(--c-5)" stroke-width="1.4"/><path d="M117.3 190.4L105.9 204.6" stroke="var(--c-5)" stroke-width="1.4"/><path d="M116.6 189.9L112.3 195.0" stroke="var(--c-6)" stroke-width="1.4"/><path d="M115.9 189.3L111.3 194.7" stroke="var(--c-6)" stroke-width="1.4"/><path d="M115.3 188.7L100.9 204.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M114.6 188.1L99.2 204.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M113.9 187.5L97.4 204.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M113.3 186.8L95.6 204.7" stroke="var(--c-4)" stroke-width="1.4"/><path d="M112.7 186.2L93.8 204.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M112.1 185.6L105.0 192.2" stroke="var(--c-6)" stroke-width="1.4"/><path d="M111.5 184.9L104.0 191.7" stroke="var(--c-6)" stroke-width="1.4"/><path d="M110.9 184.2L88.4 203.9" stroke="var(--c-4)" stroke-width="1.4"/><path d="M110.3 183.6L86.6 203.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M109.7 182.9L84.9 203.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M109.1 182.2L83.3 202.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M108.6 181.5L81.7 201.9" stroke="var(--c-4)" stroke-width="1.4"/><path d="M108.1 180.7L98.3 187.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M107.5 180.0L97.5 187.1" stroke="var(--c-5)" stroke-width="1.4"/><path d="M107.0 179.3L77.6 199.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M106.5 178.5L76.4 198.3" stroke="var(--c-3)" stroke-width="1.4"/><path d="M106.0 177.8L75.3 197.2" stroke="var(--c-3)" stroke-width="1.4"/><path d="M105.6 177.0L74.3 196.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M105.1 176.3L73.5 194.8" stroke="var(--c-3)" stroke-width="1.4"/><path d="M104.7 175.5L93.5 181.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M104.2 174.7L93.0 180.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M103.8 173.9L71.6 190.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M103.4 173.1L71.2 189.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M103.0 172.3L70.9 187.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M102.6 171.5L70.7 186.0" stroke="var(--c-4)" stroke-width="1.4"/><path d="M102.3 170.7L70.5 184.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M101.9 169.8L90.9 174.4" stroke="var(--c-6)" stroke-width="1.4"/><path d="M101.6 169.0L90.7 173.3" stroke="var(--c-6)" stroke-width="1.4"/><path d="M101.3 168.2L70.4 179.7" stroke="var(--c-4)" stroke-width="1.4"/><path d="M101.0 167.3L70.4 178.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M100.7 166.5L70.5 176.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M100.4 165.6L70.6 175.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M100.1 164.8L70.6 173.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M99.9 163.9L89.7 166.8" stroke="var(--c-6)" stroke-width="1.4"/><path d="M99.7 163.1L89.5 165.7" stroke="var(--c-6)" stroke-width="1.4"/><path d="M99.4 162.2L70.5 169.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M99.2 161.3L70.4 167.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M99.1 160.4L70.2 166.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M98.9 159.6L69.9 165.0" stroke="var(--c-4)" stroke-width="1.4"/><path d="M98.7 158.7L69.6 163.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M98.6 157.8L88.3 159.4" stroke="var(--c-6)" stroke-width="1.4"/><path d="M98.5 156.9L88.0 158.3" stroke="var(--c-6)" stroke-width="1.4"/><path d="M98.4 156.0L67.9 159.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M98.3 155.1L67.1 158.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M98.2 154.2L66.2 156.9" stroke="var(--c-4)" stroke-width="1.4"/><path d="M98.1 153.4L65.2 155.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M98.1 152.5L64.2 154.1" stroke="var(--c-4)" stroke-width="1.4"/><path d="M98.0 151.6L85.8 151.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M98.0 150.7L85.3 150.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M98.0 149.8L60.6 149.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M98.0 148.9L59.2 148.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M98.0 148.0L57.9 146.4" stroke="var(--c-3)" stroke-width="1.4"/><path d="M98.1 147.1L56.5 144.8" stroke="var(--c-3)" stroke-width="1.4"/><path d="M98.1 146.2L55.1 143.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M98.2 145.3L82.6 143.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M98.3 144.4L82.2 142.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M98.4 143.5L51.1 137.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M98.5 142.6L49.8 135.7" stroke="var(--c-2)" stroke-width="1.4"/><path d="M98.7 141.8L48.7 133.7" stroke="var(--c-2)" stroke-width="1.4"/><path d="M98.8 140.9L47.6 131.7" stroke="var(--c-2)" stroke-width="1.4"/><path d="M99.0 140.0L46.7 129.7" stroke="var(--c-2)" stroke-width="1.4"/><path d="M99.2 139.1L80.5 135.1" stroke="var(--c-5)" stroke-width="1.4"/><path d="M99.3 138.2L80.4 133.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M99.6 137.4L44.8 123.7" stroke="var(--c-2)" stroke-width="1.4"/><path d="M99.8 136.5L44.4 121.6" stroke="var(--c-2)" stroke-width="1.4"/><path d="M100.0 135.6L44.3 119.6" stroke="var(--c-2)" stroke-width="1.4"/><path d="M100.3 134.8L44.4 117.7" stroke="var(--c-2)" stroke-width="1.4"/><path d="M100.5 133.9L44.6 115.8" stroke="var(--c-2)" stroke-width="1.4"/><path d="M100.8 133.1L81.3 126.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M101.1 132.2L81.7 125.2" stroke="var(--c-5)" stroke-width="1.4"/><path d="M101.4 131.4L46.5 110.4" stroke="var(--c-2)" stroke-width="1.4"/><path d="M101.8 130.6L47.6 108.7" stroke="var(--c-2)" stroke-width="1.4"/><path d="M102.1 129.7L48.8 107.2" stroke="var(--c-2)" stroke-width="1.4"/><path d="M102.5 128.9L50.2 105.8" stroke="var(--c-2)" stroke-width="1.4"/><path d="M102.8 128.1L51.8 104.4" stroke="var(--c-2)" stroke-width="1.4"/><path d="M103.2 127.3L85.9 118.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M103.6 126.5L86.8 118.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M104.0 125.7L57.6 101.2" stroke="var(--c-2)" stroke-width="1.4"/><path d="M104.5 124.9L59.8 100.3" stroke="var(--c-2)" stroke-width="1.4"/><path d="M104.9 124.1L62.1 99.6" stroke="var(--c-2)" stroke-width="1.4"/><path d="M105.3 123.4L64.5 99.0" stroke="var(--c-3)" stroke-width="1.4"/><path d="M105.8 122.6L67.0 98.5" stroke="var(--c-3)" stroke-width="1.4"/><path d="M106.3 121.8L93.4 113.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M106.8 121.1L94.6 113.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M107.3 120.3L74.7 97.7" stroke="var(--c-3)" stroke-width="1.4"/><path d="M107.8 119.6L77.2 97.6" stroke="var(--c-3)" stroke-width="1.4"/><path d="M108.3 118.9L79.8 97.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M108.9 118.2L82.4 97.7" stroke="var(--c-4)" stroke-width="1.4"/><path d="M109.4 117.5L84.9 97.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M110.0 116.8L102.1 110.2" stroke="var(--c-6)" stroke-width="1.4"/><path d="M110.6 116.1L103.3 109.8" stroke="var(--c-6)" stroke-width="1.4"/><path d="M111.2 115.4L92.0 98.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M111.8 114.8L94.2 98.6" stroke="var(--c-5)" stroke-width="1.4"/><path d="M112.4 114.1L96.3 98.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M113.0 113.5L98.2 98.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M113.6 112.8L100.1 99.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M114.3 112.2L109.9 107.6" stroke="var(--c-6)" stroke-width="1.4"/><path d="M114.9 111.6L110.9 107.2" stroke="var(--c-6)" stroke-width="1.4"/><path d="M115.6 111.0L104.9 98.9" stroke="var(--c-5)" stroke-width="1.4"/><path d="M116.3 110.4L106.3 98.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M117.0 109.8L107.6 98.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M117.7 109.3L108.7 98.1" stroke="var(--c-5)" stroke-width="1.4"/><path d="M118.4 108.7L109.8 97.6" stroke="var(--c-5)" stroke-width="1.4"/><path d="M119.1 108.2L116.2 104.3" stroke="var(--c-6)" stroke-width="1.4"/><path d="M119.8 107.7L116.9 103.7" stroke="var(--c-6)" stroke-width="1.4"/><path d="M120.5 107.2L112.4 95.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M121.3 106.7L113.2 94.5" stroke="var(--c-5)" stroke-width="1.4"/><path d="M122.0 106.2L113.9 93.4" stroke="var(--c-5)" stroke-width="1.4"/><path d="M122.8 105.7L114.5 92.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M123.5 105.2L115.2 91.0" stroke="var(--c-5)" stroke-width="1.4"/><path d="M124.3 104.8L121.3 99.5" stroke="var(--c-6)" stroke-width="1.4"/><path d="M125.1 104.3L122.0 98.7" stroke="var(--c-6)" stroke-width="1.4"/><path d="M125.9 103.9L117.0 86.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M126.7 103.5L117.6 85.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M127.5 103.1L118.2 83.8" stroke="var(--c-5)" stroke-width="1.4"/><path d="M128.3 102.7L118.9 82.3" stroke="var(--c-5)" stroke-width="1.4"/><path d="M129.1 102.4L119.6 80.7" stroke="var(--c-5)" stroke-width="1.4"/><path d="M129.9 102.0L126.6 94.0" stroke="var(--c-6)" stroke-width="1.4"/><path d="M130.8 101.7L127.4 93.3" stroke="var(--c-6)" stroke-width="1.4"/><path d="M131.6 101.4L122.1 76.3" stroke="var(--c-4)" stroke-width="1.4"/><path d="M132.4 101.1L123.1 74.9" stroke="var(--c-4)" stroke-width="1.4"/><path d="M133.3 100.8L124.1 73.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M134.1 100.5L125.1 72.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M135.0 100.2L126.3 71.3" stroke="var(--c-4)" stroke-width="1.4"/><path d="M135.9 100.0L132.9 89.6" stroke="var(--c-6)" stroke-width="1.4"/><path d="M136.7 99.7L133.9 89.1" stroke="var(--c-6)" stroke-width="1.4"/><path d="M137.6 99.5L130.0 68.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M138.5 99.3L131.4 68.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M139.3 99.1L132.8 67.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M140.2 98.9L134.2 67.6" stroke="var(--c-4)" stroke-width="1.4"/><path d="M141.1 98.8L135.7 67.5" stroke="var(--c-4)" stroke-width="1.4"/><path d="M142.0 98.6L140.3 87.8" stroke="var(--c-6)" stroke-width="1.4"/><path d="M142.9 98.5L141.4 87.8" stroke="var(--c-6)" stroke-width="1.4"/><path d="M143.7 98.4L140.1 68.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M144.6 98.3L141.6 68.8" stroke="var(--c-4)" stroke-width="1.4"/><path d="M145.5 98.2L143.0 69.4" stroke="var(--c-4)" stroke-width="1.4"/><path d="M146.4 98.1L144.5 70.3" stroke="var(--c-4)" stroke-width="1.4"/><path d="M147.3 98.1L145.9 71.2" stroke="var(--c-4)" stroke-width="1.4"/><path d="M148.2 98.0L147.9 89.0" stroke="var(--c-6)" stroke-width="1.4"/><path d="M149.1 98.0L149.0 89.4" stroke="var(--c-6)" stroke-width="1.4"/></g>
+        <g fill="var(--text-3)" font-size="8.5" font-weight="600" text-anchor="middle">
+          <text x="150" y="18">JAN</text><text x="215" y="36">FEB</text><text x="262" y="83">MAR</text>
+          <text x="280" y="154">APR</text><text x="262" y="221">MAY</text><text x="215" y="268">JUN</text>
+          <text x="150" y="290">JUL</text><text x="85"  y="268">AUG</text><text x="38"  y="221">SEP</text>
+          <text x="20"  y="154">OCT</text><text x="38"  y="83">NOV</text><text x="85"  y="36">DEC</text>
+        </g>
+      </svg>
+    </div>
+    <div class="spec__code">
+<pre>// Each day is a spoke between an inner and outer radius. Angle is the day's
+// position in the year; length and colour both carry the count, so the
+// pattern survives being printed in greyscale.
+const R_IN = 52, R_OUT = 124, cx = 150, cy = 150;
+
+days.forEach((count, i) =&gt; {
+  const a   = (i / days.length) * Math.PI * 2 - Math.PI / 2;  // 12 o'clock
+  const len = R_IN + (R_OUT - R_IN) * (count / max);
+  spoke(cx + Math.cos(a) * R_IN,  cy + Math.sin(a) * R_IN,
+        cx + Math.cos(a) * len,   cy + Math.sin(a) * len,
+        ramp(steps, theme)[bucket(count)]);
+});</pre>
+    </div>
+    <p class="spec__note">Inner radius 52, outer 124 — the hole matters. Spokes converging on a point turn the centre into an unreadable smear, and the ring keeps the eye on the part that carries data.</p>
+  </div>
+
+  <h2 id="compare">Idiom — comparison track</h2>
+  <p class="t2 mt-4 measure">This year against last, on one pill. The solid fill is now; the dashed outline is the figure it is being measured against. One track, not two rows — the comparison is the point.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Comparison track</div>
+    <div class="spec__demo">
+      <svg viewBox="0 0 600 100" width="100%" role="img" aria-label="Contributions this year 1,284, against 962 last year — up 33 percent." class="card-demo">
+        <text x="0" y="20" font-size="12" font-weight="600" fill="var(--text)" letter-spacing="-0.07">2026</text>
+        <rect x="52" y="4" width="500" height="26" rx="13" fill="var(--bg-sunken)"/>
+        <rect x="52" y="4" width="428" height="26" rx="13" fill="var(--accent)"/>
+        <text x="566" y="22" font-size="12" font-weight="600" fill="var(--text)" text-anchor="end" class="nums-svg">1,284</text>
+
+        <text x="0" y="62" font-size="12" font-weight="600" fill="var(--text-3)" letter-spacing="-0.07">2025</text>
+        <rect x="52" y="46" width="500" height="26" rx="13" fill="var(--bg-sunken)"/>
+        <rect x="52" y="46" width="321" height="26" rx="13" fill="none" stroke="var(--accent)" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="566" y="64" font-size="12" font-weight="600" fill="var(--text-3)" text-anchor="end" class="nums-svg">962</text>
+
+        <text x="52" y="94" font-size="10" font-weight="400" fill="var(--text-3)">Up 33% year on year, with 118 days still to run</text>
+      </svg>
+    </div>
+    <p class="spec__note">Track <code>rx</code> is exactly half the height (26&nbsp;→&nbsp;13), so it is a true pill. The dashed comparison is the accent at 45% with <code>stroke-dasharray="3 3"</code> — present, but clearly the reference rather than the subject.</p>
+  </div>
+
+  <h2 id="motion">Motion</h2>
+  <p class="t2 mt-4 measure">Five animations, one curve, and a stagger. All of it is the page's own motion tokens: 260&nbsp;ms is <code>--dur</code>, 420&nbsp;ms is <code>--dur-slow</code>, and the curve is <code>--ease</code>. A card animating on a different curve from the page it sits on is the kind of mismatch nobody names but everybody feels.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">The whole style block, as generated</div>
     <div class="spec__code">
 <pre>&lt;style&gt;
-  /* 🔴 no-preference, not a `reduce` override. An SVG carries its own
-     styles, so the global rule in base.css cannot reach inside it —
-     the guard has to be repeated here or the card ignores the setting. */
+  /* 🔴 no-preference, NOT a `reduce` override. An SVG carries its own styles,
+     so the global rule in base.css cannot reach inside it — the guard has to
+     be repeated here or the card ignores the setting entirely. */
   @media (prefers-reduced-motion: no-preference) {
     .fade { animation: fade 260ms cubic-bezier(.22, 1, .36, 1) both; }
     .rise { animation: rise 420ms cubic-bezier(.22, 1, .36, 1) both; }
     .grow { animation: grow 420ms cubic-bezier(.22, 1, .36, 1) both; }
+    .bar  { animation: bar  420ms cubic-bezier(.22, 1, .36, 1) both; }
     .draw { animation: draw 900ms cubic-bezier(.22, 1, .36, 1) both; }
+
     @keyframes fade { from { opacity: 0; transform: translateY(6px); } }
     @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
     @keyframes grow { from { transform: scaleX(0); } }
+    @keyframes bar  { from { transform: scaleY(0); } }
     @keyframes draw { from { stroke-dashoffset: 1; } }
   }
-&lt;/style&gt;
-
-&lt;!-- Stagger in 0.04–0.05s steps. transform-origin must be explicit:
-     an SVG element's default origin is the viewport corner, not itself. --&gt;
-&lt;rect class="grow" style="transform-origin:0 80px;animation-delay:0.14s" …/&gt;</pre>
+&lt;/style&gt;</pre>
     </div>
-    <p class="spec__note">260&nbsp;ms is <code>--dur</code>, 420&nbsp;ms is <code>--dur-slow</code>, and the curve is <code>--ease</code>. A card animating on a different curve from the page it sits on is the kind of mismatch nobody names but everybody feels.</p>
+  </div>
+
+  <div class="table-wrap mt-6">
+    <table class="table">
+      <thead><tr><th>Class</th><th class="num">Duration</th><th>From</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><code>.fade</code></td><td class="num">260ms</td><td>opacity 0, +6px</td><td>Type, labels, gridlines — by far the most used</td></tr>
+        <tr><td><code>.rise</code></td><td class="num">420ms</td><td>opacity 0, +12px</td><td>Headline figures and whole blocks</td></tr>
+        <tr><td><code>.grow</code></td><td class="num">420ms</td><td><code>scaleX(0)</code></td><td>Horizontal bars and share segments</td></tr>
+        <tr><td><code>.bar</code></td><td class="num">420ms</td><td><code>scaleY(0)</code></td><td>Vertical columns, growing from the baseline</td></tr>
+        <tr><td><code>.draw</code></td><td class="num">900ms</td><td><code>stroke-dashoffset</code></td><td>A trend line drawing itself on. One per card at most</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rules mt-6">
+    <div class="rule rule--do">
+      <span class="rule__h">Do</span>
+      Stagger in 0.04–0.06&nbsp;s steps within a group, and about 0.12&nbsp;s between groups. Past roughly 0.6&nbsp;s total the reader is waiting rather than watching.
+    </div>
+    <div class="rule rule--dont">
+      <span class="rule__h">Don't</span>
+      Animate a transform without setting <code>transform-origin</code> in user units. The default origin is the SVG viewport corner, so every bar will grow from the top-left of the whole card.
+    </div>
   </div>
 
   <h2 id="themes">Theming an SVG</h2>
@@ -319,11 +622,11 @@
   <div class="rules mt-6">
     <div class="rule rule--do">
       <span class="rule__h">Inline in the page</span>
-      Use <code>var(--token)</code> and <code>currentColor</code> directly. The SVG is part of the document, so it inherits the theme with no extra work. This is the default for icons and diagrams.
+      Use <code>var(--token)</code> and <code>currentColor</code> directly. The SVG is part of the document, so it inherits the theme with no extra work — every chart on this page does this. The global reduced-motion rule reaches it too.
     </div>
     <div class="rule rule--do">
       <span class="rule__h">Loaded as a file</span>
-      An <code>&lt;img src="…svg"&gt;</code> cannot see the page's custom properties. Ship a light/dark pair and switch with <code>&lt;picture&gt;</code>, as the profile README does.
+      An <code>&lt;img src="…svg"&gt;</code> cannot see the page's custom properties, and its animation is outside the document. Ship a light/dark pair, switch with <code>&lt;picture&gt;</code>, and repeat the motion guard inside each file.
     </div>
   </div>
 
@@ -333,33 +636,36 @@
 <pre>&lt;picture&gt;
   &lt;source srcset="./assets/overview-dark.svg" media="(prefers-color-scheme: dark)"&gt;
   &lt;img src="./assets/overview-light.svg" width="100%"
-       alt="GitHub stats and most used languages: 42% TypeScript, 24% Go…"&gt;
+       alt="GitHub stats: 5,945 contributions, 42% TypeScript, 24% Go…"&gt;
 &lt;/picture&gt;</pre>
     </div>
-    <p class="spec__note">The <code>alt</code> has to carry the actual figures. A reader who cannot see the card gets nothing from "GitHub stats card", and that is most of the value of the graphic.</p>
+    <p class="spec__note">The <code>alt</code> has to carry the actual figures. A reader who cannot see the card gets nothing from "GitHub stats card", and the figures are most of the value.</p>
   </div>
 
-  <div class="note note--warn mt-8">
+  <div class="note note--warn mt-6">
     <strong class="note__title">One inconsistency worth deciding on</strong>
     The generated cards use <code>#03724d</code>&nbsp;/&nbsp;<code>#4dff9a</code> as the accent;
     <code>tokens.css</code> and cv.tanghoong.com use <code>#03744e</code>&nbsp;/&nbsp;<code>#4dff9b</code>.
-    A one-digit drift in each, invisible side by side but real. The chart ramp above is
-    recorded as-generated so it stays faithful to what ships today — worth aligning the two
-    in whichever direction you prefer.
+    One digit apart in each, invisible side by side but real. The ramp is recorded as-generated
+    so this page stays faithful to what ships today.
   </div>
 
   <h2 id="checklist">SVG checklist</h2>
   <div class="panel panel--elevated mt-6">
     <ul class="stack demo-plain">
       <li class="sm">Decorative icon: <code>aria-hidden="true"</code>, and the control carries the label</li>
-      <li class="sm">Meaningful graphic: <code>role="img"</code> plus an <code>aria-label</code> that states the actual figures</li>
+      <li class="sm">Meaningful graphic: <code>role="img"</code> plus an <code>aria-label</code> stating the actual figures</li>
       <li class="sm">Icons use <code>currentColor</code> — never a hard-coded hex</li>
       <li class="sm">Stroke width matches the rendered size, not the 24&nbsp;px viewBox</li>
-      <li class="sm">A file-loaded SVG has a light and a dark twin behind <code>&lt;picture&gt;</code></li>
-      <li class="sm">Any animation inside the SVG repeats its own <code>prefers-reduced-motion</code> guard</li>
-      <li class="sm"><code>transform-origin</code> is set explicitly on anything that scales or rotates</li>
+      <li class="sm">Figures carry <code>font-variant-numeric: tabular-nums</code></li>
+      <li class="sm">Uppercase labels use positive tracking; everything else negative</li>
+      <li class="sm">No text below 8.5&nbsp;px, and nothing essential lives only in the text</li>
+      <li class="sm">Label ink flips from white to dark as the ramp lightens</li>
+      <li class="sm">Gridlines sit behind the data and use <code>--chart-grid</code></li>
+      <li class="sm"><code>transform-origin</code> set explicitly, in user units, on anything that scales</li>
+      <li class="sm">Animated SVG files repeat their own <code>prefers-reduced-motion</code> guard</li>
       <li class="sm">1&nbsp;px strokes sit on a <code>.5</code> offset so they stay crisp</li>
-      <li class="sm">No more than six series; the tail is grouped as "Other"</li>
+      <li class="sm">A file-loaded SVG has a light and a dark twin behind <code>&lt;picture&gt;</code></li>
       <li class="sm">Checked in both themes — a chart that only works on white is half done</li>
     </ul>
   </div>
@@ -370,11 +676,18 @@
   <p class="rail__h">SVG &amp; data</p>
   <ul class="rail__list">
     <li><a href="#icons">Icons</a></li>
-    <li><a href="#chart-colour">Chart colour</a></li>
-    <li><a href="#stacked">Stacked bar</a></li>
+    <li><a href="#card">The card system</a></li>
+    <li><a href="#type">Type in SVG</a></li>
+    <li><a href="#ramp">The chart ramp</a></li>
+    <li><a href="#stat-row">Stat row</a></li>
+    <li><a href="#share-bar">Share bar</a></li>
+    <li><a href="#blocks">Proportional blocks</a></li>
+    <li><a href="#columns">Columns</a></li>
     <li><a href="#radar">Radar</a></li>
-    <li><a href="#cards">SVG cards</a></li>
-    <li><a href="#themes">Theming an SVG</a></li>
+    <li><a href="#polar">Year clock</a></li>
+    <li><a href="#compare">Comparison track</a></li>
+    <li><a href="#motion">Motion</a></li>
+    <li><a href="#themes">Theming</a></li>
     <li><a href="#checklist">Checklist</a></li>
   </ul>
 </aside>
@@ -393,7 +706,6 @@
       <div>
         <p class="foot-h">Reference</p>
         <ul class="foot-list">
-          <li><a href="/pages/brand.html">Logo &amp; identity</a></li>
           <li><a href="/pages/foundations.html">Foundations</a></li>
           <li><a href="/pages/layout.html">Layout</a></li>
           <li><a href="/pages/components.html">Components</a></li>

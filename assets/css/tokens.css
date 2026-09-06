@@ -46,12 +46,19 @@
   --info-wash:   color-mix(in oklab, var(--info) 12%, transparent);
 
   /* --- Data / chart ramp -------------------------------------------------
-     Six steps from the accent outward, for stacked bars, language shares and
-     radar fills. Taken from the generated SVG cards on github.com/tanghoong,
-     which use exactly this ramp. Order matters: --c-1 is the largest series.
+     The ramp is a FUNCTION, not a fixed palette: interpolate from --c-from to
+     --c-to and sample it at however many series you have. The generated cards
+     on github.com/tanghoong do exactly this — the overview card samples 6, the
+     frameworks card 10, the languages card 16.
+
+     --c-1..--c-6 below are the six-sample case, provided because it covers
+     most charts and because a CSS-only chart cannot interpolate. Order
+     matters: --c-1 is the largest series.
 
      Light runs dark→pale; dark runs bright→deep. Both keep every adjacent
      pair distinguishable, which a naive lighten() ramp does not. */
+  --c-from: light-dark(#03724d, #4dff9a);
+  --c-to:   light-dark(#7ee6c3, #107f40);
   --c-1: light-dark(#03724d, #4dff9a);
   --c-2: light-dark(#089a6a, #2dfa86);
   --c-3: light-dark(#10c085, #10f473);

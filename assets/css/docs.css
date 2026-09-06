@@ -202,3 +202,31 @@
 /* var() resolves reliably in a stylesheet; in an SVG presentation attribute it
    is patchier across browsers, so the type is styled here instead. */
 .sysfig text { font-family: var(--font-mono); }
+
+/* --- SVG page specimens --------------------------------------------------  */
+.demo-gap-6 { gap: var(--s-6); }
+.demo-on-accent {
+  background: var(--accent); color: var(--accent-ink);
+  padding: var(--s-4); border-radius: var(--r-md);
+}
+.demo-center-text { text-align: center; }
+.demo-inline { display: inline-block; max-width: 100%; }
+/* var() resolves reliably in a stylesheet; in an SVG presentation attribute it
+   is patchier across browsers, so SVG type is styled here instead. */
+.sysdiag text, .card-demo text, .yearclock text { font-family: var(--font-sans); }
+.card-demo .nums-svg text, .card-demo text.nums-svg { font-variant-numeric: tabular-nums; }
+.ramp { border-radius: var(--r-sm); overflow: hidden; }
+.sharebar { display: block; }
+
+/* Legend swatches, one class per ramp step. */
+.demo-legend { gap: var(--s-2) var(--s-5); }
+.legend-dot {
+  display: inline-block; inline-size: 8px; block-size: 8px;
+  border-radius: 50%; margin-inline-end: 6px;
+}
+.legend-dot--1 { background: var(--c-1); }
+.legend-dot--2 { background: var(--c-2); }
+.legend-dot--3 { background: var(--c-3); }
+.legend-dot--4 { background: var(--c-4); }
+.legend-dot--5 { background: var(--c-5); }
+.legend-dot--6 { background: var(--c-6); }
