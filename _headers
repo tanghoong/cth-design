@@ -14,3 +14,12 @@
   Content-Type: text/plain; charset=utf-8
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=3600, must-revalidate
+
+# The starter template is fetched by agents and copied by hand.
+/template/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Share cards.
+/og.png
+  Cache-Control: public, max-age=86400

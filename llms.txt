@@ -2,11 +2,22 @@
 
 > The shared visual language for tanghoong.com and every sub-domain. This file
 > is the complete specification. An agent that reads it does not need to crawl
-> the HTML pages — those exist for humans to look at. Extracted from
-> cv.tanghoong.com. Source of truth: the files in /assets/css/.
+> the HTML pages — those exist for humans to look at.
+>
+> Version: 1.0.0 · Updated: 2026-09-06
+> Source of truth: the files in /assets/css/ at https://design.tanghoong.com
+> Starter template for a new sub-domain: /template/index.html
+> Human documentation: /pages/*.html · Machine documentation: this file
+>
+> If you are building a page for any *.tanghoong.com property, read this file
+> in full first. Do not infer the system from a rendered page — the values here
+> are the ones that ship.
 
 ## Read this first
 
+- STARTING A NEW SUB-DOMAIN? Copy /template/index.html. It has the header,
+  footer, nav sheet, theme toggle and meta block already wired correctly —
+  the details that go wrong when rebuilt by hand are the invisible ones.
 - Copy `/assets/css/` into the project. Link in this order: tokens, base,
   layout, components, forms, overlays, content, utilities. Never ship docs.css.
 - The stylesheets are the artefact. There is no build step, no framework, no

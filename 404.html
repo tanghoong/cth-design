@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Not found — tanghoong design system</title>
+<meta name="description" content="That page does not exist on design.tanghoong.com.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<!-- The whole system as one plain-text spec, for agents. These HTML pages are
+     for humans; an agent should read this instead of crawling all nine. -->
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt — full spec for agents">
+<!-- Runs before the stylesheet so the page never paints the wrong theme.
+     try/catch because a browser with storage blocked must still render Auto. -->
+<script>try{var t=localStorage.getItem('th');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/forms.css">
+<link rel="stylesheet" href="/assets/css/overlays.css">
+<link rel="stylesheet" href="/assets/css/content.css">
+<link rel="stylesheet" href="/assets/css/utilities.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="container container--wide head-in">
+    <a class="brand" href="/">
+      <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="14.3" fill="#1d1d1f"/><path d="M37 22a13 13 0 1 0 0 20" fill="none" stroke="#4dff9b" stroke-width="5.6" stroke-linecap="round"/><circle cx="49" cy="32" r="4.6" fill="#4dff9b"/></svg>
+      <span>tanghoong <span class="t3">design</span></span>
+    </a>
+
+    <nav class="head-nav" aria-label="Primary">
+      <a href="/pages/brand.html">Logo</a>
+      <a href="/pages/foundations.html">Foundations</a>
+      <a href="/pages/components.html">Components</a>
+      <a href="/pages/forms.html">Forms</a>
+      <a href="/pages/patterns.html">Patterns</a>
+      <details class="menu">
+        <summary>
+          More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="menu__list">
+          <a href="/pages/layout.html">Layout</a>
+          <a href="/pages/overlays.html">Overlays</a>
+          <a href="/pages/content.html">Content &amp; prose</a>
+          <a href="/pages/svg.html">SVG &amp; data</a>
+          <div class="menu__sep"></div>
+          <a href="/pages/prompt.html">Agent prompt</a>
+        </div>
+      </details>
+    </nav>
+
+    <div class="head-end">
+      <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+        <svg class="ic ic--auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18a9 9 0 0 0 0-18Z" fill="currentColor" stroke="none"/></svg><svg class="ic ic--light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="ic ic--dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+      <button class="iconbtn navsheet__trigger" type="button" data-navsheet-open aria-label="Menu" aria-haspopup="dialog">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+
+</header>
+
+<dialog class="drawer navsheet" data-navsheet aria-label="Site menu">
+  <div class="navsheet__panel">
+    <div class="navsheet__head">
+      <span class="navsheet__title">Design system</span>
+      <button class="iconbtn" type="button" data-close aria-label="Close menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <a class="sheet-row" href="/pages/brand.html">Logo &amp; identity</a>
+    <a class="sheet-row" href="/pages/foundations.html">Foundations</a>
+    <a class="sheet-row" href="/pages/layout.html">Layout</a>
+    <a class="sheet-row" href="/pages/components.html">Components</a>
+    <a class="sheet-row" href="/pages/forms.html">Forms</a>
+    <a class="sheet-row" href="/pages/overlays.html">Overlays</a>
+    <a class="sheet-row" href="/pages/content.html">Content &amp; prose</a>
+    <a class="sheet-row" href="/pages/svg.html">SVG &amp; data</a>
+    <a class="sheet-row" href="/pages/patterns.html">Patterns</a>
+    <a class="sheet-row" href="/pages/prompt.html">Agent prompt</a>
+    <div class="sheet-tools">
+      <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+        <svg class="ic ic--auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18a9 9 0 0 0 0-18Z" fill="currentColor" stroke="none"/></svg><svg class="ic ic--light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="ic ic--dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<main id="main">
+  <section class="section s-page">
+    <div class="container container--mid">
+      <p class="eyebrow">404</p>
+      <h1 class="mt-3 measure-headline">That page isn't here.</h1>
+      <p class="lede mt-6">
+        The link may be out of date, or the page may have been renamed. The reference
+        index below covers everything on this site.
+      </p>
+      <div class="cluster mt-8">
+        <a class="btn btn--filled" href="/">Back to the index</a>
+        <a class="btn btn--quiet" href="/llms.txt">llms.txt</a>
+      </div>
+
+      <div class="panel mt-16">
+        <div class="panel__head"><span class="panel__title">Every page</span></div>
+        <ul class="rows">
+          <li><a class="row" href="/pages/brand.html"><div><p class="row__title">Logo &amp; identity</p><p class="row__desc">The mark, its colour rules, sizes and the favicon set.</p></div><p class="row__meta">01</p></a></li>
+          <li><a class="row" href="/pages/foundations.html"><div><p class="row__title">Foundations</p><p class="row__desc">Colour, type, space, radius, shadow, motion, focus.</p></div><p class="row__meta">02</p></a></li>
+          <li><a class="row" href="/pages/layout.html"><div><p class="row__title">Layout</p><p class="row__desc">Container, sections, header, footer, grids, sidebars.</p></div><p class="row__meta">03</p></a></li>
+          <li><a class="row" href="/pages/components.html"><div><p class="row__title">Components</p><p class="row__desc">Buttons, chips, badges, cards, panels, tables, lists.</p></div><p class="row__meta">04</p></a></li>
+          <li><a class="row" href="/pages/forms.html"><div><p class="row__title">Forms</p><p class="row__desc">Fields, validation, choices, switches, layout.</p></div><p class="row__meta">05</p></a></li>
+          <li><a class="row" href="/pages/overlays.html"><div><p class="row__title">Overlays</p><p class="row__desc">Modals, drawers, menus, tooltips, toasts, accordions.</p></div><p class="row__meta">06</p></a></li>
+          <li><a class="row" href="/pages/content.html"><div><p class="row__title">Content &amp; prose</p><p class="row__desc">Long-form typography, quotes, code, steps, print.</p></div><p class="row__meta">07</p></a></li>
+          <li><a class="row" href="/pages/svg.html"><div><p class="row__title">SVG &amp; data graphics</p><p class="row__desc">Icons, the chart ramp, and seven charting idioms.</p></div><p class="row__meta">08</p></a></li>
+          <li><a class="row" href="/pages/patterns.html"><div><p class="row__title">Patterns</p><p class="row__desc">Whole page compositions.</p></div><p class="row__meta">09</p></a></li>
+          <li><a class="row" href="/pages/prompt.html"><div><p class="row__title">Agent prompt</p><p class="row__desc">The block to paste into a repo's CLAUDE.md.</p></div><p class="row__meta">10</p></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="container container--wide">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-name">tanghoong design system</p>
+        <p class="foot-role">The shared visual language for tanghoong.com and its sub-domains.</p>
+      </div>
+      <div>
+        <p class="foot-h">Reference</p>
+        <ul class="foot-list">
+          <li><a href="/pages/foundations.html">Foundations</a></li>
+          <li><a href="/pages/layout.html">Layout</a></li>
+          <li><a href="/pages/components.html">Components</a></li>
+          <li><a href="/pages/forms.html">Forms</a></li>
+          <li><a href="/pages/overlays.html">Overlays</a></li>
+          <li><a href="/pages/svg.html">SVG &amp; data</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">Elsewhere</p>
+        <ul class="foot-list">
+          <li><a href="https://www.tanghoong.com/">www.tanghoong.com</a></li>
+          <li><a href="https://cv.tanghoong.com/">cv.tanghoong.com</a></li>
+          <li><a href="https://apps.tanghoong.com/">apps.tanghoong.com</a></li>
+          <li><a href="https://blog.tanghoong.com/">blog.tanghoong.com</a></li>
+          <li><a href="https://links.tanghoong.com/">links.tanghoong.com</a></li>
+          <li><a href="https://github.com/tanghoong">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-legal">&copy; 2027 Charlie Tang Hoong. Design system reference.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/nav.js" defer></script>
+<script src="/assets/js/docs.js" defer></script>
+</body>
+</html>

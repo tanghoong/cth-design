@@ -1,33 +1,46 @@
 # cth-design
 
-The shared design system for **tanghoong.com** and every sub-domain, published at
+The shared visual identity for **tanghoong.com** and every sub-domain, published at
 [design.tanghoong.com](https://design.tanghoong.com).
 
-Extracted from [cv.tanghoong.com](https://cv.tanghoong.com/) and normalised into a token
-set, a component library and an agent prompt, so every new sub-domain, page or repo starts
-from the same place.
+One green, one typeface, one set of rules — the mark, the colour, the spacing and the motion,
+decided once and reused everywhere. The CSS files in `assets/css/` are the artefact other
+repos consume; the pages are live specimens of them.
 
-## What is in here
+## Quick reference
 
-```
-favicon.svg     the site mark — the master every icon is generated from
-llms.txt        the whole system as one plain-text spec, for agents
-assets/css/     the design system — this is the artefact other repos consume
-assets/js/      theme toggle, nav sheet, docs-site chrome
-pages/          the reference pages
-index.html      overview and install instructions
+| I want to… | Go to |
+| --- | --- |
+| Start a new sub-domain | [`template/`](template/) — copy `index.html`, it is already wired |
+| Point an agent at the system | [`llms.txt`](llms.txt) — the whole spec, one fetch |
+| Pin the rules inside a repo | [`pages/prompt.html`](pages/prompt.html) — a `CLAUDE.md` block |
+| Change a colour or a size | [`assets/css/tokens.css`](assets/css/tokens.css) — and nowhere else |
+| Use the mark correctly | [`pages/brand.html`](pages/brand.html) |
+
+## Layout of the repo
+
+```text
+llms.txt          the whole system as one plain-text spec, for agents
+template/         a working starter page for a new sub-domain
+favicon.svg       the site mark — the master every icon is generated from
+assets/css/       the design system — this is what other repos consume
+assets/js/        theme toggle, nav sheet and menus, docs-site chrome
+pages/            the reference pages
+index.html        overview, the agent path, and the reference index
+404.html          not-found page
+_headers          Cloudflare Pages cache and CORS policy
 ```
 
 ### The CSS layers
 
-Link them in this order. Order matters: tokens must resolve before anything references
-them, and utilities come last so they can win.
+Link them in this order. Order matters: tokens must resolve before anything references them,
+and utilities come last so they can win.
 
 | File | What it holds |
 | --- | --- |
 | `tokens.css` | Every colour, size, radius, shadow and duration. The single source of truth. |
 | `base.css` | Reset and element defaults. Unclassed HTML already looks right. |
-| `layout.css` | Container, sections, header, footer, grids, sidebars. |
+| `layout.css` | Container, sections, header, footer, grids, sidebars, hero. |
 | `components.css` | Buttons, chips, badges, cards, panels, notes, stats, rows, tables, tabs. |
 | `forms.css` | Fields, labels, validation, checkboxes, radios, switches. |
 | `overlays.css` | Modal, drawer, menu, tooltip, toast, accordion, nav sheet. |
@@ -35,46 +48,60 @@ them, and utilities come last so they can win.
 | `utilities.css` | Small single-purpose classes. |
 | `docs.css` | **This site only.** Specimen frames and swatches. Never ship it. |
 
-The brand mark, its colour rules and the favicon set are documented on
-[/pages/brand.html](pages/brand.html). Regenerate the raster icons from
-`favicon.svg` with the ImageMagick commands listed there — never hand-edit one.
+### The reference pages
 
-## Using it in a new project
+| # | Page | Covers |
+| --- | --- | --- |
+| 01 | [Logo & identity](pages/brand.html) | Construction geometry, the fixed colour pair, sizes, clear space, favicon set |
+| 02 | [Foundations](pages/foundations.html) | Surfaces, ink, accent, status, type, space, radius, shadow, motion, focus, themes |
+| 03 | [Layout](pages/layout.html) | Container, section banding, header, footer, grids, sidebars, breakpoints |
+| 04 | [Components](pages/components.html) | Buttons, chips, badges, cards, panels, notes, stats, rows, tables, lists, tabs |
+| 05 | [Forms](pages/forms.html) | Inputs, validation, choices, switches, file drops, form layout |
+| 06 | [Overlays](pages/overlays.html) | Modals, drawers, menus, nav sheet, tooltips, toasts, accordions |
+| 07 | [Content & prose](pages/content.html) | Article typography, leads, quotes, code, steps, measure, print |
+| 08 | [SVG & data](pages/svg.html) | Icons, the chart ramp, and seven charting idioms with live specimens |
+| 09 | [Patterns](pages/patterns.html) | Whole page compositions — hero, work index, case study, CTA band |
+| 10 | [Agent prompt](pages/prompt.html) | The block to paste into a repo's `CLAUDE.md` |
 
-1. Copy `assets/css/` into the new repo — everything except `docs.css`.
-2. Link the files in the order above.
-3. Put this inline in `<head>`, **before** the stylesheet, or the page paints the wrong
-   theme for a frame:
+## Starting a new sub-domain
 
-   ```html
-   <script>try{var t=localStorage.getItem('th');
-   if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
-   ```
-
-4. Paste the block from [/pages/prompt.html](pages/prompt.html) into the repo's
-   `CLAUDE.md` so generated code lands on-system first time.
+See [`template/README.md`](template/README.md) for the full walkthrough. In short: copy
+`assets/css/` (minus `docs.css`), the icon set, and `template/index.html`; then change the
+meta block, the wordmark and the nav links.
 
 ## Running locally
 
 No build step — the CSS files *are* the artefact. Serve the folder with anything:
 
 ```bash
-npx http-server -p 8099
+npx http-server -p 8099 -c-1
 ```
+
+`-c-1` disables caching, so edits show on refresh.
 
 ## Deploying
 
-Static hosting, no build command, output directory `/`. `_headers` sets the cache policy
-for Cloudflare Pages and allows cross-origin reads of `assets/` so another sub-domain can
-link the stylesheets directly rather than vendoring them.
+Static hosting, no build command, output directory `/`. `_headers` sets the cache policy for
+Cloudflare Pages and allows cross-origin reads of `assets/` and `llms.txt`, so another
+sub-domain can link the stylesheets directly rather than vendoring them.
 
 ## Editing the system
 
 - A colour, size or duration change goes in `tokens.css` and nowhere else.
-- A new component goes in the layer file it belongs to, with a comment saying what it is
-  for and when *not* to use it.
-- Update the prompt block on `pages/prompt.html` in the same commit as any token change —
-  it is a description of the CSS, not a second source of truth.
-- Every page's header and footer are inlined rather than templated. That is deliberate:
-  the chrome is itself a specimen, and a reference site should show its own markup in
-  source. If you change the header, change it in all nine pages.
+- A new component goes in the layer file it belongs to, with a comment saying what it is for
+  and when *not* to use it.
+- Update `llms.txt` in the same commit as any token or class change — it is a description of
+  the CSS, not a second source of truth, and agents read it instead of the pages. Bump the
+  version line at the top.
+- Regenerate the raster icons from `favicon.svg` with the ImageMagick commands on
+  [the brand page](pages/brand.html). Never hand-edit a generated file.
+- Every page's header and footer are inlined rather than templated. That is deliberate: the
+  chrome is itself a specimen, and a reference site should show its own markup in source. If
+  you change the header, change it in all eleven files and in `template/index.html`.
+
+## Known drift
+
+The generated SVG cards on [github.com/tanghoong](https://github.com/tanghoong/tanghoong) use
+accent `#03724d` / `#4dff9a`; `tokens.css` and cv.tanghoong.com use `#03744e` / `#4dff9b`.
+One digit apart in each — invisible side by side, but real. Recorded rather than silently
+reconciled, because which direction to align is a decision, not a cleanup.

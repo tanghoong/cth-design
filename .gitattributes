@@ -1,0 +1,9 @@
+# The CSS and llms.txt are consumed by other repos and by agents over HTTP.
+# Normalise to LF in the index so a Windows checkout cannot commit CRLF and
+# produce a whole-file diff for a one-line change.
+* text=auto eol=lf
+
+*.png binary
+*.ico binary
+*.woff binary
+*.woff2 binary
