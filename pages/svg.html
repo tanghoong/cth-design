@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SVG and data graphics — tanghoong design system</title>
+<meta name="description" content="Icons, the six-step chart ramp, stacked bars, radar charts and the self-contained SVG cards behind the GitHub profile README.">
+<link rel="canonical" href="https://design.tanghoong.com/pages/svg.html">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<!-- The whole system as one plain-text spec, for agents. These HTML pages are
+     for humans; an agent should read this instead of crawling all nine. -->
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt — full spec for agents">
+<!-- Runs before the stylesheet so the page never paints the wrong theme.
+     try/catch because a browser with storage blocked must still render Auto. -->
+<script>try{var t=localStorage.getItem('th');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<link rel="stylesheet" href="/assets/css/base.css">
+<link rel="stylesheet" href="/assets/css/layout.css">
+<link rel="stylesheet" href="/assets/css/components.css">
+<link rel="stylesheet" href="/assets/css/forms.css">
+<link rel="stylesheet" href="/assets/css/overlays.css">
+<link rel="stylesheet" href="/assets/css/content.css">
+<link rel="stylesheet" href="/assets/css/utilities.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="container container--wide head-in">
+    <a class="brand" href="/">
+      <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="14.3" fill="#1d1d1f"/><path d="M37 22a13 13 0 1 0 0 20" fill="none" stroke="#4dff9b" stroke-width="5.6" stroke-linecap="round"/><circle cx="49" cy="32" r="4.6" fill="#4dff9b"/></svg>
+      <span>tanghoong <span class="t3">design</span></span>
+    </a>
+
+    <nav class="head-nav" aria-label="Primary">
+      <a href="/pages/brand.html">Logo</a>
+      <a href="/pages/foundations.html">Foundations</a>
+      <a href="/pages/components.html">Components</a>
+      <a href="/pages/forms.html">Forms</a>
+      <a href="/pages/patterns.html">Patterns</a>
+      <details class="menu">
+        <summary>
+          More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="menu__list">
+          <a href="/pages/layout.html">Layout</a>
+          <a href="/pages/overlays.html">Overlays</a>
+          <a href="/pages/content.html">Content &amp; prose</a>
+          <a href="/pages/svg.html">SVG &amp; data</a>
+          <div class="menu__sep"></div>
+          <a href="/pages/prompt.html">Agent prompt</a>
+        </div>
+      </details>
+    </nav>
+
+    <div class="head-end">
+      <div class="head-tools">
+        <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+      </div>
+      <a class="btn btn--filled btn--sm head-cta" href="/pages/prompt.html">Agent prompt</a>
+    </div>
+  </div>
+
+
+    <button class="navsheet__trigger" type="button" data-navsheet-open aria-label="Menu" aria-haspopup="dialog">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+</header>
+
+<dialog class="drawer navsheet" data-navsheet aria-label="Site menu">
+  <div class="navsheet__panel">
+    <div class="navsheet__head">
+      <span class="navsheet__title">Design system</span>
+      <button class="iconbtn" type="button" data-close aria-label="Close menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <a class="sheet-row" href="/pages/brand.html">Logo &amp; identity</a>
+    <a class="sheet-row" href="/pages/foundations.html">Foundations</a>
+    <a class="sheet-row" href="/pages/layout.html">Layout</a>
+    <a class="sheet-row" href="/pages/components.html">Components</a>
+    <a class="sheet-row" href="/pages/forms.html">Forms</a>
+    <a class="sheet-row" href="/pages/overlays.html">Overlays</a>
+    <a class="sheet-row" href="/pages/content.html">Content &amp; prose</a>
+    <a class="sheet-row" href="/pages/svg.html">SVG &amp; data</a>
+    <a class="sheet-row" href="/pages/patterns.html">Patterns</a>
+    <a class="sheet-row" href="/pages/prompt.html">Agent prompt</a>
+    <div class="sheet-tools">
+      <button class="iconbtn" type="button" data-theme-toggle aria-label="Theme">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<main id="main">
+<section class="section section--tight s-page">
+  <div class="container container--wide">
+    <ol class="crumb"><li><a href="/">Design system</a></li><li aria-current="page">SVG &amp; data</li></ol>
+    <p class="eyebrow mt-6">08 — SVG &amp; data graphics</p>
+    <h1 class="mt-3">SVG &amp; data graphics</h1>
+    <p class="lede mt-5">Icons, diagrams and the self-contained data cards on <a href="https://github.com/tanghoong/tanghoong">github.com/tanghoong</a>. An SVG is a surface like any other — same tokens, same radius, same easing.</p>
+  </div>
+</section>
+
+<section class="section section--tight s-sunken">
+<div class="container container--wide">
+<div class="with-aside">
+<div>
+
+  <div class="note note--info">
+    <strong class="note__title">Where this came from</strong>
+    The eight cards in the GitHub profile README are generated daily by
+    <code>scripts/generate-cards.mjs</code> and committed as static SVG — no third-party
+    badge service in the render path. They already use this system's tokens exactly:
+    <code>rx="20"</code> is <code>--r-lg</code>, the card stroke is <code>--hairline</code>,
+    the gridlines are <code>--hairline-soft</code>, and the animation is
+    <code>cubic-bezier(.22,1,.36,1)</code> at 260/420&nbsp;ms. This page writes that down
+    so the next graphic matches without anyone having to reverse-engineer it.
+  </div>
+
+  <h2 id="icons">Icons</h2>
+  <p class="t2 mt-4 measure">Stroke icons on a 24&nbsp;px grid, rendered at 16–20&nbsp;px. Always <code>currentColor</code> — an icon that hard-codes a hex breaks the moment it lands on a filled button or in the other theme.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">The icon contract</div>
+    <div class="spec__demo">
+      <div class="cluster" style="gap:var(--s-6)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 3.5v.5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg>
+      </div>
+      <p class="sm t2 mt-6">The same six on a filled accent — they inherit <code>--accent-ink</code> with no extra rule:</p>
+      <div class="cluster mt-3" style="gap:var(--s-6);background:var(--accent);color:var(--accent-ink);padding:var(--s-4);border-radius:var(--r-md)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-7 7 7-7 7"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6m0 3.5v.5"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg>
+      </div>
+    </div>
+    <div class="spec__code">
+<pre>&lt;svg width="20" height="20" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="1.8"
+     stroke-linecap="round" stroke-linejoin="round"
+     aria-hidden="true"&gt;
+  &lt;path d="M5 12h14m-6-7 7 7-7 7"/&gt;
+&lt;/svg&gt;</pre>
+    </div>
+    <p class="spec__note">Decorative icons are <code>aria-hidden="true"</code> and the control beside them carries the <code>aria-label</code>. An icon that <em>is</em> the content gets <code>role="img"</code> and a <code>&lt;title&gt;</code> instead.</p>
+  </div>
+
+  <div class="table-wrap mt-6">
+    <table class="table">
+      <thead><tr><th>Rendered at</th><th class="num">stroke-width</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>12–14px</td><td class="num">2.4</td><td>Chevrons and inline marks — thin strokes disappear at this size</td></tr>
+        <tr><td>16px</td><td class="num">2</td><td>Inside buttons and links</td></tr>
+        <tr><td>18–20px</td><td class="num">1.8</td><td>Icon buttons, toolbars, list markers</td></tr>
+        <tr><td>24px+</td><td class="num">1.5</td><td>Empty states, feature marks</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="chart-colour">Chart colour</h2>
+  <p class="t2 mt-4 measure">Six steps out from the accent. Light runs dark&nbsp;→&nbsp;pale, dark runs bright&nbsp;→&nbsp;deep. Assign <code>--c-1</code> to the largest series and work down, so the ordering carries meaning rather than being arbitrary.</p>
+
+  <div class="swatches mt-6">
+    <div class="swatch"><div class="swatch__chip" style="background:var(--c-1)"></div><div class="swatch__meta"><p class="swatch__name">--c-1</p><p class="swatch__val">#03724d / #4dff9a</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--c-2)"></div><div class="swatch__meta"><p class="swatch__name">--c-2</p><p class="swatch__val">#089a6a / #2dfa86</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--c-3)"></div><div class="swatch__meta"><p class="swatch__name">--c-3</p><p class="swatch__val">#10c085 / #10f473</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--c-4)"></div><div class="swatch__meta"><p class="swatch__name">--c-4</p><p class="swatch__val">#1ae3a0 / #0fd163</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--c-5)"></div><div class="swatch__meta"><p class="swatch__name">--c-5</p><p class="swatch__val">#47e3af / #10ac54</p></div></div>
+    <div class="swatch"><div class="swatch__chip" style="background:var(--c-6)"></div><div class="swatch__meta"><p class="swatch__name">--c-6</p><p class="swatch__val">#73e5bf / #118844</p></div></div>
+  </div>
+
+  <div class="note note--warn mt-6">
+    <strong class="note__title">Six is the ceiling</strong>
+    Past six categories nobody can match a colour back to a legend. Group the tail into
+    "Other" and label it. If the data genuinely has twelve categories, a chart is the wrong
+    form for it — use a <a href="/pages/components.html#tables">table</a>.
+  </div>
+
+  <h2 id="stacked">Stacked bar</h2>
+  <p class="t2 mt-4 measure">The language-share idiom from the profile cards. One rounded track, segments in ramp order, a legend beneath with the figure as tabular numerals.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Stacked bar with legend</div>
+    <div class="spec__demo">
+      <svg viewBox="0 0 600 8" width="100%" height="8" role="img" aria-label="Language share: TypeScript 42 percent, Go 24, Python 16, CSS 9, Shell 5, other 4." style="border-radius:4px;overflow:hidden">
+        <rect x="0" y="0" width="600" height="8" fill="var(--bg-sunken)"/>
+        <rect x="0" y="0" width="252" height="8" fill="var(--c-1)"/>
+        <rect x="252" y="0" width="144" height="8" fill="var(--c-2)"/>
+        <rect x="396" y="0" width="96" height="8" fill="var(--c-3)"/>
+        <rect x="492" y="0" width="54" height="8" fill="var(--c-4)"/>
+        <rect x="546" y="0" width="30" height="8" fill="var(--c-5)"/>
+        <rect x="576" y="0" width="24" height="8" fill="var(--c-6)"/>
+      </svg>
+      <ul class="chips mt-5" style="gap:var(--s-2) var(--s-5)">
+        <li class="xs t2"><span class="badge__dot" style="color:var(--c-1);display:inline-block;margin-inline-end:6px"></span>TypeScript <span class="nums t3">42%</span></li>
+        <li class="xs t2"><span class="badge__dot" style="color:var(--c-2);display:inline-block;margin-inline-end:6px"></span>Go <span class="nums t3">24%</span></li>
+        <li class="xs t2"><span class="badge__dot" style="color:var(--c-3);display:inline-block;margin-inline-end:6px"></span>Python <span class="nums t3">16%</span></li>
+        <li class="xs t2"><span class="badge__dot" style="color:var(--c-4);display:inline-block;margin-inline-end:6px"></span>CSS <span class="nums t3">9%</span></li>
+        <li class="xs t2"><span class="badge__dot" style="color:var(--c-5);display:inline-block;margin-inline-end:6px"></span>Shell <span class="nums t3">5%</span></li>
+        <li class="xs t2"><span class="badge__dot" style="color:var(--c-6);display:inline-block;margin-inline-end:6px"></span>Other <span class="nums t3">4%</span></li>
+      </ul>
+    </div>
+    <p class="spec__note">The whole graphic is one <code>role="img"</code> with the figures spelled out in <code>aria-label</code>. A screen reader gets the numbers; it should never have to infer them from bar widths.</p>
+  </div>
+
+  <h2 id="radar">Radar</h2>
+  <p class="t2 mt-4 measure">Six axes, three gridline rings, an accent polygon filled at 16%. More than six axes and the shape stops being readable; fewer than five and a bar chart says it better.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Ability radar</div>
+    <div class="spec__demo" style="text-align:center">
+      <svg viewBox="0 0 260 260" width="260" height="260" role="img" aria-label="Ability profile: delivery 9 of 10, architecture 8, applied AI 8, data 7, frontend 6, ops 7." style="display:inline-block">
+        <g fill="none" stroke="var(--chart-grid)">
+          <polygon points="130,86 168.1,108 168.1,152 130,174 91.9,152 91.9,108"/>
+          <polygon points="130,64 187.2,97 187.2,163 130,196 72.8,163 72.8,97"/>
+          <polygon points="130,42 206.2,86 206.2,174 130,218 53.8,174 53.8,86"/>
+        </g>
+        <g stroke="var(--chart-grid)">
+          <path d="M130 130 130 42M130 130 206.2 86M130 130 206.2 174M130 130 130 218M130 130 53.8 174M130 130 53.8 86"/>
+        </g>
+        <polygon points="130,50 191.0,90 183.6,166 130,205 68.1,161 76.4,95"
+                 fill="var(--accent)" fill-opacity="0.16"
+                 stroke="var(--accent)" stroke-width="1.8" stroke-linejoin="round"/>
+        <g fill="var(--text-3)" font-size="10" font-weight="600" text-anchor="middle" font-family="var(--font-sans)">
+          <text x="130" y="32">DELIVERY</text>
+          <text x="221" y="82">ARCH</text>
+          <text x="223" y="184">AI</text>
+          <text x="130" y="234">DATA</text>
+          <text x="37" y="184">FRONTEND</text>
+          <text x="39" y="82">OPS</text>
+        </g>
+      </svg>
+    </div>
+    <p class="spec__note">Gridlines use <code>--chart-grid</code>, which resolves to <code>--hairline-soft</code>. The fill opacity is <code>0.16</code> rather than the <code>--accent-wash</code> 12% — a wash sits over a flat surface, this sits over gridlines and needs a little more body.</p>
+  </div>
+
+  <h2 id="cards">Self-contained SVG cards</h2>
+  <p class="t2 mt-4 measure">The pattern behind the profile README: an SVG that is a complete card — frame, type, data and animation in one file, with no external CSS. It has to stand alone because GitHub strips <code>&lt;style&gt;</code> from Markdown but honours it <em>inside</em> an SVG.</p>
+
+  <div class="spec mt-6">
+    <div class="spec__label">Card frame — the values that make it match</div>
+    <div class="spec__code">
+<pre>&lt;svg xmlns="http://www.w3.org/2000/svg" width="100%" height="208"
+     viewBox="0 0 880 208" fill="none" role="img"
+     preserveAspectRatio="xMidYMid meet"&gt;
+
+  &lt;!-- The 0.5 offset is what keeps a 1px stroke crisp: a whole-pixel
+       edge straddles two device pixels and renders as 2px of grey. --&gt;
+  &lt;rect x="0.5" y="0.5" width="879" height="207" rx="20"
+        fill="#ffffff" stroke="#000000" stroke-opacity="0.1"/&gt;
+
+  &lt;!-- dark twin: fill="#1c1c1e" stroke="#ffffff" stroke-opacity="0.13" --&gt;
+&lt;/svg&gt;</pre>
+    </div>
+    <p class="spec__note">880&nbsp;px wide for every card, so a column of them lines up. <code>rx="20"</code> is <code>--r-lg</code>. The stroke opacities are <code>--hairline</code> in each theme (10% and 13%).</p>
+  </div>
+
+  <div class="spec">
+    <div class="spec__label">Type inside an SVG</div>
+    <div class="spec__demo">
+      <div class="table-wrap">
+        <table class="table table--compact">
+          <thead><tr><th class="num">size</th><th class="num">weight</th><th class="num">tracking</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td class="num">20</td><td class="num">700</td><td class="num">-0.6</td><td>The headline figure on a card</td></tr>
+            <tr><td class="num">14</td><td class="num">600</td><td class="num">-0.2</td><td>Card title</td></tr>
+            <tr><td class="num">12</td><td class="num">500</td><td class="num">-0.07</td><td>Series labels, axis values</td></tr>
+            <tr><td class="num">10</td><td class="num">600</td><td class="num">-0.05</td><td>Uppercase axis captions</td></tr>
+            <tr><td class="num">9</td><td class="num">400</td><td class="num">-0.05</td><td>Footnotes, timestamps</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="spec__note">SVG has no <code>rem</code>, so sizes are raw px and do not scale with the user's font setting. Keep card text at 9&nbsp;px or above, and never put anything essential in it that is not also in the <code>aria-label</code>.</p>
+  </div>
+
+  <div class="spec">
+    <div class="spec__label">Animation — same curve and durations as the CSS</div>
+    <div class="spec__code">
+<pre>&lt;style&gt;
+  /* 🔴 no-preference, not a `reduce` override. An SVG carries its own
+     styles, so the global rule in base.css cannot reach inside it —
+     the guard has to be repeated here or the card ignores the setting. */
+  @media (prefers-reduced-motion: no-preference) {
+    .fade { animation: fade 260ms cubic-bezier(.22, 1, .36, 1) both; }
+    .rise { animation: rise 420ms cubic-bezier(.22, 1, .36, 1) both; }
+    .grow { animation: grow 420ms cubic-bezier(.22, 1, .36, 1) both; }
+    .draw { animation: draw 900ms cubic-bezier(.22, 1, .36, 1) both; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+    @keyframes grow { from { transform: scaleX(0); } }
+    @keyframes draw { from { stroke-dashoffset: 1; } }
+  }
+&lt;/style&gt;
+
+&lt;!-- Stagger in 0.04–0.05s steps. transform-origin must be explicit:
+     an SVG element's default origin is the viewport corner, not itself. --&gt;
+&lt;rect class="grow" style="transform-origin:0 80px;animation-delay:0.14s" …/&gt;</pre>
+    </div>
+    <p class="spec__note">260&nbsp;ms is <code>--dur</code>, 420&nbsp;ms is <code>--dur-slow</code>, and the curve is <code>--ease</code>. A card animating on a different curve from the page it sits on is the kind of mismatch nobody names but everybody feels.</p>
+  </div>
+
+  <h2 id="themes">Theming an SVG</h2>
+  <p class="t2 mt-4 measure">Two routes, and which one you need depends on whether the SVG is inline or loaded as a file.</p>
+
+  <div class="rules mt-6">
+    <div class="rule rule--do">
+      <span class="rule__h">Inline in the page</span>
+      Use <code>var(--token)</code> and <code>currentColor</code> directly. The SVG is part of the document, so it inherits the theme with no extra work. This is the default for icons and diagrams.
+    </div>
+    <div class="rule rule--do">
+      <span class="rule__h">Loaded as a file</span>
+      An <code>&lt;img src="…svg"&gt;</code> cannot see the page's custom properties. Ship a light/dark pair and switch with <code>&lt;picture&gt;</code>, as the profile README does.
+    </div>
+  </div>
+
+  <div class="spec mt-6">
+    <div class="spec__label">The picture pattern</div>
+    <div class="spec__code">
+<pre>&lt;picture&gt;
+  &lt;source srcset="./assets/overview-dark.svg" media="(prefers-color-scheme: dark)"&gt;
+  &lt;img src="./assets/overview-light.svg" width="100%"
+       alt="GitHub stats and most used languages: 42% TypeScript, 24% Go…"&gt;
+&lt;/picture&gt;</pre>
+    </div>
+    <p class="spec__note">The <code>alt</code> has to carry the actual figures. A reader who cannot see the card gets nothing from "GitHub stats card", and that is most of the value of the graphic.</p>
+  </div>
+
+  <div class="note note--warn mt-8">
+    <strong class="note__title">One inconsistency worth deciding on</strong>
+    The generated cards use <code>#03724d</code>&nbsp;/&nbsp;<code>#4dff9a</code> as the accent;
+    <code>tokens.css</code> and cv.tanghoong.com use <code>#03744e</code>&nbsp;/&nbsp;<code>#4dff9b</code>.
+    A one-digit drift in each, invisible side by side but real. The chart ramp above is
+    recorded as-generated so it stays faithful to what ships today — worth aligning the two
+    in whichever direction you prefer.
+  </div>
+
+  <h2 id="checklist">SVG checklist</h2>
+  <div class="panel panel--elevated mt-6">
+    <ul class="stack demo-plain">
+      <li class="sm">Decorative icon: <code>aria-hidden="true"</code>, and the control carries the label</li>
+      <li class="sm">Meaningful graphic: <code>role="img"</code> plus an <code>aria-label</code> that states the actual figures</li>
+      <li class="sm">Icons use <code>currentColor</code> — never a hard-coded hex</li>
+      <li class="sm">Stroke width matches the rendered size, not the 24&nbsp;px viewBox</li>
+      <li class="sm">A file-loaded SVG has a light and a dark twin behind <code>&lt;picture&gt;</code></li>
+      <li class="sm">Any animation inside the SVG repeats its own <code>prefers-reduced-motion</code> guard</li>
+      <li class="sm"><code>transform-origin</code> is set explicitly on anything that scales or rotates</li>
+      <li class="sm">1&nbsp;px strokes sit on a <code>.5</code> offset so they stay crisp</li>
+      <li class="sm">No more than six series; the tail is grouped as "Other"</li>
+      <li class="sm">Checked in both themes — a chart that only works on white is half done</li>
+    </ul>
+  </div>
+
+</div>
+
+<aside class="rail">
+  <p class="rail__h">SVG &amp; data</p>
+  <ul class="rail__list">
+    <li><a href="#icons">Icons</a></li>
+    <li><a href="#chart-colour">Chart colour</a></li>
+    <li><a href="#stacked">Stacked bar</a></li>
+    <li><a href="#radar">Radar</a></li>
+    <li><a href="#cards">SVG cards</a></li>
+    <li><a href="#themes">Theming an SVG</a></li>
+    <li><a href="#checklist">Checklist</a></li>
+  </ul>
+</aside>
+</div>
+</div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="container container--wide">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-name">tanghoong design system</p>
+        <p class="foot-role">The shared visual language for tanghoong.com and its sub-domains.</p>
+      </div>
+      <div>
+        <p class="foot-h">Reference</p>
+        <ul class="foot-list">
+          <li><a href="/pages/brand.html">Logo &amp; identity</a></li>
+          <li><a href="/pages/foundations.html">Foundations</a></li>
+          <li><a href="/pages/layout.html">Layout</a></li>
+          <li><a href="/pages/components.html">Components</a></li>
+          <li><a href="/pages/forms.html">Forms</a></li>
+          <li><a href="/pages/overlays.html">Overlays</a></li>
+          <li><a href="/pages/svg.html">SVG &amp; data</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">Elsewhere</p>
+        <ul class="foot-list">
+          <li><a href="https://cv.tanghoong.com/">cv.tanghoong.com</a></li>
+          <li><a href="https://blog.tanghoong.com/">blog.tanghoong.com</a></li>
+          <li><a href="https://links.tanghoong.com/">links.tanghoong.com</a></li>
+          <li><a href="https://github.com/tanghoong">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot-legal">Charlie Tang Hoong. Design system reference.</p>
+  </div>
+</footer>
+
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/nav.js" defer></script>
+<script src="/assets/js/docs.js" defer></script>
+</body>
+</html>

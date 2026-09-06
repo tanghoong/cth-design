@@ -1,5 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#03744e"/>
-  <path d="M9 22V10h5a3.8 3.8 0 0 1 0 7.6h-2.6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-  <circle cx="21.5" cy="20" r="2.2" fill="#4dff9b"/>
+<!--
+  tanghoong.com — the site mark. Shared across every sub-domain.
+
+  🔴 GEOMETRY, NOT TEXT. An earlier version set the monogram in a <text> element
+  with a system font stack, which meant the letterform was whatever the viewer's
+  OS happened to have — and nothing at all where the stack missed. This mark is
+  reused on other domains, so it cannot depend on a font being present.
+  It is one arc and one circle.
+
+  WHY "C ·" AND NOT "CTH"
+  Three letters do not survive a browser tab. At 16px CTH is a smudge. The
+  wordmark in a page header can carry the full name because it has the room;
+  the tab icon cannot, so it does not try.
+
+  The dot is not decoration. `·` is already the separator used throughout these
+  sites — "Selangor, Malaysia · UTC+8" — so the mark is built from the
+  punctuation the writing already uses.
+
+  COLOUR — deliberately NOT theme-aware.
+  A dark tile in both schemes, so one file works on light and dark browser
+  chrome and stays identical wherever it is reused. The ink is the accent in its
+  vivid form: #4dff9b on #1d1d1f is ~13:1. The light-theme #03744e would be
+  ~2.5:1 here and illegible at tab size.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Charlie Tang Hoong">
+  <rect width="64" height="64" rx="14.3" fill="#1d1d1f"/>
+  <path d="M37 22a13 13 0 1 0 0 20" fill="none" stroke="#4dff9b" stroke-width="5.6" stroke-linecap="round"/>
+  <circle cx="49" cy="32" r="4.6" fill="#4dff9b"/>
 </svg>

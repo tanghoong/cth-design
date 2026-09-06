@@ -45,6 +45,24 @@
   --danger-wash: color-mix(in oklab, var(--danger) 12%, transparent);
   --info-wash:   color-mix(in oklab, var(--info) 12%, transparent);
 
+  /* --- Data / chart ramp -------------------------------------------------
+     Six steps from the accent outward, for stacked bars, language shares and
+     radar fills. Taken from the generated SVG cards on github.com/tanghoong,
+     which use exactly this ramp. Order matters: --c-1 is the largest series.
+
+     Light runs dark→pale; dark runs bright→deep. Both keep every adjacent
+     pair distinguishable, which a naive lighten() ramp does not. */
+  --c-1: light-dark(#03724d, #4dff9a);
+  --c-2: light-dark(#089a6a, #2dfa86);
+  --c-3: light-dark(#10c085, #10f473);
+  --c-4: light-dark(#1ae3a0, #0fd163);
+  --c-5: light-dark(#47e3af, #10ac54);
+  --c-6: light-dark(#73e5bf, #118844);
+  /* Fill under a radar or area line. Slightly stronger than --accent-wash
+     because it sits over gridlines rather than over a flat surface. */
+  --chart-fill: 0.16;
+  --chart-grid: light-dark(#0000000f, #ffffff14);
+
   /* --- Type --------------------------------------------------------------
      System stack. No webfont, so no FOUT, no layout shift, no extra request. */
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display",

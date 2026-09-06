@@ -74,7 +74,12 @@
 /* --- Chip / tag ----------------------------------------------------------
    A chip is a passive label (a topic, a stack item). It is not clickable
    unless you make it an <a>, and then it gets the hover state below. */
-.chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+/* A tag group is genuinely a list, so .chips is often a <ul>. When it is,
+   base.css's `li + li { margin-block-start }` would push every item after the
+   first down inside the flex row and break the alignment — reset it here so
+   the markup can be semantic without looking wrong. */
+.chips { display: flex; flex-wrap: wrap; gap: var(--s-2); list-style: none; padding: 0; margin: 0; }
+.chips > li, .cluster > li { margin: 0; }
 .chip {
   display: inline-block;
   padding: 5px var(--s-3);

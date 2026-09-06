@@ -175,3 +175,20 @@
 /* The paragraph under an h2 should sit close to it — it belongs to that
    heading, not to the space above. */
 .with-aside > div > h2 + p { margin-block-start: var(--s-4); }
+
+/* --- Logo specimens ------------------------------------------------------  */
+.mark-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--s-8); }
+.mark-item { text-align: center; }
+.mark-item img, .mark-item svg { display: block; margin-inline: auto; }
+.mark-item figcaption { margin-block-start: var(--s-3); font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-3); }
+/* Checker ground proves the tile is opaque and works on any backdrop. */
+.mark-checker {
+  background-image:
+    linear-gradient(45deg, var(--bg-sunken) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--bg-sunken) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--bg-sunken) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--bg-sunken) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+}
+.mark-on { display: grid; place-items: center; padding: var(--s-8); border-radius: var(--r-md); }

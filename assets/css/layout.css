@@ -169,7 +169,7 @@
 .rail__list a[aria-current] { color: var(--text); font-weight: 600; background: var(--accent-wash); }
 
 /* --- Cluster / stack -----------------------------------------------------  */
-.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); list-style: none; }
 .stack > * + * { margin-block-start: var(--s-4); }
 .stack--lg > * + * { margin-block-start: var(--s-8); }
 

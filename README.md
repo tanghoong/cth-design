@@ -10,6 +10,8 @@ from the same place.
 ## What is in here
 
 ```
+favicon.svg     the site mark — the master every icon is generated from
+llms.txt        the whole system as one plain-text spec, for agents
 assets/css/     the design system — this is the artefact other repos consume
 assets/js/      theme toggle, nav sheet, docs-site chrome
 pages/          the reference pages
@@ -32,6 +34,10 @@ them, and utilities come last so they can win.
 | `content.css` | Long-form prose, quotes, code, steps, print. |
 | `utilities.css` | Small single-purpose classes. |
 | `docs.css` | **This site only.** Specimen frames and swatches. Never ship it. |
+
+The brand mark, its colour rules and the favicon set are documented on
+[/pages/brand.html](pages/brand.html). Regenerate the raster icons from
+`favicon.svg` with the ImageMagick commands listed there — never hand-edit one.
 
 ## Using it in a new project
 
