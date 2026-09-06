@@ -4,7 +4,7 @@
 > is the complete specification. An agent that reads it does not need to crawl
 > the HTML pages — those exist for humans to look at.
 >
-> Version: 1.3.0 · Updated: 2026-09-06
+> Version: 1.3.1 · Updated: 2026-09-06
 > Source of truth: the files in /assets/css/ at https://design.tanghoong.com
 > Starter template for a new sub-domain: /template/index.html
 > Human documentation: /pages/*.html · Machine documentation: this file
@@ -12,6 +12,12 @@
 > If you are building a page for any *.tanghoong.com property, read this file
 > in full first. Do not infer the system from a rendered page — the values here
 > are the ones that ship.
+>
+> Link this file; do not copy it. A token value or a contrast figure pasted
+> into another repo's own document goes stale silently — it keeps being read as
+> authoritative long after it stopped being true. Your repo may keep its own
+> decisions; it may not keep a copy of this spec. scripts/drift.mjs exists
+> because five repos did exactly that.
 
 ## Read this first
 
@@ -461,11 +467,16 @@ Every [id] gets scroll-margin-block-start so anchors clear the sticky header.
 
   node scripts/conform.mjs <file.html> --fail   structural conformance
   node scripts/contrast.mjs --fail              only if you touched tokens.css
+  node scripts/drift.mjs --fail                 run from the design repo, over
+                                                the repos that consume it
 
 conform.mjs enforces the rules in this file and reports error/warn/info. A
 deliberate exception is declared in the page, not by weakening the rule:
   <!-- conform:allow rule-id — the reason -->
-Both scripts are dependency-free Node. Neither can see computed styles or
+drift.mjs reports values this system has retired, hexes within ΔE 0.02 of a
+live token without being it, and contrast figures that do not survive being
+recomputed. Same waiver form: <!-- drift:allow — the reason -->
+All three are dependency-free Node. None can see computed styles or
 runtime behaviour: they are a first pass, not a substitute for opening the page
 in both themes and tabbing through it.
 

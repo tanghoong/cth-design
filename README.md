@@ -17,6 +17,7 @@ repos consume; the pages are live specimens of them.
 | Change a colour or a size | [`assets/css/tokens.css`](assets/css/tokens.css) — and nowhere else |
 | Use the mark correctly | [`pages/brand.html`](pages/brand.html) |
 | Check a page follows the system | `node scripts/conform.mjs <file>` |
+| Check the repos that consume it | `node scripts/drift.mjs` |
 | See what changed | [`CHANGELOG.md`](CHANGELOG.md) |
 | Regenerate the chart ramp | `node scripts/ramp.mjs <n>` |
 
@@ -94,17 +95,20 @@ stylesheets directly rather than vendoring a copy that will drift.
 
 ## Checking your work
 
-Two dependency-free scripts. Full notes in [`scripts/README.md`](scripts/README.md).
+Three dependency-free scripts. Full notes in [`scripts/README.md`](scripts/README.md).
 
 ```bash
 node scripts/conform.mjs index.html pages --fail   # does the page follow the system?
 node scripts/contrast.mjs --fail                   # do the tokens still pass WCAG?
+node scripts/drift.mjs --fail                      # has a consuming repo gone stale?
 ```
 
 This is how you check an agent's output: point it at `llms.txt`, let it write the
 page, then run `conform.mjs` over the result. It enforces only what is documented —
 if a rule is not in `llms.txt` or on a reference page, it does not belong in the
-script. Neither script can see computed styles or runtime behaviour, so they are a
+script. `drift.mjs` is the other direction: it checks the repos that consume this
+one, where a copied token value or contrast figure goes stale without anyone
+noticing. None of the three can see computed styles or runtime behaviour, so they are a
 first pass, not a substitute for opening the page in both themes and tabbing through it.
 
 ## Editing the system

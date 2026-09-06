@@ -8,6 +8,52 @@ Versions match the `Version:` line at the top of [`llms.txt`](llms.txt).
 Semver, read as: **major** removes or renames a token or class, **minor** adds
 one, **patch** changes a value without changing the shape.
 
+## [1.3.1] — 2026-09-06
+
+### Added
+
+- `scripts/drift.mjs` — checks the repos that **consume** this system, which
+  the other two scripts cannot see. Reports values retired by an earlier
+  version, hexes sitting within ΔE 0.02 of a live token without being it, and
+  contrast figures that do not survive being recomputed. `--fail` for CI.
+
+  It stays quiet about intermediate ramp samples (a ten-series card
+  legitimately uses colours that are in no token) and about repos that never
+  adopted the system, both of which made an earlier version unreadable: 320
+  findings across 19 repos, against 68 across 5 once gated.
+
+- `llms.txt` now carries the rule that script enforces: **link this file, do
+  not copy it.** A consuming repo may keep its own decisions; it may not keep
+  a copy of the spec. The same line is in the pasteable `CLAUDE.md` block on
+  `pages/prompt.html`, which is how it reaches the repos that need it.
+
+### Fixed
+
+- `CLAUDE.md` still listed the accent drift and the ramp spacing as open
+  decisions. Both closed on 2026-09-06 — the card generator in
+  `tanghoong/tanghoong` now samples `--c-from → --c-to` in OKLab at whatever
+  count each card needs, and its six-sample case reproduces `--c-1`…`--c-6`
+  exactly, asserted in that repo's CI. The section quoted `#03724d` / `#4dff9a`
+  as live values a version after they were retired.
+
+### Known drift in consuming repos
+
+Not a change here, recorded so it is not rediscovered. Five repos carry a copy
+of `03-DESIGN-SYSTEM.md` whose closing paragraph states six contrast figures
+that were never correct for this palette — 17.4 / 18.1 for `--text`, 4.8 / 5.2
+for `--text-3`, 6.4 / 7.1 for `--accent`, against 16.28 / 19.29, 4.91 / 5.80
+and 5.63 / 16.09:
+
+- `2027.tanghoong.com` (`docs/03-DESIGN-SYSTEM.md`)
+- `demo-controller`
+- `github-markdown-blog`
+- `links.tanghoong.com`
+- `mini-web-app`
+
+`node scripts/drift.mjs` lists them with line numbers. The durable fix is to
+delete the duplicated spec from each and link `llms.txt`: a consuming repo may
+keep its own decisions, but a copy of the spec will drift again once corrected.
+
 ## [1.3.0] — 2026-09-06
 
 ### Changed — action required in consuming repos

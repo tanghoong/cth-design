@@ -89,21 +89,32 @@ why before doing it.
 - **Motion is feedback, never ornament.** The sanctioned list is closed — see
   `pages/loading.html`. No scroll reveals, no parallax, no spring easing, no
   autoplaying decoration.
+- **The chart ramp is a function, not a palette.** Interpolate `--c-from` to
+  `--c-to` and sample at the number of series you have, in OKLab. `--c-1`…
+  `--c-6` are only the six-sample case, written out because CSS cannot
+  interpolate. Never hand-pick a shade between them, and never interpolate in
+  sRGB or HSL — the steps come out uneven and bunch at one end.
+- **A number in prose is a claim nobody re-checks.** Every contrast figure that
+  appears in a document is recomputed by a script. Where a figure cannot be
+  checked, do not write it.
 - **The chrome is inlined in every page, not templated.** Deliberate: a
   reference site should show its own markup in source. The cost is that a header
   change means editing all files plus `template/index.html`.
 
-## Two decisions still open — recommend, then wait
+## No decisions currently open
 
-Both are one-line changes. Neither is yours to make alone, because both create
-churn outside this repo.
+Both that stood here were closed on 2026-09-06, in the direction this file
+recommended. They are folded into the standing list above; recording them here
+so the next reader knows they were decided rather than dropped.
 
-1. **Accent drift.** Cards on github.com/tanghoong use `#03724d` / `#4dff9a`;
-   `tokens.css` uses `#03744e` / `#4dff9b`. *Recommendation: align on the
-   `tokens.css` values and regenerate the cards — the CSS is the source now.*
-2. **Chart ramp spacing.** Adjacent steps at the pale end are perceptually
-   crowded (ΔE 0.027 where even would be 0.071). *Recommendation: switch the
-   generator to interpolate in OKLab; the six-step result is in `CHANGELOG.md`.*
+1. **Accent drift — closed.** The card generator in `tanghoong/tanghoong` no
+   longer hard-codes a ramp. It samples `--c-from → --c-to` at whatever count
+   each card needs, from the `tokens.css` values, so a one-series chart and a
+   primary button are now the same green by construction rather than by
+      agreement. `#03724d` / `#4dff9a` are retired and `drift.mjs` reports them.  <!-- drift:allow — quotes a retired value on purpose -->
+2. **Chart ramp spacing — closed.** The generator interpolates in OKLab. Its
+   six samples reproduce `--c-1`…`--c-6` byte for byte, asserted in that repo's
+   CI before every build.
 
 ---
 
@@ -169,6 +180,29 @@ case, the rule is wrong — fix the rule, or waive it in the page with a reason:
 ```
 
 Never weaken a rule so it stops catching the case everywhere else.
+
+### Checking the repos that consume the system
+
+```bash
+node scripts/drift.mjs          # every sibling repo
+node scripts/drift.mjs --fail   # exit 1 if anything drifted
+```
+
+`conform.mjs` and `contrast.mjs` check this repo. Neither can see the six other
+repos holding a copy of a token value or a contrast figure, and that is where
+the system decays: the copy keeps being read as authoritative long after it
+stopped being true.
+
+**Run it before you ship a token change, and again after.** Before, so you know
+who you are about to break; after, so you know whether they were fixed. The
+1.3.0 ramp change is the worked example — `CHANGELOG.md` said consuming repos
+"should regenerate", and the one that mattered did not for a week, because
+nothing told anybody.
+
+When a consuming repo shows a stale figure, the fix is usually **not** to
+correct the number. It is to delete the duplicated paragraph and link
+`llms.txt`. A consuming repo may keep its own decisions; it may not keep a copy
+of the spec. A corrected copy is still a copy, and it will drift again.
 
 ---
 
