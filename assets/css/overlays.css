@@ -116,22 +116,10 @@
    inside it gets trapped in the 56px header box in the top corner instead of
    covering the viewport. Using a <dialog> in the top layer sidesteps the
    problem entirely; keeping it out of the header keeps it sidestepped. */
-.navsheet__trigger {
-  position: fixed;
-  inset-block-start: calc(env(safe-area-inset-top) + (var(--nav-h) - 44px) / 2);
-  inset-inline-end: max(calc(var(--gutter) - 10px), 8px);
-  z-index: var(--z-sheet);
-  display: grid; place-items: center;
-  inline-size: 44px; block-size: 44px;
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-chip);
-  background: var(--bg-elevated);
-  color: var(--text);
-  cursor: pointer;
-  transition: background-color var(--dur-fast) var(--ease), scale var(--dur-fast) var(--ease);
-}
-.navsheet__trigger:hover  { background: var(--bg-sunken); }
-.navsheet__trigger:active { scale: 0.97; }
+/* The trigger is an .iconbtn in the header's normal flow, sitting beside the
+   theme toggle. It was briefly position:fixed, which meant it floated over
+   whatever was in the top corner instead of lining up with its sibling. */
+.navsheet__trigger { display: grid; }
 
 .navsheet { inline-size: min(86vw, 360px); }
 .navsheet__panel {

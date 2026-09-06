@@ -132,6 +132,9 @@ surfaces to band the scroll. Inside each, one `.container`.
   .with-aside [--start] + aside.rail         two-column reading layout
   .cluster (wrapping row, gap --s-3) · .stack [--lg] (owl selector)
   .site-head > .container.head-in > .brand + nav.head-nav + .head-end
+    .head-end holds exactly two icon buttons: theme toggle, then
+    .navsheet__trigger. No CTA in the corner — it competes with the hero one.
+    900px: .head-nav appears, .navsheet__trigger hides. Theme is always shown.
   .site-foot > .container > .foot-grid + .foot-legal
 
 Rhythm rule: the section owns vertical padding, the grid owns gaps.

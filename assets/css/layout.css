@@ -80,13 +80,13 @@
 }
 .head-nav a[aria-current] { color: var(--text); font-weight: 600; }
 
-.head-end   { display: flex; align-items: center; gap: var(--s-3); margin-inline-start: auto; }
-.head-tools { display: none; align-items: center; gap: var(--s-2); }
-.head-cta   { display: none; }
+/* Two controls, always side by side: theme, then the menu. Nothing else goes
+   here — a call to action in the corner competes with the one in the hero,
+   and the corner loses. */
+.head-end { display: flex; align-items: center; gap: var(--s-2); margin-inline-start: auto; }
 
 @media (width >= 900px) {
-  .head-nav, .head-tools { display: flex; }
-  .head-cta { display: inline-flex; }
+  .head-nav { display: flex; }
   /* Hide the trigger, not the sheet: the sheet is a <dialog>, and its own
      display is controlled by the UA's dialog:not([open]) rule. */
   .navsheet__trigger { display: none; }
